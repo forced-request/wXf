@@ -1,3 +1,4 @@
+require 'wXf/wXfui'
 
 begin
   require 'rubygems'
@@ -5,10 +6,11 @@ rescue LoadError
 end
 
 module WXf
-  module WXfassists
-    module General
-    module MechReq
-      
+module WXfassists
+module General
+module MechReq
+
+  include WXf::WXfui::Console::Prints::PrintSymbols      
       attr_accessor :rce
       
       #
