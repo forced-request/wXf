@@ -1,0 +1,6 @@
+require 'wXf/wXfui/console/processing/aux_procs'
+require 'wXf/wXfui/console/processing/core_procs'
+require 'wXf/wXfui/console/processing/db_exploit_procs'
+require 'wXf/wXfui/console/processing/db_payload_procs'
+require 'wXf/wXfui/console/processing/file_exploit_procs'
+require 'wXf/wXfui/console/processing/webserver_procs'

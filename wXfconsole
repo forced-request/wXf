@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+wXfbase = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+WXFDIR = File.join(File.expand_path(File.dirname(wXfbase)))
+$:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'lib'))
+$:.unshift(ENV['WXF_LOCAL_LIB']) if ENV['WXF_LOCAL_LIB']
+
+require 'wAx'
+require 'wXf/wXfassists'
+require 'wXf/wXfconductors'
+require 'wXf/wXfdb'
+require 'wXf/wXfconstants'
+require 'wXf/wXflog'
+require 'wXf/wXfmod_factory'
+require 'wXf/wXfui'
+require 'wXf/wXfwebserver'
+
+
+begin
+WXf::WXfui::Console::Operations::Control.new("wXf", "//>" ).start
+rescue Interrupt		
+end

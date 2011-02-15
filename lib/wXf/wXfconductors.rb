@@ -1,0 +1,5 @@
+require 'wXf/wXfconductors/create_exploit_factory.rb'
+require 'wXf/wXfconductors/create_payload_conductor.rb'
+require 'wXf/wXfconductors/db_exploit_conductor.rb'
+require 'wXf/wXfconductors/db_payload_conductor.rb'
+require 'wXf/wXfconductors/webserver_conductor.rb'

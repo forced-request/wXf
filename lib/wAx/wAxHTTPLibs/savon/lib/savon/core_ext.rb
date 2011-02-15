@@ -1,0 +1,8 @@
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/object"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/string"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/symbol"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/datetime"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/array"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/hash"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/uri"
+require "wAx/wAxHTTPLibs/savon/lib/savon/core_ext/net_http"
