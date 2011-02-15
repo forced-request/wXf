@@ -48,7 +48,7 @@ module Operations
         
       
        #      
-       # Method which invokes a banner from cmd_core by called arg_banner
+       # Method which invokes a banner from coreprocs by called arg_banner
        #      
        def on_startup
          run_single("display")
