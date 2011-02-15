@@ -68,8 +68,8 @@ module Prints
          diff = col_hash[index]['Length'] - item.length
          val = diff + 3
       end
-      pad = ' ' * val
-      strn << item.to_s + pad 
+      spc = ' ' * val
+      strn << item.to_s + spc 
     end
     
     
