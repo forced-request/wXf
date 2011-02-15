@@ -1,4 +1,4 @@
-
+require 'wXf/wXfui'
 require 'wAx/wAxHTTPLibs/savon/lib/savon'
 require 'rubygems'
 
@@ -10,9 +10,10 @@ require 'rubygems'
 module WXf
 module WXfassists
 module General
-   module SavonReq
+module SavonReq
      
-     
+  include WXf::WXfui::Console::Prints::PrintSymbols      
+       
      attr_accessor :rce
      
      
