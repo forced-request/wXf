@@ -61,7 +61,7 @@ module WXf
   ModWordLists =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/wordlists/'
   ModDatum =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/'
   PayloadsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/payloads/'
-  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'log/' 
+  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..')) + File::SEPARATOR + 'wXflog/' 
 
  
 end

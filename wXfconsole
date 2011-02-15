@@ -5,7 +5,6 @@ WXFDIR = File.join(File.expand_path(File.dirname(wXfbase)))
 $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'lib'))
 $:.unshift(ENV['WXF_LOCAL_LIB']) if ENV['WXF_LOCAL_LIB']
 
-require 'wAx'
 require 'wXf/wXfassists'
 require 'wXf/wXfconductors'
 require 'wXf/wXfdb'
