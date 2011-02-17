@@ -36,7 +36,7 @@ class CoreProcs
       arg_name = cmd[0]
       
       begin
-        if ((single_module = framework.modules.create(arg_name, control)) == nil)
+        if ((single_module = framework.modules.load(arg_name, control)) == nil)
           control.prnt_err(" Failed to load module: #{arg_name}")
         return false
         end
