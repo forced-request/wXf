@@ -26,8 +26,8 @@ module Processing
      # We need to be able to invoke framework.modules.lfile_list_load for automagic fun
      # regarding LFILE.
      def arg_start(*cmd)  
-       if (active_module.type == WEBSERVER)
-         opts = active_module.options
+       if (in_focus.type == WEBSERVER)
+         opts = in_focus.options
          control.prnt_plus(" Starting webserver at #{opts["LHOST"]}:#{opts["LPORT"]}")
          
          if (!opts["LFILE"] and !opts["LHTML"])
@@ -35,7 +35,7 @@ module Processing
          elsif (opts['LHTML'])
            begin
              svr = WXf::WXfwebserver::WebServer.new(opts, control)
-             control.enstack_webstack(svr)
+             control.add_web_activity(svr)
              servlet_opts = {
                "LHTML" => opts['LHTML'],
                "TXT" => nil,
@@ -53,7 +53,7 @@ module Processing
          elsif(opts['LFILE'])
            begin
              svr = WXf::WXfwebserver::WebServer.new(opts,control)
-             control.enstack_webstack(svr)
+             control.add_web_activity(svr)
              svr.add_file(opts)
              svr.start
            rescue
@@ -69,8 +69,8 @@ module Processing
      # Resets the LHTML and LFILE attributes so that we start fresh after an activity has been launched
      #
      def reset()
-         active_module.options['LHTML'] = nil
-         active_module.options['LFILE'] = nil 
+         in_focus.options['LHTML'] = nil
+         in_focus.options['LFILE'] = nil 
      end
      
      
@@ -89,7 +89,7 @@ module Processing
            puts "Stopping the webserver (#{svr_id}) at #{svr.lhost}:#{svr.lport}"
       
            svr.shutdown
-           control.destack_webstack(svr_id)
+           control.remove_web_activity(svr_id)
          else
            puts "No server with id #{svr_id}"
          end
@@ -101,7 +101,7 @@ module Processing
            print "[wXf] Shutting down #{svr.lhost}:#{svr.lport} (#{svr_id})\n"
            svr_id = svr_id + 1
            svr.shutdown
-           control.destack_webstack(0)
+           control.remove_web_activity(0)
          }
        end
 

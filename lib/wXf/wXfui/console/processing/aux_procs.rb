@@ -29,7 +29,7 @@ module Processing
     #
     def arg_run(*cmd)     
       begin
-        single_module.run
+        activity.run
      rescue => $!
         print("The following error occurred: #{$!}" + "\n")
      end   

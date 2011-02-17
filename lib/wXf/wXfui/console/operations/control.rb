@@ -10,14 +10,14 @@ module Operations
   
   class Control
     
-    attr_accessor :active_module
+    attr_accessor :in_focus
     
     include Operator
     
       def initialize(prompt, prompt_char)
         require 'rbreadline_compat'
         super
-        enstack_operator(WXf::WXfui::Console::Processing::CoreProcs)
+        add_activity(WXf::WXfui::Console::Processing::CoreProcs)
         #As of now, just shows the banner to the users
         on_startup
         end
