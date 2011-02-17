@@ -43,16 +43,15 @@ module WXf
        #
        # Great way to maintain hierarchy
        #
-       def active_module
-         return control.active_module
+       def in_focus
+         return control.in_focus
        end
-       
        
        #
        # Great way to maintain hierarchy
        #
-       def active_module=(m)
-         control.active_module = m
+       def in_focus=(mod_on_stack)
+         control.in_focus = mod_on_stack
        end    
      
      end
@@ -66,12 +65,12 @@ module WXf
        
        include ModOperator
        
-       def single_module
-         return control.active_module         
+       def activity
+         return control.in_focus      
        end
        
-       def single_module=(m)         
-         self.control.active_module = m       
+       def activity=(mod_on_stack)         
+         self.control.in_focus = mod_on_stack       
        end     
               
      end

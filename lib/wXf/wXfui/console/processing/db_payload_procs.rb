@@ -49,9 +49,9 @@ module Processing
         # Commit changes to the database
         #
         def arg_commit(*cmd)
-          puts "[wXf] Commit payload #{active_module.options['NAME']} to database"
+          puts "[wXf] Commit payload #{in_focus.options['NAME']} to database"
           begin
-            WXFCORE.db.create_payload(active_module.options)
+            WXFCORE.db.create_payload(in_focus.options)
           rescue
             puts "[wXf] Error adding payload to database: #{$!}"
           end
@@ -62,7 +62,7 @@ module Processing
         # Provides the help we need
         #
         def arg_help
-          active_module.help
+          in_focus.help
         end
 
   end

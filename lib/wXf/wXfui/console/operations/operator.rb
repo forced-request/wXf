@@ -24,11 +24,11 @@ module Operations
      include WXf::WXfui::Console::Shell_Func::Shell
      include WXf::WXfui::Console::Prints::PrintSymbols
      
-     attr_accessor :operator_stack, :webstack, :tab_words
+     attr_accessor :activities, :webstack, :tab_words
      
      def initialize(prompt, prompt_char=">")
        super
-        self.operator_stack = []
+        self.activities = []
         self.webstack = []
         self.tab_words = []
      end
@@ -68,7 +68,7 @@ module Operations
     def tabbed_comp_simple(str)
       aggr_keys = []
         begin
-        operator_stack.each {|operator|
+        activities.each {|operator|
           if operator.respond_to?('avail_args')
           aggr_keys.concat(operator.avail_args.to_a.map { |x| x[0] })
           end
@@ -95,7 +95,7 @@ module Operations
       #Pop the first word entered out of that array for pattern matching
       cmd = cmds.pop
       begin
-      operator_stack.each {|operator|
+      activities.each {|operator|
         if operator.respond_to?('tab_comp_assist') 
           keywds =  operator.tab_comp_assist(str)
           if keywds.nil?
@@ -115,56 +115,62 @@ module Operations
       }
     end
     
-    
+ #    
+ # Re-worked activity stack style, taken from the concept behind Android's activity stack
+ # NEW PUSH AND POP SECTION. Found it better for both activities and our webserver to be pushed and popped off the stack.
+ #         
+      
     #
-    # Module Stack, adding to the stack
+    # Activity Stack, adding to it
     #    
-    def enstack_operator(operator)
-        self.operator_stack.unshift(inst = operator.new(self))
-        inst
+    def add_activity(activity)
+      actv = activity.new(self) 
+      self.activities.push(actv)
     end
     
     
     #
     # Removes a module from the stack
     #   
-    def destack_operator
-      self.operator_stack.shift
+    def remove_activity
+      if (self.activities) then
+      self.activities.pop
+      end
     end
         
     
     #
     # Removes a specific module
     #
-    def remove_operator(name)
-      self.operator_stack.delete_if { |inst|
-        (inst.name == name)
-      }
+    def destroy_activity(activity)
+      self.activities.delete(activity) 
     end
   
      
     #
     # Shows the current activity in focus
     #
-    def current_operator
-      self.operator_stack[0]
+    def infocus_activity
+      self.activities.last
     end
     
 # This next portion covers the Web Server Stack.
     
     #
-    # Brings a server instance onto the stack
+    # Brings a webserver instance onto the stack
     #
-    def enstack_webstack(web)
-      self.webstack.unshift(inst = web)
-      inst
+    def add_web_activity(web)
+      if (web)
+       web_inst = web
+      end 
+      self.webstack.push(web_inst)
     end
     
     
     #
     # Removes a Web Server instance from the stack
     #
-    def destack_webstack(id)
+    def remove_web_activity(id)
       webstack.delete_at(id)  
     end
     
@@ -173,18 +179,18 @@ module Operations
     # Removes a web instance, user-based function   
     # ..allows user to decide which instance to remove
     #
-     def remove_web(name)
-       self.webstack.delete_if { |inst|
-         (inst.name == name)   
-       }
+     def destroy_web_activity(name)
+       if (name)
+       self.webstack.delete(name)
+       end
      end
      
      
      #
      # Returns the in-focus activity on the stack
      #
-     def current_web
-       self.webstack[0]
+     def infocus_web_activity
+       self.webstack.last
      end
 
 # This portion of operator.rb is deals with processing user commands.
@@ -200,21 +206,21 @@ module Operations
       args = line.split
       command = args.shift
       found = false
-      entries = operator_stack.length
+      entries = activities.length
             
       if not command.nil?
         concat_cmd = "arg_" + command
       end
       
       if (command)
-        operator_stack.each {|operator|
+        activities.each {|operator|
               begin
                 if operator.avail_args.has_key?(command)
                   run_command(operator, command, args)
                   found = true
                 end
               end
-              break if (operator_stack.length != entries)
+              break if (activities.length != entries)
         }
         if found == false
           misc_cmd(command, line)
