@@ -18,7 +18,7 @@ class ModulePair < Hash
     self.mods_fn_list = []
   end
   
-  def create_other(name, control)
+  def load_other(name, control)
           begin
               if "#{name}".match(/#{self.exploit_list.join('|')}/)
                 instance = WXf::WXfconductors::Db_Exploit_Conductor.new(name)
@@ -51,7 +51,7 @@ class ModulePair < Hash
     fetch(name) if has_key?(name)
   end
   
-  def create(name)
+  def load(name)
   instance = get_name_val(name)
   return instance
   
@@ -269,15 +269,20 @@ end
         
       end 
        
+      
+       def name_match?(name)
+         mod = name.match(/^(#{valid_file_mods.join('|')})\/(.*)$/)
+         return mod
+       end
     
        #
        # Creates an instance of a module and then returns it. 
        #    
-       def create(name,control)       
-         if (md = name.match(/^(#{valid_file_mods.join('|')})\/(.*)$/))
-             mod_pair[md[1]].create(md[2])
+       def load(name,control)       
+         if actv = name_match?(name) 
+             mod_pair[actv[1]].load(actv[2])
          else
-          create_other(name, control)  
+          load_other(name, control)  
          end
       end
       
