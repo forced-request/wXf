@@ -9,6 +9,8 @@ module Operations
     #
     #Empty class, assists with command operator mixin. 
     #
+    
+=begin    
     module ArgModOperator
       attr_accessor :control_shell
           
@@ -16,7 +18,7 @@ module Operations
              self.control_shell = control_shell
           end
     end
-              
+=end              
     
      #
      # Begins Operator module content
@@ -28,9 +30,7 @@ module Operations
      
      def initialize(prompt, prompt_char=">")
        super
-        self.activities = []
-        self.webstack = []
-        self.tab_words = []
+        init_arrys
      end
   
      
@@ -113,6 +113,15 @@ module Operations
       }.map {|e|
         "#{cmds.join(' ')} #{tab_words.dup.push(e).join(' ')}"   
       }
+    end
+    
+    #
+    # Initiates the attr_accessors as empty arrays
+    #
+    def init_arrys
+      self.activities = []
+      self.webstack = []
+      self.tab_words = []
     end
     
  #    

@@ -1,7 +1,3 @@
-#
-# Base class for which object's state are held. Drives the ship.
-#
-
 module WXf
 module WXfui
 module Console
@@ -14,32 +10,38 @@ module Operations
     
     include Operator
     
-      def initialize(prompt, prompt_char)
+      def initialize(*all)
         require 'rbreadline_compat'
         super
-        add_activity(WXf::WXfui::Console::Processing::CoreProcs)
-        #As of now, just shows the banner to the users
-        on_startup
-        end
+        stack_n_play
+      end
    
+      #
+      #
+      #
+      def stack_n_play
+        add_activity(WXf::WXfui::Console::Processing::CoreProcs)
+        display_now
+      end
+      
         
       #Do NOT remove this!!!
       def framework  
          WXf::WXfmod_Factory::Framework.new
       end
-        
+      
+      
+      #
+      # Misc command, basically something that didn't show up in the 
+      # ...available arguments of an activity on the stack
+      #  
       def misc_cmd(command, line)
-        if (WXf::WXfui::Console::Shell_Func::FileUtility.command_bin(command))
-          prnt_gen(" run: #{line}"+ "\n")
-           begin
-           io = ::IO.popen(line, "r")
-           io.each_line do |data|
-            print(data)           
-           end
-           io.close
-           rescue ::Errno::EACCES, ::Errno::ENOENT
-           prnt_err(" Permission denied exec: #{line}")
-                            
+          if (WXf::WXfui::Console::Shell_Func::FileUtility.command_bin(command))
+          prnt_gen(" executing command: #{line}"+ "\n")
+          begin
+           system_call(line)
+           rescue $!
+           prnt_err(" Console call error: #{$!}")
           end
           return
         end
@@ -48,12 +50,26 @@ module Operations
         
       
        #      
-       # Method which invokes a banner from coreprocs by called arg_banner
+       # Method which invokes a pretty startup icon from 
+       # coreprocs by called arg_banner
        #      
-       def on_startup
-         run_single("display")
+       def display_now
+         if infocus_activity.respond_to?('display')
+            infocus_activity.send("arg_display")
+         end
        end
-            
+      
+       
+       #
+       # System call
+       #
+       def system_call(line)
+         exec = ::IO.popen(line, "r")
+         exec.each {|data|
+          print(data)           
+         }
+         exec.close
+       end      
   
   end
  

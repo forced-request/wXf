@@ -10,13 +10,12 @@ module WXf
      
      module ModOperator
                     
-       include Operator::ArgModOperator
+       #include Operator::ArgModOperator
        
        attr_accessor :control
              
        
        def initialize(control)
-         super         
          self.control = control        
        end
        
