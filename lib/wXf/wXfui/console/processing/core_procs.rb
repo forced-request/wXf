@@ -25,33 +25,36 @@ class CoreProcs
     #
     def arg_use(*cmd)
       if (cmd.length == 0)
-        control.prnt_dbg(" Example: use <module name>")
+        control.prnt_dbg(" Example: use <module name>\n\n")
            return false
       end 
       arg_name = cmd[0]      
       begin
+       
         activity = fw_mod?(arg_name, control)
+        
         if activity.nil?
          return false
         end
-          
+        
         operator = nil
         
         if activity.respond_to?("type")
           actv_type = activity.type
         end
         
-       case actv_type
+       case (actv_type)
        when DB_EXP
          operator = DbExploitProcs
-        when FILE_EXP
+       when FILE_EXP
          operator = FileExpProcs   
-        when AUXILIARY
+       when AUXILIARY
          operator = AuxiliaryProcs
         else
          control.prnt_err(" Please ensure you are not trying to use a Payload")
          return false
         end
+      
       end
         
       in_focus?
@@ -65,9 +68,9 @@ class CoreProcs
      if auxiliary? or file_exploit?
        #short term workaround
        nickname = arg_name.split('/')
-       control.update_prompt("#{activity.type}" + control.red("(#{nickname.last})", true))
+       control.mod_prm("#{activity.type}" + control.red("(#{nickname.last})", true))
      else
-       control.update_prompt("#{activity.type}" + control.red("(#{arg_name})", true))
+       control.mod_prm("#{activity.type}" + control.red("(#{arg_name})", true))
      end
              
     end
@@ -107,7 +110,7 @@ class CoreProcs
     #
     # Use tab helper
     #
-    def arg_use_tabs(str, stra)
+    def arg_use_comp(str, stra)
      mods = framework.modules.module_list
      return mods
     end
@@ -215,7 +218,7 @@ class CoreProcs
     #
     #
     #
-    def arg_set_tabs(str, stra)
+    def arg_set_comp(str, stra)
       list = []
         
       if in_focus.nil? 
@@ -245,17 +248,14 @@ class CoreProcs
     # Banner is probably obvious, used for displaying a  banner
     #
     def arg_display(*cmd)
-      disp =  control.purple(WXf::WXfui::Console::Prints::PrintDisplay.to_s + "\n\n")
-      disp << "------{ "
-      disp << "Web Exploitation Framework: #{WXf::WXfdb::Core::Version}\n"
-      disp << "------{ "
-      disp << "#{counter("db_exploit")} db exploits\n"
-      disp << "------{ "
-      disp << "#{counter("db_payload")} payloads\n"
-      disp << "------{ "
-      disp << "#{counter("file_exploit")} file exploits\n"
-      disp << "------{ "
-      disp << "#{counter("auxiliary")} auxiliary\n\n"
+      disp =  control.purple(WXf::WXfui::Console::Prints::PrintDisplay.sample + "\n\n")
+      disp << " Web Exploitation Framework: #{WXf::WXfdb::Core::Version}\n"
+      disp << " The time is currently: #{control.purple(Time.now)}\n\n"
+      disp << " wXf has the following available resources:\n\n"
+      disp << "-{ #{counter("db_exploit")} db exploits }-\n"
+      disp << "-{ #{counter("db_payload")} payloads }-\n"
+      disp << "-{ #{counter("file_exploit")} file exploits }-\n"
+      disp << "-{ #{counter("auxiliary")} auxiliary }-\n\n"
       puts disp
     end     
     
@@ -280,7 +280,7 @@ class CoreProcs
     operator = WebserverProcs
     control.add_activity(operator)
     self.in_focus = framework.modules.load("webserver",control)
-    control.update_prompt("#{in_focus.type}" + control.red("(config)"))
+    control.mod_prm("#{in_focus.type}" + control.red("(config)"))
     control.prnt_gen(" Manage wXf web server")
   end
   
@@ -297,20 +297,20 @@ class CoreProcs
       operator = Create_Exploit
       control.add_activity(operator)
       self.in_focus = framework.modules.load("create_exploit",control)
-      control.update_prompt("#{in_focus.type}" + control.red("(create)"))
+      control.mod_prm("#{in_focus.type}" + control.red("(create)"))
     elsif (cmd[0] =~ /payload/)
      control.prnt_gen(" Create new payload")
       operator = Create_Payload
       control.add_activity(operator)
       self.in_focus = framework.modules.load("create_payload",control)
-      control.update_prompt("#{in_focus.type}" + control.red("(create)"))
+      control.mod_prm("#{in_focus.type}" + control.red("(create)"))
     else
       control.prnt_err(" Specify 'exploit' or 'payload' for creation")
     end
   end
   
   
-  def arg_create_tabs(str, stra)
+  def arg_create_comp(str, stra)
     list = ["exploit", "payload"]
     return list
   end
@@ -376,7 +376,7 @@ class CoreProcs
     #
     # Show tabs helper
     #
-    def arg_show_tabs(str,stra)
+    def arg_show_comp(str,stra)
      list = ["exploits_db","payloads","auxiliary", "options", "exploits_mod", "lfiles"]
     return list 
     end 
@@ -404,8 +404,8 @@ class CoreProcs
     #
     def arg_back(*cmd)
          
-          if control.activities.size > 1 and
-              control.infocus_activity.name != 'Core'
+          if control.activities.length > 1 and control.infocus_activity.name != 'Core'
+            
           if (in_focus)
               self.in_focus = nil
           end  
@@ -413,7 +413,7 @@ class CoreProcs
               self.active_assist_module = nil
           end      
               control.remove_activity
-              control.update_prompt('')
+              control.mod_prm('')
           end
           
     end   
@@ -515,11 +515,15 @@ class CoreProcs
      
     
     #
-    # Whether the user chooses ? or help it won't matter, arg_? will be invoked
+    # A copy of the method arg_?
     # 
-    alias arg_help arg_?
-    alias arg_info_tabs arg_use_tabs
+    def arg_help; arg_?; end
     
+    
+    #
+    # A copy of the method arg_info_comp
+    #
+    def arg_info_comp; arg_use_comp; end
     
     #
     # Thanks to CG [carnal0wnage] for mentioning this method. 
@@ -530,8 +534,7 @@ class CoreProcs
        
        if cmd.length == 0 and in_focus.nil?
          print(
-                   "Usage: info module1 module2 module3 ...\n\n" +
-                   "Queries the supplied module or modules for information.\n")
+                   "Example: info <module name>\n\n")
                    return false
        end
       
@@ -554,9 +557,6 @@ class CoreProcs
       
     end
   
- #####################################
- #  BEGIN EXPLOIT EXISTENCE CHECK & LIST
- #####################################
   
   #
   #

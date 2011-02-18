@@ -6,19 +6,6 @@ module Console
 module Operations 
   
   module Operator
-    #
-    #Empty class, assists with command operator mixin. 
-    #
-    
-=begin    
-    module ArgModOperator
-      attr_accessor :control_shell
-          
-         def initialize(control_shell)
-             self.control_shell = control_shell
-          end
-    end
-=end              
     
      #
      # Begins Operator module content
@@ -28,7 +15,7 @@ module Operations
      
      attr_accessor :activities, :webstack, :tab_words
      
-     def initialize(prompt, prompt_char=">")
+     def initialize(prm, pchar=">")
        super
         init_arrys
      end
@@ -211,7 +198,7 @@ module Operations
     # ...searches instances on the stack to see if they have a arg_"userInput" 
     # ...method 
     #               
-    def run_single(line)
+    def runcmd(line)
       args = line.split
       command = args.shift
       found = false
@@ -225,15 +212,16 @@ module Operations
         activities.each {|operator|
               begin
                 if operator.avail_args.has_key?(command)
+             
                   run_command(operator, command, args)
                   found = true
                 end
               end
               break if (activities.length != entries)
         }
-        if found == false
+       if found == false
           misc_cmd(command, line)
-        end
+       end
       end
       return found
     end
@@ -244,7 +232,7 @@ module Operations
     # ...or the host system a message is sent to the user.
     #
     def misc_cmd(command,line)
-      prnt_dbg(" Unknown command: #{command}.")
+      prnt_dbg(" Command does not exist: #{command}.")
     end
  
     

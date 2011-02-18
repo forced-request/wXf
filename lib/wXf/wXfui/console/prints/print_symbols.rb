@@ -8,34 +8,23 @@ module Prints
   
     include PrintColor
     
-          def prnt_gen(text = '')
-            print_single(blue("-{*}-") + "#{text}")
-          end
-          
-          
-          def prnt_err(text = '')
-            print_single(red("-{-}-") + "#{text}")
-          end
-          
-          def prnt_plus(text = '')
-            print_single(green("-{+}-") + "#{text}")
-          end
-          
-          def prnt_dbg(text = '')
-            print_single(yellow("-{!}-") + "#{text}")
-          end
-          
-          
-          def print_single(text = '')
-            print("#{text}" + "\n")
-          end
     
-      
-          alias print_status prnt_gen 
+
+          
+
+          def prnt_gen(strn = ''); final_print(blue("-{*}-"), "#{strn}"); end
+          def prnt_err(strn = ''); final_print(red("-{-}-"), "#{strn}"); end
+          def prnt_plus(strn = '');final_print(green("-{+}-"), "#{strn}"); end
+          def prnt_dbg(strn = ''); final_print(yellow("-{!}-"), "#{strn}"); end
+          alias print_status prnt_gen
           alias print_error prnt_err
           alias print_good prnt_plus
           alias print_debug prnt_dbg
+          def final_print(color_symbol, strn = ''); 
+            eval('print("#{color_symbol} #{strn}\n\n")')
+          end
     
+      
   end
   
   

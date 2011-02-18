@@ -12,7 +12,7 @@ module Shell_Func
   
   class Reader
  
-  attr_accessor :prompt, :prompt_char
+  attr_accessor :prm, :pchar
   
    #
    # Provides a readline instance, important for the console to function
@@ -26,10 +26,10 @@ module Shell_Func
    #
    # Method which once called, will begin a readline prompt
    #   
-   def fetch        
+   def grab        
      line = nil
     begin          
-     line = ::Readline.readline(prompt, true)   
+     line = ::Readline.readline(prm, true)   
     end
    end
       
