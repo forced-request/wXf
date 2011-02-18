@@ -13,11 +13,55 @@ module WXfmod_Factory
      def initialize(name, vals=[])
     
      self.name = name
-     self.required = vals[0]
-     self.desc = vals[1]
-     self.data = vals[2]
+     index_vals(vals)
      end
-    
+     
+     
+     #
+     #
+     #    
+     def index_vals(vals)
+       if vals.kind_of?(Array)
+         existence_check(vals)
+       end
+     end
+     
+     #
+     #
+     #
+     def existence_check(vals)
+       
+       if exists?(vals[0])
+         self.required = vals[0]
+       else
+         self.required = false  
+       end
+       
+       if exists?(vals[1])
+         self.desc = vals[1]
+       else
+         self.desc = "No Description Available"
+       end
+       
+       if exists?(vals[2])
+         self.data = vals[2]
+       else
+         self.data = ''
+       end
+       
+     end
+     
+     #
+     #
+     #
+     def exists?(val)
+       if val.nil?
+         return false
+       else
+         return true
+       end
+     end
+     
      attr_reader :data, :name, :desc, :required
   
      protected
@@ -61,10 +105,10 @@ module WXfmod_Factory
    #
    # 
    class OptsPlace < Hash
-    attr_accessor :sorted
+    attr_accessor :sarr
      
      def initialize(opts={})
-       self.sorted = []
+       init_sarr
      end
      
       
@@ -108,6 +152,21 @@ module WXfmod_Factory
      
      
      #
+     # Initiates an empty array
+     #
+     def init_sarr
+       self.sarr = []
+     end
+     
+     
+     #
+     # Sorts self
+     #
+     def perform_sort
+       self.sarr = self.sort
+     end
+         
+     #
      # This method adds a single option. Broken down by the previous methods
      # ...and makes the final decision on storing option data.
      #
@@ -121,7 +180,7 @@ module WXfmod_Factory
        end
        
        self.store(opt.name, opt)
-       self.sorted = self.sort
+       perform_sort
      
      rescue => $!
      print(" #{$!}\n")  

@@ -30,7 +30,7 @@ module WXfmod_Factory
                               
       ])
                   
-     self.options.sorted.each { |item|
+     self.options.sarr.each { |item|
      name, option = item
      val = datahash[name] || option.data.to_s
      tbl.add_ritems([name,val, "#{option.required}", option.desc]) 

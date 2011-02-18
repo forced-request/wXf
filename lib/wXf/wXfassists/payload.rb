@@ -1,0 +1,1 @@
+require 'wXf/wXfassists/payload/payload_placeholder'

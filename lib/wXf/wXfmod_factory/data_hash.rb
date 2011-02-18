@@ -6,12 +6,7 @@ class DataHash < Hash
   
   attr_accessor :mod
   
-  def initialize()
-  @trigger = Hash.new
-  end
-    
-  def []=(key,val)
-    super(key,val)
+  def initialize
   end
   
   def [](key)
@@ -36,17 +31,6 @@ class DataHash < Hash
    self.store(key, val)
   end
   
-  #
-  #
-  #
-  def check_case(k)
-  self.each_key {|retkey|
-    if(retkey.downcase == k.downcase)
-      return retkey
-    end
-  }
-  return k
-  end
     
 end
 

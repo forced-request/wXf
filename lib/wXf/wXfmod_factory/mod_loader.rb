@@ -98,10 +98,7 @@ end
         # when working
         #
         def valid_file_mods
-         [
-         'file_exploit',
-         'auxiliary'  
-         ]                  
+         ["file_exploit","auxiliary"]
         end
                 
        #
@@ -268,23 +265,42 @@ end
        end  
         
       end 
-       
-      
+  
+           
+   
        def name_match?(name)
-         mod = name.match(/^(#{valid_file_mods.join('|')})\/(.*)$/)
+          mod = nil
+          temp_arry = []
+        begin
+         if (name)
+            prefix = name.split("/")
+            true_name = prefix[0]
+          end
+           
+         if valid_file_mods.include?(true_name)
+           concat = "#{prefix[1]}/#{prefix[2]}"
+           temp_arry.push("#{true_name}", concat)
+           mod = temp_arry
+         end
+       end
+         
          return mod
        end
-    
+
+      
+      
+     
        #
        # Creates an instance of a module and then returns it. 
        #    
        def load(name,control)       
          if actv = name_match?(name) 
-             mod_pair[actv[1]].load(actv[2])
+             mod_pair[actv[0]].load(actv[1])
          else
           load_other(name, control)  
          end
       end
+
       
 
       attr_accessor :wxflist_call, :exploit_list, :payload_list
