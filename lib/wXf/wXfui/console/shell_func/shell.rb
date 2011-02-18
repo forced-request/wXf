@@ -13,27 +13,22 @@ module Shell_Func
 module Shell
 
 
-  attr_accessor :input, :prompt, :init_prompt
-  attr_accessor :prompt_char
+
   
  
-    def initialize(prompt, prompt_char)
-      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
-      self.init_prompt = underline(prompt, true)
-      self.prompt_char = clear(prompt_char, true)
-      self.input.prompt = "#{underline(prompt,true)} #{clear(prompt_char,true) } "
+    def initialize(prm, pchar)
+     opts(prm, pchar)
     end
-  
     
     #
-    # Self Descriptive, updates the prompt with whatever we input.
+    # modifies console prompt with whatever we input.
     #
-    def update_prompt(prompt=nil)
-      dup_prompt = "#{self.input.prompt.dup}"  
-      if (prompt)
-          new_prompt = "#{self.prompt} #{prompt}#{prompt_char} "
-         test =  dup_prompt.gsub!("#{self.input.prompt}", "#{new_prompt}")
-        self.input.prompt = "#{test}"
+    def mod_prm(prm=nil)
+      dup_prm = "#{self.input.prm.dup}"  
+      if (prm)
+          new_prm = "#{self.prm} #{prm}#{pchar} "
+          test =  dup_prm.gsub!("#{self.input.prm}", "#{new_prm}")
+        self.input.prm = "#{test}"
       end
     end
   
@@ -42,18 +37,32 @@ module Shell
     # Initiates the console
     #
     def start
-      self.prompt = init_prompt
+      self.prm = iprm
       begin
        while true
-         line = input.fetch
-         run_single(line)
+         line = input.grab
+         runcmd(line)
       end
       rescue Interrupt
-        print("Interrupt: use the 'exit' command to quit" + "\n" )
+       print("\nExample: use the 'exit' command to quit\n\n" )
         retry
       end
     end
+    
+    
+    #
+    #
+    #
+    def opts(prm, pchar)
+      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
+      self.iprm = underline(prm, true)
+      self.pchar = clear(pchar, true)
+      self.input.prm = "#{underline(prm,true)} #{clear(pchar,true) } "
+    end
   
+  attr_accessor :input, :prm, :iprm
+  attr_accessor :pchar
+    
 end
 
 end end end end

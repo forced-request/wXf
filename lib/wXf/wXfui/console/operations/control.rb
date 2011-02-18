@@ -29,15 +29,15 @@ module Operations
       def framework  
          WXf::WXfmod_Factory::Framework.new
       end
-      
-      
+  
+                
       #
       # Misc command, basically something that didn't show up in the 
       # ...available arguments of an activity on the stack
       #  
       def misc_cmd(command, line)
           if (WXf::WXfui::Console::Shell_Func::FileUtility.command_bin(command))
-          prnt_gen(" executing command: #{line}"+ "\n")
+          prnt_gen(" exec command: #{line}"+ "\n")
           begin
            system_call(line)
            rescue $!
@@ -47,7 +47,7 @@ module Operations
         end
         super
       end
-        
+      
       
        #      
        # Method which invokes a pretty startup icon from 

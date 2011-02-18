@@ -269,22 +269,28 @@ end
            
    
        def name_match?(name)
-          mod = nil
-          temp_arry = []
-        begin
-         if (name)
-            prefix = name.split("/")
-            true_name = prefix[0]
-          end
-           
-         if valid_file_mods.include?(true_name)
-           concat = "#{prefix[1]}/#{prefix[2]}"
-           temp_arry.push("#{true_name}", concat)
-           mod = temp_arry
-         end
+       temp_arry = []
+       mod = nil
+       if (name)
+       name_arry = name.split('/')
+       name_dup = name_arry.dup
+       name_arry.shift
+       mod_arry = name_arry.join('/')
        end
-         
-         return mod
+       
+       begin
+       
+         valid_file_mods.each do |item|
+           if name_dup[0] == item
+              temp_arry.push(name_dup[0], mod_arry)
+              mod = temp_arry
+          end
+      
+        end
+       
+       end
+       
+       return mod
        end
 
       
@@ -293,12 +299,13 @@ end
        #
        # Creates an instance of a module and then returns it. 
        #    
-       def load(name,control)       
-         if actv = name_match?(name) 
+       def load(name,control)   
+         if not (actv = name_match?(name)) == nil
              mod_pair[actv[0]].load(actv[1])
          else
           load_other(name, control)  
          end
+
       end
 
       

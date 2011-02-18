@@ -23,35 +23,36 @@ module WXf
        #
        # Tab completion effort begins
        #
-       def tab_comp_assist(str)        
+       def tab_comp_assist(str) 
          aggr = []          
-           stra = str.split(/\s/)       
-         if (avail_args.include?(stra[0]))        
-            if (self.respond_to?("arg_#{stra[0]}_tabs"))          
-            keywds = self.send('arg_'+stra[0]+'_tabs', str, stra)
-            return nil if keywds.nil?
-            aggr.concat(keywds)           
-            else           
-                return nil        
+         stra = str.split(/\s/) 
+           if (self.respond_to?("arg_#{stra[0]}_comp"))          
+            keywds = exec(str, stra)
+           
+            case keywds
+            when nil      
+            else
+            aggr.concat(keywds)  
             end 
-        end            
-            return aggr         
+        
+          end
+          
+           aggr         
        end  
 
        
        #
-       # Great way to maintain hierarchy
        #
-       def in_focus
-         return control.in_focus
+       #
+       def exec(str, stra)
+        self.send("arg_#{stra[0]}_comp", str, stra)
        end
        
        #
-       # Great way to maintain hierarchy
+       # Hierarchy
        #
-       def in_focus=(mod_on_stack)
-         control.in_focus = mod_on_stack
-       end    
+       def in_focus; control.in_focus; end
+       def in_focus=(mod_on_stack); control.in_focus = mod_on_stack; end    
      
      end
      
