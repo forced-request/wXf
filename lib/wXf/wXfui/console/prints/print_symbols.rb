@@ -21,7 +21,7 @@ module Prints
           alias print_good prnt_plus
           alias print_debug prnt_dbg
           def final_print(color_symbol, strn = ''); 
-            eval('print("#{color_symbol} #{strn}\n\n")')
+            eval('print("#{color_symbol} #{strn}\n")')
           end
     
       
