@@ -50,7 +50,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     print_status('-----------------------------------------------------------')
     print_status('-----------------------BODY--------------------------------')
     prnt_plus("\n\n"+ green("#{res.body}"))
-    output("#{res.body}", "sreqlog", "xml")
+    dradis_output({
+     'Name' => "single_request",
+     'Request' => "#{res}",
+     'RespHeaders' => "#{res.header}", 
+     'RespBody' => "#{res.body}"
+    })
     else
     end
   end

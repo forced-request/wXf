@@ -77,6 +77,54 @@ module ModuleLogger
   end
   
   
+  #
+  #
+  #
+  def dradis_output(opts={})
+   name        = opts['Name'] || ''
+   time        = "#{Time.now}" 
+   request     = opts['Request'] || ''
+   resp_header = opts['RespHeaders'] || ''  
+   resp_body   = opts['RespBody'] || ''
+   filename    = opts['Filename'] || 'wxf_dradis.xml' 
+   
+    f = File.new("#{LogsDir}" + "#{filename}", "a")
+    
+    str = ''
+    str << '<?xml version="1.1"?>' + "\n"
+    str << '<!DOCTYPE contentdata ['  + "\n"
+    str << '<!ELEMENT contentdata (content*)>' + "\n"
+    str << '<!ATTLIST contentdata wxfVersion CDATA "">' + "\n"
+    str << '<!ATTLIST contentdata exportTime CDATA "">' + "\n"
+    str << '<!ELEMENT contentdata (time, name, headers, body*)>' + "\n"
+    str << '<!ELEMENT time (#PCDATA)>' + "\n"
+    str << '<!ELEMENT name (#PCDATA)>' + "\n"
+    str << '<!ELEMENT headers (#PCDATA)>' + "\n"
+    str << '<!ELEMENT request (#PCDATA)>'  + "\n"
+    str << '<!ELEMENT bodyofmessage (#PCDATA)>' + "\n"
+    str << ']>' + "\n"
+    str << '<contentdata wxfVersion="1.0b" exportTime=' + '"' + time + '"' + ">\n"
+    str << '<content>' + "\n"
+    str << '<time>' + time + '</time>' + "\n"
+    str << '<name>' + "#{name}" + '</name>' + "\n"
+    str << '<headers><![CDATA[' + "\n"
+    str << "#{resp_header}\n"
+    str << ']]></headers>' + "\n"
+    str << '<request><![CDATA[' + "\n"
+    str << "#{request}" + "\n"
+    str << ']]></request>' + "\n"
+    str << '<bodyofmessage><![CDATA[' + "\n"
+    str << "#{resp_body}" + "\n"
+    str <<  ']]></bodyofmessage>' + "\n"
+    str << '</content>' + "\n"
+    str << '</contentdata>'    
+    
+    puts f.puts(str)
+    f.close  
+  end
+  
+  
+  #
   # Used Rubular to test, site rocks!
   # This method just checks if the extension matches html or xml.
   # 
