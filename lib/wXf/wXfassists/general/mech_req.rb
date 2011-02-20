@@ -101,8 +101,10 @@ module MechReq
         
         begin
           case debug
-          when 'yes'
-            agent = WAx::WAxHTTPLibs::Mechanize.new {|a| a.log = Logger.new(STDERR) }
+          when true
+          
+          agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(STDERR)}
+          
           else
             agent = WAx::WAxHTTPLibs::Mechanize.new {|a| a.log = Logger.new(false)}
           end 

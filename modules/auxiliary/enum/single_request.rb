@@ -35,7 +35,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   res = send_request_cgi({
   'method'     => 'GET',
   'RURL'       => rurl,
-  'DEBUG'      => 'yes',
+  'DEBUG'      => true,
   'UA'         => datahash['UA'],
   'PROXY_ADDR' => proxya,
   'PROXY_PORT' => proxyp,
@@ -51,9 +51,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     print_status('-----------------------BODY--------------------------------')
     prnt_plus("\n\n"+ green("#{res.body}"))
     dradis_output({
-     'Name' => "single_request",
-     'Request' => "#{res}",
-     'RespHeaders' => "#{res.header}", 
+     'Name' => rurl,
+     'Request' => res.to_s,
+     'RespHeaders' => res.header,
      'RespBody' => "#{res.body}"
     })
     else
