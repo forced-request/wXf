@@ -523,7 +523,7 @@ class CoreProcs
     #
     # A copy of the method arg_info_comp
     #
-    def arg_info_comp; arg_use_comp; end
+    def arg_info_comp(str, stra); arg_use_comp(str, stra); end
     
     #
     # Thanks to CG [carnal0wnage] for mentioning this method. 

@@ -10,17 +10,18 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     super(
 
             'Name'        => 'User Agent Tester',
-            'Version'     => '1.0',
+            'Version'     => '1.1',
             'Description' => %q{
-             This is a port of chrisjohnriley's UAtester.  First we send three requests to ensure we are getting the
-             same results back each time.  Assuming we do we iterate through our list User-Agents and print any HTTP
-             Response Headers that change.
+             This is a port of ChrisJohnRiley's UAtester.  First we send three requests to ensure we are getting the
+             same results back each time.  Assuming we do, we iterate through our list of User-Agent strings and print
+	     any HTTP Response Headers that have changed.
                                 },
             'References'  =>
              [
-                [ 'URL', 'https://sites.google.com/a/c22.cc/storage/uatester' ],
+                [ 'URL', 'http://code.google.com/p/ua-tester/' ],
+		[ 'BLOG', 'http://blog.c22.cc' ],
              ],
-            'Author'      => [ 'CG', 'mubix' ],
+            'Author'      => [ 'CG', 'mubix', 'ChrisJohnRiley' ],
             'License'     => WXF_LICENSE
 
         
@@ -138,13 +139,13 @@ def run
             ''
           else res.response['content-length'] != contentlength.last
             print_error("Received a different content length for same request\n")
-            if datahash['BASELINE']
+            if datahash['BASELINE'] == true
               contentsame = false
               return
             end
           end
         elsif (res and res.code == 302 or res.code == 301)
-          print_status("USER AGENT     : #{ua}")
+	  print_status("USER AGENT     : #{ua}")
           print_status("URL (ENTERED)  : #{rurl}")
           print_status("URL (RETURNED) : #{res.response['location']}")
           print_status("RESPONSE CODE  : #{res.code}")
@@ -158,13 +159,13 @@ def run
             ''
           else res.response['content-length'] != contentlength.last
             print_error("Received a different content length for same request\n")
-            if datahash['BASELINE']
+            if datahash['BASELINE'] == true
               contentsame = false
               return
             end
           end         
         else  (res)
-          print_status("USER AGENT     : #{ua}")
+	        print_status("USER AGENT     : #{ua}")
           print_status("URL (ENTERED)  : #{rurl}")
           print_status("RESPONSE CODE  : #{res.code}")
           print_status("CONTENT-LENGTH : #{res.response['content-length']}")
@@ -177,7 +178,7 @@ def run
             ''
           else res.response['content-length'] != contentlength.last
             print_error("Received a different content length for same request\n")
-            if datahash['BASELINE'] 
+	    if datahash['BASELINE'] == true
               contentsame = false
               return
             end
@@ -187,14 +188,13 @@ def run
         #print_status("You Shouldnt see me but I received a #{res.code}")
         ''
       end
-      
+
       baselineheaders = res.response
       
       if baselineheaders['location'] then
         forwards << baselineheaders['location']
       end
       end
-      
 
       if contentsame == false
         print_error("Did not receive the same content-length for same request...exiting")
@@ -220,7 +220,26 @@ def run
             checkheader = res.response
             checkheader.each do | basekey,basevalue|
               if baselineheaders[basekey] != nil then
-                if basevalue != baselineheaders[basekey] then
+              	if basekey =~ /^Set-Cookie$/i 	
+              		if baselineheaders[basekey] =~ /httponly/i
+              			if basevalue =~ /httponly/i
+              				# httponly remains set
+              			else
+              				print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
+					print_good("CHANGED:  #{basekey} => [#{basevalue}]")
+				end
+			elsif baselineheaders[basekey] =~ /secure/i
+              			if basevalue =~ /secure/i
+              				# secure remains set
+              			else
+              				print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
+					print_good("CHANGED:  #{basekey} => [#{basevalue}]")
+				end
+			end
+              	end
+              	if basekey =~ /expires|vtag|date|time|x-transaction|Set-Cookie|X-Cache|cache-control|Age/i
+              		#Ignore frequently changing headers
+		elsif basevalue != baselineheaders[basekey] then
                   print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
                   print_good("CHANGED:  #{basekey} => [#{basevalue}]")
                 end
