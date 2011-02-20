@@ -84,11 +84,14 @@ module ModuleLogger
    name        = opts['Name'] || ''
    time        = "#{Time.now}" 
    request     = opts['Request'] || ''
-   resp_header = opts['RespHeaders'] || ''  
+   resp_header = opts['RespHeaders'] || {}  
    resp_body   = opts['RespBody'] || ''
-   filename    = opts['Filename'] || 'wxf_dradis.xml' 
+   filename    = opts['Filename'] || 'wxf_dradis.xml'
+     
+   resp_body.gsub!('<![CDATA[', '')
+   resp_body.gsub!(']]>', '')   
    
-    f = File.new("#{LogsDir}" + "#{filename}", "a")
+    f = File.new("#{LogsDir}" + "#{filename}", "w")
     
     str = ''
     str << '<?xml version="1.1"?>' + "\n"
@@ -108,18 +111,20 @@ module ModuleLogger
     str << '<time>' + time + '</time>' + "\n"
     str << '<name>' + "#{name}" + '</name>' + "\n"
     str << '<headers><![CDATA[' + "\n"
-    str << "#{resp_header}\n"
+    resp_header.each do |k,v|
+    str << "#{k}: #{v}" + "\n"
+    end
     str << ']]></headers>' + "\n"
-    str << '<request><![CDATA[' + "\n"
-    str << "#{request}" + "\n"
-    str << ']]></request>' + "\n"
+    str << '<request><![CDATA['# + "\n"
+    str << "#{request}"# + "\n"
+    str << ']]></request>' #+ "\n"
     str << '<bodyofmessage><![CDATA[' + "\n"
     str << "#{resp_body}" + "\n"
     str <<  ']]></bodyofmessage>' + "\n"
     str << '</content>' + "\n"
     str << '</contentdata>'    
     
-    puts f.puts(str)
+    f.puts(str)
     f.close  
   end
   
