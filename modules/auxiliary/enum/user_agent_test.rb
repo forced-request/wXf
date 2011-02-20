@@ -112,6 +112,7 @@ def run
           'RURL'  => rurl,
           'PROXY_ADDR' => proxya,
           'PROXY_PORT' => proxyp,
+          'REDIRECT' => 'false',
           
           
           
@@ -165,7 +166,7 @@ def run
             end
           end         
         else  (res)
-	        print_status("USER AGENT     : #{ua}")
+	  print_status("USER AGENT     : #{ua}")
           print_status("URL (ENTERED)  : #{rurl}")
           print_status("RESPONSE CODE  : #{res.code}")
           print_status("CONTENT-LENGTH : #{res.response['content-length']}")
@@ -209,6 +210,7 @@ def run
             'RURL'=> rurl,
             'PROXY_ADDR' => proxya,
             'PROXY_PORT' => proxyp,
+            'REDIRECT' => 'false',
            }                                                                 
          )
             
