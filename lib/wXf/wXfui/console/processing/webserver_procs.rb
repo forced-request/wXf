@@ -7,7 +7,7 @@ module Processing
      include WXf::WXfui::Console::Operations::ModuleCommandOperator
      
      def name
-       "WebserverProcs"
+       "Webserver"
      end
      
      

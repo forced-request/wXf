@@ -474,7 +474,7 @@ class CoreProcs
     # Shows arg_help for every operator on the stack that has the method defined.
     #
     def arg_?(*cmd)
-            control.activities.reverse.each { |operator|
+            control.activities.each { |operator|
             next if ((operator.respond_to?('avail_args') == false) or
                      (operator.avail_args == nil) or
                      (operator.avail_args.length == 0))
