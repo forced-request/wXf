@@ -57,11 +57,12 @@ module Prints
     
     def colorize(text, color_code, pr_based=nil)  
        text_line = "#{text.dup}"
-       pre = ''
-       post = ''
        if (pr_based == true)
         pre = "\x01"
         post = "\x02"
+       else
+         pre = ''
+         post = ''
        end   
        text_line.gsub!("#{text}", pre + "#{color_code}#{text}\e[0m" + post)
        text_line 
