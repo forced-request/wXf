@@ -20,8 +20,8 @@ class WebServer
     
     
     def init_validation(opts, control) 
-            self.lhost = opts["LHOST"]
-            self.lport = opts["LPORT"]
+            self.lhost = opts["LHOST"] || '127.0.0.1'
+            self.lport = opts["LPORT"] || '8888'
             self.lsecure = opts["LSECURE"]
             self.lpath = opts["LPATH"]
             self.lcontenttype = opts["LCONTENTTYPE"]
@@ -81,7 +81,7 @@ class WebServer
     #
     #
     #
-    def add_file (opts)
+    def add_file(opts)
         self.lpath = opts['LPATH'] 
         server.mount(self.lpath,HTTPServlet::FileHandler,self.lfile)
     end

@@ -397,7 +397,10 @@ class CoreProcs
       exit
     end
   
-    
+    #
+    # Getting annoyed by typing ex and then going into EX mode. Srs bzns.
+    #
+    alias arg_ex arg_exit
     
     #
     # Used to destack the activities
@@ -735,6 +738,7 @@ class CoreProcs
         "cd"       => "Change Directory",
         "create"   => "Create an 'exploit' or 'payload'",
         "current"  => "Displays the current activity of focus within the stack",
+        "ex"       => "Exit the console (shortcut)a",
         "exit"     => "Exit the console",
         "help"     => "Help menu",
         "import"   => "Imports a user provided file",
