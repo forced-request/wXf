@@ -366,8 +366,12 @@ class CoreProcs
           show_global_options  
         end
         
-      end
-   
+       else
+         control.prnt_dbg(" The following is a list of accepted show commands:\n")
+           arg_show_comp(nil, nil).sort.each do |show_cmd|
+             puts("#{show_cmd}\n")
+          end  
+       end
     end 
   
     
