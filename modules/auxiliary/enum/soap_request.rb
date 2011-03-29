@@ -44,7 +44,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'PROXYP'     => proxyp,
     'PROXYA'    =>  proxya, 
     'RACTION'   =>  datahash['RACTION'],
-    'RPARAMS'   => {datahash['PARAM'],  datahash['VALUE']},
+    'RPARAMS'   => {datahash['PARAM'] => datahash['VALUE']},
     #'HEADERS'   => {"Testy" => "McTesterton"} 
      
 })

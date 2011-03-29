@@ -103,24 +103,28 @@ module SavonReq
     proxyp = opts['PROXYP'] 
     proxya = opts['PROXYA']
     headers = opts['HEADERS'] || {}
-    basic_user =   opts['USER'] || nil
-    basic_pass =   opts['PASS'] || nil
+    basic_user = opts['USER'] || nil
+    basic_pass =  opts['PASS'] || nil
     gzip = opts['GZIP'] || true
    
        
    begin             
     client = WAx::WAxHTTPLibs::Savon::Client.new("#{rurl}")
+    
+    if exists?(basic_user) and exists?(basic_pass)
     client.request.basic_auth("#{basic_user}", "#{basic_pass}")
+    end
+    
     if exists?(proxyp) and exists?(proxya)
     client.request.proxy.port = "#{proxyp}"
     client.request.proxy.host = "#{proxya}" 
     end
     headers.each {|k,v| client.request.headers[k] = v }
    
-     client.get_credit_card(raction) do |soap|
+    eval("client.#{raction} do |soap|
          
           soap.body = rparams
-     end
+    end")
     rescue => $!
       prnt_err(" SavonReq Error: #{$!}")
     end
