@@ -50,7 +50,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
        
        client.wsdl.soap_actions.each {|action|
          
-         print_single(" #{action}" + "\n")
+         final_print(" #{action}" + "\n")
           
        }
        
