@@ -24,7 +24,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 )
 			init_opts([
 				OptString.new('FILE',     [true, 'File To View', 'boot.ini']),
-				OptString.new('FUZZFILE', [true, 'Directory Traversal Strings File','dir_traversal_strings.txt']),
+				OptString.new('LFILE', [true, 'Directory Traversal Strings File','dir_traversal_strings.txt']),
         			])
 	end
 
@@ -32,7 +32,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
   
 		
 		file =  datahash['FILE']
-		fuzzfile = WXf::ModWordLists + datahash['FUZZFILE']
+		fuzzfile = datahash['LFILE']
     
 		begin
    
