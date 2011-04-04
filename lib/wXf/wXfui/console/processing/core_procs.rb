@@ -225,7 +225,7 @@ class CoreProcs
         return nil
       elsif stra[1] == "PAYLOAD" and in_focus.respond_to?('exp')
         list.concat(framework.modules.payload_array)
-      elsif (stra[1] == 'LFILE') and (in_focus) and (in_focus.type == 'webserver')
+      elsif (stra[1] == 'LFILE') and (in_focus) and (in_focus.type == 'webserver' or 'file_exploit' or 'file_payload')
         list.concat(framework.modules.lfile_load_list.keys.sort)
       elsif stra[1] == 'RURL'
         list.concat(POPULAR_URLS)  

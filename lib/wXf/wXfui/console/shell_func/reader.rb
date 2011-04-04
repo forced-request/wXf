@@ -29,7 +29,7 @@ module Shell_Func
    def grab        
      line = nil
     begin          
-     line = ::Readline.readline(prm, true)   
+     line = ::Readline.readline(prm, true)
     end
    end
       
