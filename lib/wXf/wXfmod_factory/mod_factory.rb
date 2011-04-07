@@ -43,6 +43,26 @@ class Mod_Factory
   end
   
   
+  #
+  # This method essentially
+  #
+  def convert_params(param)
+    parry = []
+    unless param.kind_of?(String)
+      return prnt_err("Error, please provide convert_params a string value")
+    end   
+    begin 
+      param_to_arry = param.split('&')
+        param_to_arry.reverse.each do |pair|
+          pair_arry = pair.split('=')
+          parry.push(["#{pair_arry[0]}", "#{pair_arry[1]}"])
+        end
+    rescue
+      prnt_err("Error during convert_params conversion, check input")   
+    end
+    return parry
+  end
+  
 end
 
 end end

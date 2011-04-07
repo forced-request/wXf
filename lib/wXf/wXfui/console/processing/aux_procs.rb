@@ -77,6 +77,7 @@ module Processing
           activity.run
         rescue => $!
           print("The following error occurred: #{$!}" + "\n")
+          lfile_reset(activity)
         end
       lfile_reset(activity)     
     end  
