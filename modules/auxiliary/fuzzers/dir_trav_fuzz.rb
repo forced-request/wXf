@@ -49,19 +49,18 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 				begin
           return prnt_err("Enter a parameter to fuzz (FUZZPARAM)") unless fuzzparam != ''
           return prnt_err("Enter a rparams (RPARAMS)") unless rparams != ''
-				  if  datahash['METHOD'].match(/(GET|get)/)
-				    if rparams.match(/#{fuzzparam}/)
-				      p_to_sub = rparams.match(/#{fuzzparam}=([^&]+).*/)
-				      new_rparams = rparams.gsub(/#{p_to_sub[1]}/, "#{string}")
-				    end
-				  
-				    nrurl = rurl.gsub('?','')
-				    
+				    if datahash['METHOD'].match(/(GET|get)/)
+				      mod_params = convert_params("#{rparams}")
+				      rhash = Hash[mod_params]
+				        if rhash.has_key?(fuzzparam)
+				          rhash[fuzzparam] = "#{string}"
+				        end
 				    res = mech_req({
 				      'method'=> 'GET',
-          		'RURL'  =>  "#{nrurl}?#{new_rparams}",
+          		'RURL'  =>  "#{rurl}",
        				'PROXY_ADDR' => proxya,
-       				'PROXY_PORT' => proxyp,       				
+       				'PROXY_PORT' => proxyp, 
+       				'RPARAMS' => rhash      				
 							})
 				  elsif datahash['METHOD'].match(/(POST|post)/)
 				    mod_params = convert_params("#{rparams}")
