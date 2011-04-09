@@ -32,34 +32,35 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
 
   def run
-  res = send_request_cgi({
-  'method'     => 'GET',
-  'RURL'       => rurl,
-  'DEBUG'      => true,
-  'UA'         => datahash['UA'],
-  'PROXY_ADDR' => proxya,
-  'PROXY_PORT' => proxyp,
-  'REDIRECT'   => datahash['REDIRECT'],
-  })
-  
-  if (res) and (res.respond_to?('code')) and (res.code == '200')
-    question = prnt_plus("Would you like to see the body? [y/n]")
-    answer = gets.chomp
-    if answer == 'y'
-    print_status('-----------------------------------------------------------')
-    print_status('-----------------------------------------------------------')
-    print_status('-----------------------BODY--------------------------------')
-    prnt_plus("\n\n"+ green("#{res.body}"))
-    dradis_output({
-     'Name' => rurl,
-     'Request' => res.to_s,
-     'RespHeaders' => res.header,
-     'RespBody' => "#{res.body}"
+    dradis = WXf::WXflog::DradisLog.new({
+      'Name' => rurl,
+      'Filename' => 'single_request.xml'
     })
-    else
-    end
-  end
-end
+    
+    res = send_request_cgi({
+    'method'     => 'GET',
+    'RURL'       => rurl,
+    'DEBUG'      => true,
+    'UA'         => datahash['UA'],
+    'PROXY_ADDR' => proxya,
+    'PROXY_PORT' => proxyp,
+    'REDIRECT'   => datahash['REDIRECT'],
+    })
+  
+    if (res) and (res.respond_to?('code')) and (res.code == '200')
+      question = prnt_plus("Would you like to see the body? [y/n]")
+      answer = gets.chomp
+        if answer == 'y'
+          print_status('-----------------------------------------------------------')
+          print_status('-----------------------------------------------------------')
+          print_status('-----------------------BODY--------------------------------')
+          prnt_plus("\n\n"+ green("#{res.body}"))
+       else
+      end
+     dradis.add_ritems([res.header, res.to_s, "#{res.body}"])
+   end
+    dradis.log
+ end
 
 
 
