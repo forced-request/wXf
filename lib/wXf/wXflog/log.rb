@@ -54,7 +54,11 @@ class DradisLog
     self.rows = []
     self.name = opts['Name'] || 'wXf results'  
     self.filename = opts['Filename'] || 'wxf_dradis.xml'
-    self.file = File.new("#{LogsDir}" + "#{filename}", "a")
+    log_file = "#{LogsDir}#{filename}"
+    if File.exists?(log_file)
+      File.delete(log_file)
+    end
+    self.file = File.new(log_file, "a")
   end
   
   
