@@ -101,10 +101,17 @@ module MechReq
         
         begin
           case debug
-          when true
-          
-          agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(STDERR)}
-          
+          # This represents output to the console  
+          when 'console'
+            agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(STDERR)}
+          # This represents writing to agent.log in the logs directory
+          when 'log'
+          file = "#{LogsDir}agent.log"
+          if File.exist?(file)
+            File.delete(file)
+          end
+            agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(file)}    
+              
           else
             agent = WAx::WAxHTTPLibs::Mechanize.new {|a| a.log = Logger.new(false)}
           end 
@@ -120,8 +127,7 @@ module MechReq
     #
     # Determines method and process based off this information   
     #
-    def req_sequence(opts, agent)  
-          
+    def req_sequence(opts, agent)         
           # Request object cleared/init'd
           req = nil
           
@@ -189,7 +195,7 @@ module MechReq
           # Makes a decision based on the supplied HTTP Method.
           abbr = 'agent_'+ "#{req_type}"
           if self.respond_to?(abbr)
-           self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
+            self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
           end
           
           
@@ -208,7 +214,22 @@ module MechReq
     def is_false?(string)
      string == "false"
     end                
-
+    
+    #
+    # Method to return a the request/resp debug info.
+    # Most often used within modules to create dradis logs.
+    #
+    def req_seq
+      file = "#{LogsDir}agent.log"
+      str = ''
+      if File.exists?(file)
+       File.readlines(file).each do |line|
+         str << "#{line}"
+       end
+      end     
+      return str
+    end
+    
     #
     # HTTP GET
     #            

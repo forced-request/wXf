@@ -62,7 +62,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 				            'method'=> 'GET',
           		      'RURL'  =>  "#{rurl}",
        				      'PROXY_ADDR' => proxya,
-       				      'PROXY_PORT' => proxyp, 
+       				      'PROXY_PORT' => proxyp,
        				      'RPARAMS' => rhash      				
 							    })
 				        elsif datahash['METHOD'].match(/(POST|post)/)
