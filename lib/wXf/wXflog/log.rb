@@ -71,7 +71,7 @@ class DradisLog
    
   
   #
-  # 
+  # Header string, required once within the xml doc
   #
   def header_str 
     time = "#{Time.now}"   
@@ -94,7 +94,8 @@ class DradisLog
   
   
   #
-  #
+  # Headers in responses, hash iterated thru and
+  # ...put on a string :-)
   #
   def resp_header_str(resp_header)
     str = ''
@@ -108,7 +109,7 @@ class DradisLog
   
   
   #
-  #
+  # Request encapsulated and stringified
   #
   def request_str(request)
     str = ''
@@ -120,7 +121,7 @@ class DradisLog
   
   
   #
-  #
+  # Response body, encapsulated, stringified
   #
   def resp_body_str(resp_body)
     resp_body.gsub!('<![CDATA[', '')
@@ -134,7 +135,8 @@ class DradisLog
   
   
   #
-  #
+  # This signifies the end of the xml body, goes
+  # ...into the xml doc only once.
   #
   def footer_str
     str = ''   
@@ -144,7 +146,7 @@ class DradisLog
   
   
   #
-  #
+  # Primary data set put into a xml node
   #
   def data_to_str(arry, idx)
     time = "#{Time.now}"
