@@ -9,7 +9,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'Name'        => 'SOAP REQUEST',
     'Version'     => '1.0',
     'Description' => %q{
-     This forms a single soap request in the appropriate envelope.
+      This forms a single soap request in the appropriate envelope and displays the response.
                         },
     'References'  =>
      [
