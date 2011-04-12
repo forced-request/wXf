@@ -32,6 +32,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
         			])
 	end
 
+	
 	def run
     dradis = WXf::WXflog::DradisLog.new({
       'Name' => "fuzzing 192.168.1.117",

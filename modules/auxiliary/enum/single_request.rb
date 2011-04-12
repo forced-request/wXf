@@ -57,7 +57,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
           prnt_plus("\n\n"+ green("#{res.body}"))
        else
       end
-    dradis.add_ritems([res.header, req_seq , "#{res.body}"])
+    dradis.add_ritems([res.header, req_seq , res.body])
    end
     dradis.log
  end

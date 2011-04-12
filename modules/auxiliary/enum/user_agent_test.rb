@@ -19,7 +19,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
             'References'  =>
              [
                 [ 'URL', 'http://code.google.com/p/ua-tester/' ],
-		[ 'BLOG', 'http://blog.c22.cc' ],
+		            [ 'BLOG', 'http://blog.c22.cc' ],
              ],
             'Author'      => [ 'CG', 'mubix', 'ChrisJohnRiley' ],
             'License'     => WXF_LICENSE
