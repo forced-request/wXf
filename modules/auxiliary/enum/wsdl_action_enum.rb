@@ -9,7 +9,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'Name'        => 'WSDL ACTIONS ENUMERATOR MODULE',
     'Version'     => '$Revision:$',
     'Description' => %q{
-     This scans a WSDL file for available actions. Provide a URL to the reference.
+      This scans a WSDL file for available actions. Provide a URL to the reference.
                         },
     'References'  =>
      [
