@@ -1,5 +1,4 @@
 
-
 class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 
  
@@ -40,7 +39,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
      })
   
 		fuzzparam = datahash['FUZZPARAM'] 
-		file =  datahash['FILE'].gsub(/^(.*?)\//,'')
+		file =  datahash['FILE']
 		fuzzfile = datahash['LFILE']
 		rparams = datahash['RPARAMS']  
     test_arry = []

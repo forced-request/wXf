@@ -234,7 +234,7 @@ module MechReq
     # HTTP GET
     #            
     def agent_get(agent, url, rparams, headers, rfile, rfile_content)
-       agent.get("#{url}", rparams)
+      agent.get({:url=>"#{url}", :headers => headers, :params => rparams})
     end    
     
                 
