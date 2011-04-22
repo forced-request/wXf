@@ -15,7 +15,7 @@ module Operations
      
      attr_accessor :activities, :webstack, :tab_words
      
-     def initialize(prm, pchar=">")
+     def initialize(prm, pchar)
        super
         init_arrys
      end

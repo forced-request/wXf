@@ -15,7 +15,7 @@ module Prints
     # pr_based means that it is a prompt based color change
 
     def red(str, pr_based=nil) 
-      colorize(str, "\e[1m\e[31m", pr_based)         
+      colorize(str, "\e[1;31m", pr_based)        
     end  
    
     
@@ -56,19 +56,22 @@ module Prints
     end
     
     def colorize(text, color_code, pr_based=nil)  
-       text_line = "#{text.dup}"
-       if (pr_based == true)
-        pre = "\x01"
-        post = "\x02"
-       else
-         pre = ''
-         post = ''
-       end   
-       text_line.gsub!("#{text}", pre + "#{color_code}#{text}\e[0m" + post)
-       text_line 
-   rescue
-     ''+"#{color_code}#{text}\e[0m" +''
-    end
+         text_line = "#{text.dup}"
+         safe_text = ''
+         if (pr_based == true)
+          pre = "\x01"
+          post = "\x02"
+          pre_post = pre + post
+           safe_text = text_line.gsub("#{text}", pre + "#{color_code}" + post + pre_post+ "#{text}"+pre_post + pre + "\e[0m" + post)
+         else
+           pre = ''
+           post = ''
+           safe_text = pre + "#{color_code}#{text_line}\e[0m" + post
+         end   
+        
+         safe_text 
+     rescue
+      end
   
   
 
