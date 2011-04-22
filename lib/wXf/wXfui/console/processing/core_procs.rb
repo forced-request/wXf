@@ -524,7 +524,7 @@ class CoreProcs
     #
     # A copy of the method arg_?
     # 
-    def arg_help; arg_?; end
+    alias arg_help arg_?
     
     
     #
