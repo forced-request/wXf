@@ -25,6 +25,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       
       init_opts([
        OptString.new('UA', [true, "Specify a user agent to utilize", "Mozilla"]),
+       OptString.new('CONTENT', [false, "Specify a content-type", ""]),
        OptBool.new('REDIRECT', [false, "If set to false, a 302 redirection will not be followed" , true]),
       ])
       
@@ -45,6 +46,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'PROXY_ADDR' => proxya,
     'PROXY_PORT' => proxyp,
     'REDIRECT'   => datahash['REDIRECT'],
+    'KEEP-ALIVE' => 200,
+    'HEADERS'    => {'Content-Type' => datahash['CONTENT']}
     })
   
     if (res) and (res.respond_to?('code')) and (res.code == '200')

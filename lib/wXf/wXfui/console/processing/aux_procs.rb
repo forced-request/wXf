@@ -25,46 +25,62 @@ module Processing
     #
     def avail_args; {"run" => "Runs the module"}; end
     
-    
         
     #
-    # This method determines if an lfile option has been set
+    # This method determines if an option has been set
     #      
-    def lfile_check(activity)
+    def check(activity, opt_items)
       return unless activity.respond_to?('datahash')
-        val = nil
-          if activity.datahash.has_key?('LFILE')
-            val = activity.datahash['LFILE']
+      val = nil
+       opt_items.each do |opt|
+         if activity.datahash.has_key?(opt)
+            val = activity.datahash[opt]
           else
             val = nil   
           end
         if !val.nil?
-          lfile_translation(activity, val)
+          translation(activity, opt, val)
         end
+      end
     end  
     
     
     #
-    # Method to translate lfile to real LFILE
+    # Method to translates keys to values
     #
-    def lfile_translation(activity, val=nil)
+    def translation(activity, opt, val=nil)
       inst = val
-      self.opts['LFILE'] = val
-        if control.framework.modules.lfile_load_list.has_key?(inst)        
-          name = control.framework.modules.lfile_load_list[inst]
-          activity.datahash['LFILE'] = name
-        end
+      self.opts[opt] = val
+      case opt
+        when 'LFILE'
+          if control.framework.modules.lfile_load_list.has_key?(inst)        
+            name = control.framework.modules.lfile_load_list[inst]
+            activity.datahash[opt] = name
+          end
+        when 'UA'
+          if WXf::UA_MAP.has_key?(inst)
+            name = WXf::UA_MAP[inst]
+            activity.datahash[opt] = name
+          end
+       when 'CONTENT'
+          if WXf::CONTENT_TYPES.has_key?(inst)
+            name = WXf::CONTENT_TYPES[inst]
+            activity.datahash[opt] = name
+          end
+      end           
     end
     
     
     #
-    # We need to reset the lfile appearance (think - show options)
+    # We need to reset the options appearance (think - show options)
     #
-    def lfile_reset(activity)
+    def reset(activity, opt_items)
       return unless activity.respond_to?('datahash')
-        if activity.datahash.has_key?('LFILE') and self.opts.has_key?('LFILE')
-          activity.datahash['LFILE'] = self.opts['LFILE']
-        end  
+      opt_items.each do |opt|
+        if activity.datahash.has_key?(opt) and self.opts.has_key?(opt)
+          activity.datahash[opt] = self.opts[opt]
+        end
+      end
     end
         
     #
@@ -72,14 +88,14 @@ module Processing
     #
     def arg_run(*cmd)
       self.opts = {}
-      lfile_check(activity)
+      check(activity, ['LFILE','UA', 'CONTENT'])
         begin
           activity.run
         rescue => $!
           print("The following error occurred: #{$!}" + "\n")
-          lfile_reset(activity)
+         reset(activity, ['LFILE','UA', 'CONTENT'])
         end
-      lfile_reset(activity)     
+      reset(activity,['LFILE','UA', 'CONTENT'])     
     end  
      
   end

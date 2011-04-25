@@ -214,34 +214,37 @@ class CoreProcs
     
     attr_accessor :active_assist_module
     
-    
-    #
-    #
-    #
-    def arg_set_comp(str, stra)
-      list = []
-        
-      if in_focus.nil? 
-        return nil
-      elsif stra[1] == "PAYLOAD" and in_focus.respond_to?('exp')
-        list.concat(framework.modules.payload_array)
-      elsif (stra[1] == 'LFILE') and (in_focus) and (in_focus.type == 'webserver' or 'file_exploit' or 'file_payload')
-        list.concat(framework.modules.lfile_load_list.keys.sort)
-      elsif stra[1] == 'RURL'
-        list.concat(POPULAR_URLS)  
-      end
-        
-      case in_focus.type
-      when 'db_exploit'   
-        in_focus.exp.options.each {|k,v| list.push(k) and list.push("PAYLOAD")}
-        if (in_focus.respond_to?('pay')) and (in_focus.pay.respond_to?('options'))
-          in_focus.pay.options.each {|k,v| list.push(k)}   
-        end
-      else
-        in_focus.options.each {|k,v| list.push(k)}
-      end 
-        return list
-    end
+#
+   #
+   #
+   def arg_set_comp(str, stra)
+     list = []
+       
+     if in_focus.nil? 
+       return nil
+     elsif stra[1] == "PAYLOAD" and in_focus.respond_to?('exp')
+       list.concat(framework.modules.payload_array)
+     elsif (stra[1] == 'LFILE')
+       list.concat(framework.modules.lfile_load_list.keys.sort)
+     elsif (stra[1] == 'UA')
+       list.concat(WXf::UA_MAP.keys.sort)
+     elsif (stra[1] == 'CONTENT')
+       list.concat(WXf::CONTENT_TYPES.keys.sort)
+     elsif stra[1] == 'RURL'
+       list.concat(POPULAR_URLS)  
+     end
+       
+     case in_focus.type
+     when 'db_exploit'   
+       in_focus.exp.options.each {|k,v| list.push(k) and list.push("PAYLOAD")}
+       if (in_focus.respond_to?('pay')) and (in_focus.pay.respond_to?('options'))
+         in_focus.pay.options.each {|k,v| list.push(k)}   
+       end
+     else
+       in_focus.options.each {|k,v| list.push(k)}
+     end 
+       return list
+   end
     
     
     #
@@ -326,62 +329,70 @@ class CoreProcs
   end      
     
   
-  #
-  # Show options, exploits, payloads....used for all of that 
-  #     
-  def arg_show(*cmd)
-    activity = self.in_focus
-    cmd << "all" if (cmd.length == 0)
-       case "#{cmd}"
-       when 'all'  
-        show_exploits_db
-        show_payloads 
-        show_auxiliary
-        show_exploits_mods
-        show_lfiles
-        show_global_options
-                
-       when 'exploits_db'
-        show_exploits_db
-        
-       when 'exploits_mod'
-        show_exploits_mods  
+
+#
+# Show options, exploits, payloads....used for all of that 
+#     
+def arg_show(*cmd)
+  activity = self.in_focus
+  cmd << "all" if (cmd.length == 0)
+     case "#{cmd}"
+     when 'all'  
+      show_global_options
+      show_content
+      show_lfiles
+      show_ua
+      show_exploits_db
+      show_payloads 
+      show_auxiliary
+      show_exploits_mods
+              
+     when 'exploits_db'
+      show_exploits_db
       
-       when 'payloads'
-        show_payloads
-        
-       when 'payload_mod'
-     #    show_payload_mods   
-         
-       when 'lfiles'
-         show_lfiles      
-        
-       when 'auxiliary'
-        show_auxiliary
-        
-       when 'options'           
-        if (activity) 
-            show_options(activity)
-        else 
-          show_global_options  
-        end
-        
-       else
-         control.prnt_dbg(" The following is a list of accepted show commands:\n")
-           arg_show_comp(nil, nil).sort.each do |show_cmd|
-             puts("#{show_cmd}\n")
-          end  
-       end
-    end 
+     when 'exploits_mod'
+      show_exploits_mods  
+    
+     when 'payloads'
+      show_payloads
+      
+     when 'payload_mod'
+       #show_payload_mods  
+   
+     when 'content'
+       show_content
+       
+     when 'ua'   
+       show_ua
+       
+     when 'lfiles'
+       show_lfiles      
+      
+     when 'auxiliary'
+      show_auxiliary
+      
+     when 'options'           
+      if (activity) 
+          show_options(activity)
+      else 
+        show_global_options  
+      end
+      
+     else
+       control.prnt_dbg(" The following is a list of accepted show commands:\n")
+         arg_show_comp(nil, nil).sort.each do |show_cmd|
+           puts("#{show_cmd}\n")
+        end  
+     end
+  end 
   
     
  
-    
     #
     # Show tabs helper
     #
     def arg_show_comp(str,stra)
-     list = ["exploits_db","payloads","auxiliary", "options", "exploits_mod", "lfiles"]
+     list = ["exploits_db","payloads","auxiliary", "options", "exploits_mod", "lfiles", "ua", "content"]
     return list 
     end 
    
@@ -702,6 +713,27 @@ class CoreProcs
                             }
                          tbl.prnt
   end
+
+  
+  #
+  # show content
+  #
+  def show_content
+    list = WXf::CONTENT_TYPES.sort_by {|k,v| k.to_i}
+    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Title'  => "Content-Types",
+      'Justify'  => 4,            
+      'Columns' => 
+      [
+        'Id',
+        'Content-Type'
+      ])
+      
+        list.each {|id, name|
+          tbl.add_ritems([id,name])
+        }
+    tbl.prnt
+  end  
   
   
   #
@@ -709,21 +741,43 @@ class CoreProcs
   #
   def show_lfiles
        list = framework.modules.lfile_load_list.sort
-                              # Display the commands
-                              tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-                                'Title'  => "Local Files",
-                                'Justify'  => 4,             
-                                'Columns' => 
-                                  [
-                                    'Name',
-                                    'Description'
-                                  ])
-                        
-                              list.each {|name, path|
-                                tbl.add_ritems([name]) 
-                                }
-                             tbl.prnt
+       # Display the commands
+       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+         'Title'  => "Local Files",
+         'Justify'  => 4,             
+         'Columns' => 
+           [
+             'Name',
+             'Description'
+            ])
+        list.each {|name, path|
+          tbl.add_ritems([name]) 
+         }
+       tbl.prnt
   end
+  
+
+  #
+  # Show a list of user-agents
+  #
+  def show_ua
+  list = WXf::UA_MAP.sort_by {|k,v| k.to_i}
+  # Display the commands
+    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Title'  => "User-Agents",
+      'Justify'  => 4,             
+      'Columns' => 
+        [
+          'Id',
+          'User-Agent'
+        ])
+                          
+     list.each {|id, name|
+       tbl.add_ritems([id,name]) 
+     }
+   tbl.prnt
+  end  
+  
   
   #
   # Show global options
