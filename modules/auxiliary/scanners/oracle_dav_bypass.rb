@@ -22,7 +22,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       )
 
         init_opts([
-        OptString.new('UserAgent', [ true, "The HTTP User-Agent sent in the request", 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)' ]),
+        OptString.new('UA', [ true, "The HTTP User-Agent sent in the request", 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)' ]),
       ])
   
   end
@@ -40,7 +40,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
         'method'  => 'GET',
         'PROXY_ADDR' => proxya,
         'PROXY_PORT' => proxyp,
-        'UA'         => datahash['UserAgent']                                                               
+        'UA'         => datahash['UA']                                                               
       })
 
       if (res.nil?)
@@ -69,7 +69,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
         'method'  => 'GET',
         'PROXY_ADDR' => proxya,
         'PROXY_PORT' => proxyp,
-        'UA'         => datahash['UserAgent']                                                                           
+        'UA'         => datahash['UA']                                                                           
       })
 
       if (res.nil?)
