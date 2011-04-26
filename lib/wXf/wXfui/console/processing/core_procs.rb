@@ -671,7 +671,7 @@ def arg_show(*cmd)
   # Show auxiliary mods
   #    
   def show_auxiliary
-   list = framework.modules.mod_pair['auxiliary'].mods_fn_list.sort
+   list = framework.modules.mod_pair['auxiliary'].sort
    # Display the commands
    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
      'Title'  => "Auxiliary",
@@ -682,8 +682,10 @@ def arg_show(*cmd)
          'Description'
        ])
                     
-     list.each {|name|
-       tbl.add_ritems([name])
+     list.each {|item, obj|
+       name =  "auxiliary/#{item}"
+       desc =  obj.description.to_s.lstrip
+       tbl.add_ritems([name,desc[0..30]])
      }
    tbl.prnt
   end
