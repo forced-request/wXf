@@ -746,7 +746,6 @@ def arg_show(*cmd)
          'Columns' => 
            [
              'Name',
-             'Description'
             ])
         list.each {|name, path|
           tbl.add_ritems([name]) 
