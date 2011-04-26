@@ -628,47 +628,43 @@ def arg_show(*cmd)
   # Shows available exploits in the database
   #
   def show_exploits_db
-      list = wXflist_call.db.get_exploit_list.sort
-  opts = {}
-               str = ''
-              
-                   # Display the commands
-                   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-                     'Title'  => "Database Exploits",
-                     'Justify'  => 4,             
-                     'Columns' => 
-                       [
-                         'Name',
-                         'Description'
-                       ])
+    list = wXflist_call.db.get_exploit_list.sort
+    # Display the commands
+      tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+        'Title'  => "Database Exploits",
+        'Justify'  => 4,             
+        'Columns' => 
+        [
+          'Name',
+          'Description'
+        ])
              
-                   list.each { |id,name, desc|
-                     tbl.add_ritems([name, desc])                      
-                   }
-                     tbl.prnt
-                   
+       list.each { |id,name, desc|
+         tbl.add_ritems([name, desc])                      
+       }
+    tbl.prnt       
    end
   
   #
   # Shows payloads
   # 
   def show_payloads 
-         list = wXflist_call.db.get_payload_list.sort
-              # Display the commands
-              tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-                'Title'  => "Payloads",
-                'Justify'  => 4,             
-                'Columns' => 
-                [
-                  'Name',
-                    'Description'
-                  ])
+    list = wXflist_call.db.get_payload_list.sort
+    # Display the commands
+    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Title'  => "Payloads",
+      'Justify'  => 4,             
+      'Columns' => 
+      [
+        'Name',
+        'Description'
+      ])
                     
-                    list.each { |id,name, desc|
-                    tbl.add_ritems([name, desc])
+    list.each { |id,name, desc|
+       tbl.add_ritems([name, desc])
     }
-                    tbl.prnt
-      end
+    tbl.prnt
+   end
   
     
   #
@@ -676,20 +672,20 @@ def arg_show(*cmd)
   #    
   def show_auxiliary
    list = framework.modules.mod_pair['auxiliary'].mods_fn_list.sort
-                          # Display the commands
-                          tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-                            'Title'  => "Auxiliary",
-                            'Justify'  => 4,             
-                            'Columns' => 
-                              [
-                                'Name',
-                                'Description'
-                              ])
+   # Display the commands
+   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+     'Title'  => "Auxiliary",
+     'Justify'  => 4,
+     'Columns' =>
+       [
+         'Name',
+         'Description'
+       ])
                     
-                          list.each {|name|
-                            tbl.add_ritems([name])
-                            }
-                         tbl.prnt
+     list.each {|name|
+       tbl.add_ritems([name])
+     }
+   tbl.prnt
   end
   
   
@@ -698,20 +694,20 @@ def arg_show(*cmd)
   #
   def show_exploits_mods
    list = framework.modules.mod_pair['file_exploit'].mods_fn_list.sort
-                          # Display the commands
-                          tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-                            'Title'  => "Exploit Modules",
-                            'Justify'  => 4,             
-                            'Columns' => 
-                              [
-                                'Name',
-                                'Description'
-                              ])
+   # Display the commands
+   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+     'Title'  => "Exploit Modules",
+     'Justify'  => 4,             
+     'Columns' => 
+       [
+         'Name',
+         'Description'
+       ])
                     
-                          list.each {|name|
-                            tbl.add_ritems([name]) 
-                            }
-                         tbl.prnt
+    list.each {|name|
+      tbl.add_ritems([name]) 
+    }
+   tbl.prnt
   end
 
   
