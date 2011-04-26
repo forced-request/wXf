@@ -684,8 +684,8 @@ def arg_show(*cmd)
                     
      list.each {|item, obj|
        name =  "auxiliary/#{item}"
-       desc =  obj.description.to_s.lstrip
-       tbl.add_ritems([name,desc[0..30]])
+       desc =  obj.description.to_s.lstrip.rstrip
+       tbl.add_ritems([name,desc[0..50]])
      }
    tbl.prnt
   end
