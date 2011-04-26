@@ -25,8 +25,8 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 				OptString.new('FILE',     [true, 'File To View', 'boot.ini']),
 				OptString.new('LFILE', [true, 'Directory Traversal Strings File','wordlists/dir_traversal_strings.txt']),
 				OptString.new('METHOD', [true, 'Choose either get or post', 'get']),
-        OptString.new('RPARAMS', [false, 'POST ONLY - Enter the body like so: foo=bar&cow=moo', '']),
-        OptString.new('FUZZPARAM', [false, 'POST ONLY - Identify which param is to be fuzzed' '']),
+        OptString.new('RPARAMS', [false, 'Enter the body like so: foo=bar&cow=moo', '']),
+        OptString.new('FUZZPARAM', [false, 'Identify which param is to be fuzzed' '']),
         OptString.new('LOG', [false,'If yes, the output will be logged in dradis upload format, under wXf/wXflog', 'no'])
         			])
 	end
