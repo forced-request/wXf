@@ -49,6 +49,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'KEEP-ALIVE' => 200,
     'HEADERS'    => {'Content-Type' => datahash['CONTENT']}
     })
+    
   
     if (res) and (res.respond_to?('code')) and (res.code == '200')
       question = prnt_plus("Would you like to see the body? [y/n]")
