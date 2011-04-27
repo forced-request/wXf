@@ -25,12 +25,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     )
           
       init_opts([
-          OptString.new('d', [true, 'The required d parameter from either WebResource or ScriptResource', "***"]),
+          OptString.new('D', [true, 'The required d parameter from either WebResource or ScriptResource', "***"]),
          ])
   end
   
 def run
-   d = datahash['d']
+   d = datahash['D']
    
    #first we need to replace some of the characters
    output = d.tr('-_','+/')
