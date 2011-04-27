@@ -49,8 +49,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       end
       
       if (rce)
-        rce_code = rce.to_s.match(/\d{3}/)
-          if rce_code[0] == "401"
+          if rce_code == 401
             prnt_gen("We received the 401..sending the bypass request")
               if res.respond_to?('header')
                 res.header.each do |k,v|
@@ -58,7 +57,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
                  end
               end
           else      
-            prnt_gen("Received a #{rce_code[0]} for the request")
+            prnt_gen("Received a #{rce_code} for the request")
            return
           end
       end
@@ -79,8 +78,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       
       if (rce)
         str = ''
-        rce_code = rce.to_s.match(/\d{3}/)
-        prnt_gen("Received a #{rce_code[0]} for the request")
+        prnt_gen("Received a #{rce_code} for the request")
         if res.respond_to?('header')
          res.header.each do |k,v|
            str << "#{k} #{v}"
@@ -117,8 +115,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
  
       if (rce)
         str = ''
-        rce_code = rce.to_s.match(/\d{3}/)
-        prnt_gen("Received a #{rce_code[0]} for the request")
+        prnt_gen("Received a #{rce_code} for the request")
         if res.respond_to?('header')
          res.header.each do |k,v|
            str << "#{k} #{v}"

@@ -62,9 +62,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       dba = false
      end
      
-     if (rce)
-      rce_code = rce.to_s.match(/\d{3}/)
-      prnt_gen("Received #{rce_code[0]} for request")
+     if (rce)      
+      prnt_gen("Received #{rce_code} for request")
       prnt_err("We are not DBA")
       dba = false
     end 
@@ -94,9 +93,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       prnt_gen("Redirect to #{res.header['location']}")
     end
     
-    if (rce)
-      rce_code = rce.to_s.match(/\d{3}/)
-      prnt_gen("Received #{rce_code[0]} for request")
+    if (rce)      
+      prnt_gen("Received #{rce_code} for request")
       prnt_gen("It probably didnt work")
     end
       
@@ -129,9 +127,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     if(res.code == '302' or res.code == '301')
       prnt_gen("Redirect to #{res.header['location']}")
     end
-    if (rce)
-      rce_code = rce.to_s.match(/\d{3}/)
-      prnt_gen("Received #{rce_code[0]} for request")
+    if (rce)      
+      prnt_gen("Received #{rce_code} for request")
     end
       
   end
@@ -175,9 +172,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       return
       end
       
-      if (rce)
-        rce_code = rce.to_s.match(/\d{3}/)
-        prnt_gen("Received #{rce_code[0]} for request")
+      if (rce)        
+        prnt_gen("Received #{rce_code} for request")
         prnt_gen("URL if invalid, exiting check your settings")
        return
       end  

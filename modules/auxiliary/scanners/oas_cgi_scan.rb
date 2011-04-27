@@ -935,7 +935,7 @@ include WXf::WXfassists::General::MechReq
         
         if (rce)
           if datahash['VERBOSE'] == 'true'
-            prnt_gen("Received #{rce} for #{rurl}#{check[:path]}") #debug
+            prnt_gen("Received #{rce_code} for #{rurl}#{check[:path]}") #debug
           end
         end
      
@@ -968,12 +968,11 @@ include WXf::WXfassists::General::MechReq
       end
         
       if (rce) 
-        rce_code = rce.to_s.match(/\d{3}/)
-          if rce_code[0] == "401"
+          if rce_code == 401
             prnt_plus("Found: #{rurl}#{check[:path]} --> Vuln: #{check[:vuln]}")
           else 
             if datahash['VERBOSE'] == 'true'
-              prnt_gen("Received #{rce} for #{rurl}#{check[:path]}") #debug
+              prnt_gen("Received #{rce_code} for #{rurl}#{check[:path]}") #debug
             end
           end
       end 

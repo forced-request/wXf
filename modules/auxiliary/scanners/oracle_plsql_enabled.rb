@@ -60,10 +60,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
         nullcheck << res.code.to_s
       end
        
-      if (rce)
-        rce_code = rce.to_s.match(/\d{3}/)
-        prnt_gen("Received #{rce_code[0]} for #{check1}")       
-        nullcheck << "#{rce_code[0]}"
+      if (rce)       
+        prnt_gen("Received #{rce_code} for #{check1}")       
+        nullcheck << "#{rce_code}"
       end
 
       res = mech_req({
@@ -88,10 +87,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
         nonnullcheck << res.code.to_s
        end 
        
-       if (rce)
-        rce_code = rce.to_s.match(/\d{3}/)
-        prnt_gen("Received #{rce_code[0]} for #{check2}")
-        nonnullcheck <<  "#{rce_code[0]}"
+       if (rce)        
+        prnt_gen("Received #{rce_code} for #{check2}")
+        nonnullcheck <<  "#{rce_code}"
           #''
       end
       

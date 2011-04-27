@@ -80,8 +80,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       end
       
       if (rce)
-       rce_code = rce.to_s.match(/\d{3}/)
-       prnt_err("Received #{rce_code[0]} for #{check1}")
+       prnt_err("Received #{rce_code} for #{check1}")
       end
     end
    end
