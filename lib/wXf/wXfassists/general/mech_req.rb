@@ -11,7 +11,7 @@ module General
 module MechReq
 
   include WXf::WXfui::Console::Prints::PrintSymbols      
-      attr_accessor :rce
+      attr_accessor :rce, :rce_code
       
       #
       # Global Options are created
@@ -133,6 +133,12 @@ module MechReq
           
           # Response Code Error object cleared/init'd
           self.rce = nil
+          
+          # Response Code Error Number object cleared/init'd
+          self.rce_code = nil
+              
+          # Temp Response Code Object reset/init'd
+          temp_rce_code = nil
                 
           # This section is for massing the URL related data together.
           url  = opts['RURL'] 
@@ -200,6 +206,8 @@ module MechReq
           
           
           rescue WAx::WAxHTTPLibs::Mechanize::ResponseCodeError => self.rce
+          temp_rce_code = "#{self.rce}".match(/\d{3}/)
+          self.rce_code = temp_rce_code[0].to_i
                  
           rescue => $!
                        
