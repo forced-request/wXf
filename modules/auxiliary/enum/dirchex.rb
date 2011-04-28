@@ -22,7 +22,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
    
       init_opts([
         OptString.new('METHOD', [true, "Enter either GET or PUT HTTP Methods", "GET"]),
-        OptString.new('UA',     [true, "Please enter a User Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:2.0b9pre) Gecko/20110111 Firefox/4.0b9pre" ]),
+        OptString.new('UA',     [true, "Please enter a User Agent", "1" ]),
         OptString.new('CONTENTTYPE', [false, "Enter a content-type, ONLY if using PUT method", "application/javascript"]),
         OptString.new('PUTFILE', [false, "Enter the name of the file to PUT (only if using PUT)", "test_file"]),
         OptString.new('FILECONTENT', [false, "Enter text to put into the file (only is using PUT)", "test text within test_file"]),

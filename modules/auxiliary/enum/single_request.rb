@@ -24,7 +24,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       )
       
       init_opts([
-       OptString.new('UA', [true, "Specify a user agent to utilize", "Mozilla"]),
+       OptString.new('UA', [true, "Specify a user agent to utilize", "1"]),
        OptString.new('CONTENT', [false, "Specify a content-type", ""]),
        OptBool.new('REDIRECT', [false, "If set to false, a 302 redirection will not be followed" , true]),
       ])
