@@ -76,7 +76,9 @@ end
          
          self.exploit_list = exploit_array
          
-         self.lfile_load_list = lfile_load(WXf::ModDatum)  
+         self.lfile_load_list = lfile_load(WXf::ModDatum) 
+         
+         self.rurls_load_list = rurls_load(WXf::ModRurls) 
          
          self.mod_pair = {} 
            
@@ -171,17 +173,29 @@ end
        #
        #
        #
+       def rurls_load(base_path)
+         hash = {} 
+           Find.find(base_path) { |file|
+             if File.file?(file)
+               nickname = file.sub(base_path, '')
+               hash[nickname] = file
+             end                       
+           }
+          return hash
+       end
+       
+       
+       #
+       #
+       #
        def lfile_load(base_path)
-                      hash = {} 
-                      Find.find(base_path) { |file|
-                        if File.file?(file) and if not (file.match(/svn/))
-                          nickname = file.sub(base_path, '')
-                          hash[nickname] = file
-                        end
-                      end
-               
-                      }
-                  
+         hash = {} 
+         Find.find(base_path) { |file|
+           if File.file?(file)
+             nickname = file.sub(base_path, '')
+             hash[nickname] = file
+            end
+         }           
         return hash
       end
          
@@ -311,7 +325,7 @@ end
       
 
       attr_accessor :wxflist_call, :exploit_list, :payload_list
-      attr_accessor :mod_pair, :module_list, :lfile_load_list
+      attr_accessor :mod_pair, :module_list, :lfile_load_list, :rurls_load_list
      
     end
   end
