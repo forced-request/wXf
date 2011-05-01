@@ -255,9 +255,8 @@ class CoreProcs
       disp << " Web Exploitation Framework: #{WXf::WXfdb::Core::Version}\n"
       disp << " The time is currently: #{control.purple(Time.now)}\n\n"
       disp << " wXf has the following available resources:\n\n"
-      disp << "-{ #{counter("db_exploit")} db exploits }-\n"
+      disp << "-{ #{counter("exploits")} exploits }-\n"
       disp << "-{ #{counter("db_payload")} payloads }-\n"
-      disp << "-{ #{counter("file_exploit")} file exploits }-\n"
       disp << "-{ #{counter("auxiliary")} auxiliary }-\n\n"
       puts disp
     end     
@@ -338,29 +337,21 @@ def arg_show(*cmd)
   cmd << "all" if (cmd.length == 0)
      case "#{cmd}"
      when 'all'  
-      show_global_options
-      show_content
-      show_lfiles
-      show_ua
-      show_exploits_db
       show_payloads 
       show_auxiliary
-      show_exploits_mods
+      show_exploits
               
-     when 'exploits_db'
-      show_exploits_db
-      
-     when 'exploits_mod'
-      show_exploits_mods  
+     when 'exploits'
+      show_exploits
     
      when 'payloads'
       show_payloads
-      
-     when 'payload_mod'
-       #show_payload_mods  
    
      when 'content'
        show_content
+       
+     when 'rurls'
+       show_rurls  
        
      when 'ua'   
        show_ua
@@ -371,11 +362,15 @@ def arg_show(*cmd)
      when 'auxiliary'
       show_auxiliary
       
+     when 'advanced'
+       show_content
+       show_lfiles
+       show_rurls
+       show_ua 
+      
      when 'options'           
       if (activity) 
           show_options(activity)
-      else 
-        show_global_options  
       end
       
      else
@@ -386,13 +381,22 @@ def arg_show(*cmd)
      end
   end 
   
-    
+  
+    #
+    #
+  
  
     #
     # Show tabs helper
     #
     def arg_show_comp(str,stra)
-     list = ["exploits_db","payloads","auxiliary", "options", "exploits_mod", "lfiles", "ua", "content"]
+     activity = self.in_focus
+     list = []
+     if (activity) 
+       list = ["exploits","payloads","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced"]
+     else
+       list = ["exploits","payloads","auxiliary", "lfiles", "ua", "content", "rurls", "advanced"]
+     end
     return list 
     end 
    
@@ -599,14 +603,14 @@ def arg_show(*cmd)
     def counter(arg)
       count = 0
      case arg
-     when "db_exploit"
-      list = wXflist_call.db.get_exploit_list.count
+     when "exploits"
+      list_1 = wXflist_call.db.get_exploit_list.count
+      list_2 = framework.modules.counter('file_exploit')
+      list = list_1.to_i + list_2.to_i
      when "db_payload"
        list = wXflist_call.db.get_payload_list.count
      when 'auxiliary'
        list = framework.modules.counter('auxiliary')
-     when 'file_exploit' 
-       list = framework.modules.counter('file_exploit')
      when 'file_payload'
        list = framework.modules.count('file_payload')
      end 
@@ -627,11 +631,13 @@ def arg_show(*cmd)
   #
   # Shows available exploits in the database
   #
-  def show_exploits_db
-    list = wXflist_call.db.get_exploit_list.sort
+  def show_exploits
+    opts = []
+    db_list = wXflist_call.db.get_exploit_list.sort
+    file_list =  list = framework.modules.mod_pair['file_exploit'].sort
     # Display the commands
       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-        'Title'  => "Database Exploits",
+        'Title'  => "Exploits",
         'Justify'  => 4,             
         'Columns' => 
         [
@@ -639,9 +645,20 @@ def arg_show(*cmd)
           'Description'
         ])
              
-       list.each { |id,name, desc|
-         tbl.add_ritems([name, desc])                      
+       db_list.each { |id, name, desc|
+         opts << ([name, desc])                      
        }
+       
+     file_list.each {|item, obj|
+       name =  "file_exploit/#{item}"
+       desc =  obj.description.to_s.lstrip.rstrip
+     opts <<([name,desc[0..50]])
+     }        
+     
+     sorted_opts = opts.sort     
+     sorted_opts.each do |item1, item2|
+     tbl.add_ritems([item1, item2])
+     end
     tbl.prnt       
    end
   
@@ -691,28 +708,6 @@ def arg_show(*cmd)
   end
   
   
-  # 
-  # Show exploit modules
-  #
-  def show_exploits_mods
-   list = framework.modules.mod_pair['file_exploit'].mods_fn_list.sort
-   # Display the commands
-   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-     'Title'  => "Exploit Modules",
-     'Justify'  => 4,             
-     'Columns' => 
-       [
-         'Name',
-         'Description'
-       ])
-                    
-    list.each {|name|
-      tbl.add_ritems([name]) 
-    }
-   tbl.prnt
-  end
-
-  
   #
   # show content
   #
@@ -753,7 +748,27 @@ def arg_show(*cmd)
        tbl.prnt
   end
   
+  
+  #
+  #
+  #
+  def show_rurls
+    list = framework.modules.rurls_load_list.sort
+         # Display the commands
+         tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+           'Title'  => "Rurl(s) Files",
+           'Justify'  => 4,             
+           'Columns' => 
+             [
+               'Name',
+              ])
+     list.each {|name, path|
+        tbl.add_ritems([name]) 
+      }
+    tbl.prnt
+  end
 
+  
   #
   # Show a list of user-agents
   #
@@ -775,13 +790,6 @@ def arg_show(*cmd)
    tbl.prnt
   end  
   
-  
-  #
-  # Show global options
-  #
-  def show_global_options
-    control.prnt_gen(" wXf - Global Options Coming Soon, try typing: show")
-  end
   
   
   def avail_args
