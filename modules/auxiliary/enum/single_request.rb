@@ -4,8 +4,11 @@
 #
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
-  
+ 
   include WXf::WXfassists::General::MechReq
+  include WXf::WXfassists::Auxiliary::MultiHosts
+ 
+ 
 
   
   def initialize
