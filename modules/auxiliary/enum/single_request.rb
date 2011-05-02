@@ -6,7 +6,6 @@
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
  
   include WXf::WXfassists::General::MechReq
-  include WXf::WXfassists::Auxiliary::MultiHosts
  
  
 
@@ -36,7 +35,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
 
   def run
-    puts rurls
     dradis = WXf::WXflog::DradisLog.new({
       'Name' => rurl,
       'Filename' => 'single_request.xml'
