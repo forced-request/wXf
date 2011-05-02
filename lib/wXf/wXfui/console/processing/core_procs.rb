@@ -226,6 +226,8 @@ class CoreProcs
        list.concat(framework.modules.payload_array)
      elsif (stra[1] == 'LFILE')
        list.concat(framework.modules.lfile_load_list.keys.sort)
+     elsif (stra[1] == 'RURLS')
+       list.concat(framework.modules.rurls_load_list.keys.sort)
      elsif (stra[1] == 'UA')
        list.concat(WXf::UA_MAP.keys.sort)
      elsif (stra[1] == 'CONTENT')
