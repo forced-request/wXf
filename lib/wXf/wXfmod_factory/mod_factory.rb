@@ -42,6 +42,9 @@ class Mod_Factory
    self.datahash.validate_store_items(self.options)    
   end
   
+  def delete_opts(opts)
+    self.options.delete_option(opts)
+  end
   
   #
   # This method essentially
