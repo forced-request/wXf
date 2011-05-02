@@ -214,8 +214,9 @@ class CoreProcs
     
     attr_accessor :active_assist_module
     
-#
+    
    #
+   # Tab completion when 'set' something has occurred.
    #
    def arg_set_comp(str, stra)
      list = []

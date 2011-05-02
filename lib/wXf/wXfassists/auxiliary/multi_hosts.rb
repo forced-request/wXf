@@ -15,13 +15,25 @@ module MultiHosts
       init_opts([
         WXf::WXfmod_Factory::OptString.new('RURLS', [true, 'Target addresses file', 'rurls/some_urls.txt']),
       ])
-     delete_opts('RURL')
-end
       
+      # Important to delete the RURL option
+      delete_opts('RURL')
+end
+    
+  
+  #
+  # This will very soon be able to do IP ranges but 
+  # ...for now can only return the value of RURLS which is
+  # ...essentially a file location
+  #    
   def rurls
    datahash['RURLS']
   end
   
+  
+  #
+  # We want to null-ify rurl
+  #
   def rurl
     nil
   end

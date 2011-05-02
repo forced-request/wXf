@@ -37,11 +37,21 @@ class Mod_Factory
    self.license = hash_info['License']
   end
    
+  
+  #
+  # This is where we first add some options specified
+  # ...in the module.
+  #
   def init_opts(opts)
    self.options.add_opts(opts)
    self.datahash.validate_store_items(self.options)    
   end
   
+  
+  #
+  # We created the options, we should have the
+  # ...power to take them away when necessary
+  #
   def delete_opts(opts)
     self.options.delete_option(opts)
   end
