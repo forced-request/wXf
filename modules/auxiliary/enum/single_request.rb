@@ -13,7 +13,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
   def initialize
       super(
-       'Name'        => 'Single Mechanize Request',
+       'Name'        => 'Single Mechanize  Request',
        'Version'     => '1.0',
        'Description' => %q{
         Sends a single mechanize request
@@ -36,6 +36,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
 
   def run
+    puts rurls
     dradis = WXf::WXflog::DradisLog.new({
       'Name' => rurl,
       'Filename' => 'single_request.xml'
