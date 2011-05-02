@@ -57,6 +57,11 @@ module Processing
             name = control.framework.modules.lfile_load_list[inst]
             activity.datahash[opt] = name
           end
+        when 'RURLS'
+          if control.framework.modules.rurls_load_list.has_key?(inst)
+            name = control.framework.modules.rurls_load_list[inst]
+            activity.datahash[opt] = name
+          end
         when 'UA'
           if WXf::UA_MAP.has_key?(inst)
             name = WXf::UA_MAP[inst]
@@ -88,14 +93,14 @@ module Processing
     #
     def arg_run(*cmd)
       self.opts = {}
-      check(activity, ['LFILE','UA', 'CONTENT'])
+      check(activity, ['LFILE','UA', 'CONTENT', 'RURLS'])
         begin
           activity.run
         rescue => $!
           print("The following error occurred: #{$!}" + "\n")
-         reset(activity, ['LFILE','UA', 'CONTENT'])
+         reset(activity, ['LFILE','UA', 'CONTENT', 'RURLS'])
         end
-      reset(activity,['LFILE','UA', 'CONTENT'])     
+      reset(activity,['LFILE','UA', 'CONTENT', 'RURLS'])     
     end  
      
   end
