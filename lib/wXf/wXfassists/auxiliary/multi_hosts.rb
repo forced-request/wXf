@@ -5,7 +5,7 @@ module WXfassists
 module Auxiliary
 module MultiHosts  
   
-  include WXf::WXfui::Console::Prints::PrintSymbols    
+  include WXf::WXfui::Console::Prints::PrintSymbols   
   
   #
   # Global Options are created
@@ -27,7 +27,14 @@ end
   # ...essentially a file location
   #    
   def rurls
-   datahash['RURLS']
+    line_array = []
+    file = datahash['RURLS']
+    if File.file?(file) and File.exist?(file)
+      IO.foreach(file) do |line|
+        line_array.push(line) 
+      end   
+    end 
+     return line_array
   end
   
   
@@ -37,5 +44,7 @@ end
   def rurl
     nil
   end
+ 
   
+     
 end end end end 
