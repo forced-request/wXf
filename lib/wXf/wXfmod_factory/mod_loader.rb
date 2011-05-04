@@ -176,7 +176,7 @@ end
        def rurls_load(base_path)
          hash = {} 
            Find.find(base_path) { |file|
-             if File.file?(file)
+             if File.file?(file) and not file =~ /git/
                nickname = file.sub(base_path, '')
                hash[nickname] = file
              end                       
@@ -191,7 +191,7 @@ end
        def lfile_load(base_path)
          hash = {} 
          Find.find(base_path) { |file|
-           if File.file?(file)
+           if File.file?(file) and not file =~ /git/
              nickname = file.sub(base_path, '')
              hash[nickname] = file
             end
