@@ -171,7 +171,22 @@ end
        
        
        #
+       # Method used to reload some object
        #
+       def reload(obj)
+         case obj
+           when 'rurls'
+             self.rurls_load_list = rurls_load(WXf::ModRurls) 
+             self.rurls_load_list = rurls_load(WXf::ModRurls) 
+           when 'lfiles'
+             self.lfile_load_list = []
+             self.lfile_load_list = lfile_load(WXf::ModDatum) 
+         end
+       end
+       
+            
+       #
+       # Loads the files located under the rurls directory
        #
        def rurls_load(base_path)
          hash = {} 
@@ -186,7 +201,7 @@ end
        
        
        #
-       #
+       # Loads the files located under the lfiles directory
        #
        def lfile_load(base_path)
          hash = {} 

@@ -583,6 +583,34 @@ def arg_show(*cmd)
     end
   
   
+  
+  #
+  # Used to reload an object
+  #
+  def arg_reload(*cmd)
+    item = "#{cmd[0]}"     
+    case item 
+      when "lfiles"
+        framework.modules.reload("lfiles")
+      when "rurls"
+        framework.modules.reload("rurls")
+      else
+        control.prnt_dbg(" The following is a list of accepted reload commands:\n")
+          arg_reload_comp(nil, nil).sort.each do |cmd|
+          puts("#{cmd}\n")
+      end
+    end
+  end
+  
+  
+  #
+  # Tab completion of the reload command
+  #
+  def arg_reload_comp(str, stra)
+    list = ["lfiles", "rurls"]
+      return list
+  end  
+    
   #
   #
   #
@@ -809,6 +837,7 @@ def arg_show(*cmd)
         "help"     => "Help menu",
         "import"   => "Imports a user provided file",
         "info"     => "Displays info about one or more module",
+        "reload"   => "Reload rurls and lfiles lists",
         "server"   => "Setup a local webserver",
         "set"      => "Sets a variable to a value",
         "show"     => "Displays modules of a given type",
