@@ -589,16 +589,23 @@ def arg_show(*cmd)
   #
   def arg_reload(*cmd)
     item = "#{cmd[0]}"     
+    unloaded = false
+    
     case item 
       when "lfiles"
         framework.modules.reload("lfiles")
       when "rurls"
         framework.modules.reload("rurls")
       else
+        unloaded = true
         control.prnt_dbg(" The following is a list of accepted reload commands:\n")
           arg_reload_comp(nil, nil).sort.each do |cmd|
           puts("#{cmd}\n")
       end
+    end
+     
+    if unloaded == false
+      control.prnt_gen("Reloaded: #{item}")
     end
   end
   
