@@ -10,10 +10,9 @@ module WXfmod_Factory
   
    class Opts
      
-     def initialize(name, vals=[])
-    
-     self.name = name
-     index_vals(vals)
+     def initialize(name, vals=[])    
+       self.name = name
+       index_vals(vals)
      end
      
      
@@ -30,7 +29,7 @@ module WXfmod_Factory
      #
      #
      def existence_check(vals)
-       
+              
        if exists?(vals[0])
          self.required = vals[0]
        else
@@ -187,6 +186,21 @@ module WXfmod_Factory
        
      end
       
+     #
+     # Method was added because sometimes you just need to be
+     # ...able to delete an option. Such is the case when we want
+     # only RURLS and not RURL, etc.
+     #
+     def delete_option(opts)
+       self.sarr.each_with_index do |opt, idx|
+         name, option = opt
+         if name == opts
+           self.sarr.delete_at(idx.to_i)
+           self.delete(opts)
+         end         
+       end    
+     end
+     
     end
     
 end end       

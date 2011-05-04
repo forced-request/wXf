@@ -4,13 +4,12 @@
 #
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
-  
+ 
   include WXf::WXfassists::General::MechReq
-
-  
+    
   def initialize
       super(
-       'Name'        => 'Single Mechanize Request',
+       'Name'        => 'Single Mechanize  Request',
        'Version'     => '1.0',
        'Description' => %q{
         Sends a single mechanize request
@@ -34,14 +33,16 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
   def run
     dradis = WXf::WXflog::DradisLog.new({
-      'Name' => rurl,
+      'Name' => 'multiple requests',
       'Filename' => 'single_request.xml'
     })
     
-    res = send_request_cgi({
+    
+    
+    res = mech_req({
     'method'     => 'GET',
-    'RURL'       => rurl,
     'DEBUG'      => 'log',
+    'RURL'       => rurl,
     'UA'         => datahash['UA'],
     'PROXY_ADDR' => proxya,
     'PROXY_PORT' => proxyp,

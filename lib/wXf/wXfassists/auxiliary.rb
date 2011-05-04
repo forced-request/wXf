@@ -1,1 +1,1 @@
-require 'wXf/wXfassists/auxiliary/aux_placeholder'
+require 'wXf/wXfassists/auxiliary/multi_hosts'
