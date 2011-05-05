@@ -441,7 +441,7 @@ def arg_show(*cmd)
     # Used to destack the activities
     #
     def arg_back(*cmd)
-         
+                      
           if control.activities.length > 1 and control.infocus_activity.name != 'Core'
             
           if (in_focus)
@@ -639,6 +639,11 @@ def arg_show(*cmd)
         framework.modules.reload("lfiles")
       when "rurls"
         framework.modules.reload("rurls")
+      when "modules"
+        # Reset everything
+        framework.modules.mod_load(WXf::ModWorkingDir)
+        web_shut
+        arg_back   
       else
         unloaded = true
         control.prnt_dbg(" The following is a list of accepted reload commands:\n")
