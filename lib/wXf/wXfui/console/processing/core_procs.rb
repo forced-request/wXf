@@ -603,7 +603,7 @@ def arg_show(*cmd)
   def arg_reload(*cmd)
     item = "#{cmd[0]}"     
     unloaded = false
-    
+    type_name = ''
     if in_focus
       type_name = in_focus.type
     end
@@ -617,14 +617,14 @@ def arg_show(*cmd)
         if type_name.match(/(auxiliary|file_exploit)/)
           name = ''
           mods = framework.modules.mod_pair[type_name]
-          mods.each {|k,v| 
-            if v == in_focus
-              name = k
-            end
-          }
-          full_name = "#{type_name}/#{name}"
-          framework.modules.reload(in_focus, full_name)
-          arg_use(full_name)
+            mods.each {|k,v| 
+              if v == in_focus
+                name = k
+              end
+            }
+        full_name = "#{type_name}/#{name}"
+        framework.modules.reload(in_focus, full_name)
+        arg_use(full_name)
        elsif type_name.match(/(db_exploit)/) 
          web_shut       
          arg_use(self.mpholder)
@@ -644,6 +644,12 @@ def arg_show(*cmd)
         framework.modules.mod_load(WXf::ModWorkingDir)
         web_shut
         arg_back   
+      when "all"
+        web_shut
+        framework.modules.mod_load(WXf::ModWorkingDir)
+        framework.modules.reload("lfiles")
+        framework.modules.reload("rurls")
+        arg_back       
       else
         unloaded = true
         control.prnt_dbg(" The following is a list of accepted reload commands:\n")
@@ -664,9 +670,9 @@ def arg_show(*cmd)
   def arg_reload_comp(str, stra)
     list = []
     if (self.in_focus)
-      list = ["lfiles", "rurls", "current", "modules"]
+      list = ["lfiles", "rurls", "current", "modules", "all"]
     else
-      list = ["lfiles", "rurls", "modules"]
+      list = ["lfiles", "rurls", "modules", "all"]
     end
    return list
   end  
