@@ -9,7 +9,7 @@ module Processing
 
 class CoreProcs
   
-  attr_accessor :control, :framework, :exploit_opts, :svr
+  attr_accessor :control, :framework, :exploit_opts, :svr, :mpholder
   
   include WXf::WXfui::Console::Operations::ModOperator
  
@@ -24,6 +24,9 @@ class CoreProcs
     # When the user types "use" 
     #
     def arg_use(*cmd)
+      # This is a module name placeholder so we can reload easily
+      self.mpholder = ''
+      
       if (cmd.length == 0)
         control.prnt_dbg(" Example: use <module name>\n\n")
            return false
@@ -70,7 +73,8 @@ class CoreProcs
        nickname = arg_name.split('/')
        control.mod_prm("#{activity.type}" + control.red("(#{nickname.last})", true))
      else
-       control.mod_prm("#{activity.type}" + control.red("(#{arg_name})", true))
+       self.mpholder = arg_name
+       control.mod_prm("#{activity.type}" + control.red("(#{arg_name.split('/').last})", true))
      end
              
     end
@@ -286,7 +290,7 @@ class CoreProcs
     control.add_activity(operator)
     self.in_focus = framework.modules.load("webserver",control)
     control.mod_prm("#{in_focus.type}" + control.red("(config)"))
-    control.prnt_gen(" Manage wXf web server")
+    control.prnt_gen("Manage wXf web server")
   end
   
   
@@ -405,17 +409,26 @@ def arg_show(*cmd)
    
     
     
-    
+    #
+    # Shutdown the webserver instances
+    #
+    def web_shut
+      svr_id = 0
+        control.webstack.each { |svr|
+          control.prnt_gen("Shutting down #{svr.lhost}:#{svr.lport} (#{svr_id})")
+          svr_id = svr_id + 1
+          svr.shutdown
+        }
+        control.webstack = []
+    end  
+      
     #
     # self-explanatory, just exits the framework
     #
     def arg_exit(*cmd)
-      svr_id = 0
-      control.webstack.each { |svr|
-        control.prnt_gen("Shutting down #{svr.lhost}:#{svr.lport} (#{svr_id})")
-        svr_id = svr_id + 1
-        svr.shutdown
-      }
+      #kill webserver processes
+      web_shut
+      #obvious
       exit
     end
   
@@ -591,7 +604,36 @@ def arg_show(*cmd)
     item = "#{cmd[0]}"     
     unloaded = false
     
-    case item 
+    if in_focus
+      type_name = in_focus.type
+    end
+    
+    case item
+      when "current" 
+        if !in_focus
+          control.prnt_err("There is no module in use")    
+          return
+        end
+        if type_name.match(/(auxiliary|file_exploit)/)
+          name = ''
+          mods = framework.modules.mod_pair[type_name]
+          mods.each {|k,v| 
+            if v == in_focus
+              name = k
+            end
+          }
+          full_name = "#{type_name}/#{name}"
+          framework.modules.reload(in_focus, full_name)
+          arg_use(full_name)
+       elsif type_name.match(/(db_exploit)/)        
+         arg_use(self.mpholder)
+       elsif type_name.match(/webserver/)
+         web_shut
+         arg_server
+       else
+         unloaded = true
+         control.prnt_err("The current activity in use cannot be reloaded")
+       end     
       when "lfiles"
         framework.modules.reload("lfiles")
       when "rurls"
@@ -614,8 +656,13 @@ def arg_show(*cmd)
   # Tab completion of the reload command
   #
   def arg_reload_comp(str, stra)
-    list = ["lfiles", "rurls"]
-      return list
+    list = []
+    if (self.in_focus)
+      list = ["lfiles", "rurls", "current", "modules"]
+    else
+      list = ["lfiles", "rurls", "modules"]
+    end
+   return list
   end  
     
   #

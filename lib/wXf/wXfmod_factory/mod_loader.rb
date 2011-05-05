@@ -86,7 +86,7 @@ end
            
          # These two must follow eachother     
          type_check
-         mod_load(WXf::WorkingDir)
+         mod_load(WXf::ModWorkingDir)
          
          self.module_list = module_collect
          
@@ -102,7 +102,8 @@ end
         def valid_file_mods
          ["file_exploit","auxiliary"]
         end
-                
+               
+         
        #
        # Returns true or false based on whether or not
        # a type matches what is in our array of valid file modules 
@@ -173,14 +174,40 @@ end
        #
        # Method used to reload some object
        #
-       def reload(obj)
+       def reload(obj, modname=nil)   
+         return if obj == nil
          case obj
            when 'rurls'
              self.rurls_load_list = []
              self.rurls_load_list = rurls_load(WXf::ModRurls) 
            when 'lfiles'
              self.lfile_load_list = []
-             self.lfile_load_list = lfile_load(WXf::ModDatum) 
+             self.lfile_load_list = lfile_load(WXf::ModDatum)
+         else
+           module_reload(obj, modname) 
+         end
+       end
+       
+       
+       #
+       # Gets the process of reload a module restarted
+       #
+       def module_reload(obj, modname=nil)
+         single_mod_load(modname)         
+         mod_pair.each do |type, hash|            
+           hash.delete_if {|k,v| v == obj}
+         end
+       end
+       
+       
+       #    
+       # Instead of an "all mods_load", lets just load one
+       #
+       def single_mod_load(filename)        
+         bpath = WXf::ModWorkingDir
+         proper_name = "#{bpath}/#{filename}.rb"
+         if File.exist?(proper_name)
+           load_mods(filename, proper_name)          
          end
        end
        
@@ -216,20 +243,19 @@ end
          
        
        #
-       #
+       # Finds all files in the base path (wXf directory)
        #
        def mod_load(base_path)
-         Find.find(WXf::ModWorkingDir) do |file|
+         Find.find(base_path) do |file|
            if (file =~ /.rb/) and if not (file.match(/svn/))
-             path = file.sub(WXf::ModWorkingDir + "/", '').sub(/.rb/, '')
+             path = file.sub(base_path + "/", '').sub(/.rb/, '')
              load_mods(path,file)
+            end
            end
          end
        end
-end
        
-        
-       
+           
        #
        # Load the Modules based on their existence within the path
        #
@@ -281,7 +307,7 @@ end
        
         
       #
-      #
+      # Counts for the display when you initially boot up the console
       # 
       def counter(type)
        case type
@@ -296,31 +322,28 @@ end
       end 
   
            
-   
-       def name_match?(name)
-       temp_arry = []
-       mod = nil
-       if (name)
-       name_arry = name.split('/')
-       name_dup = name_arry.dup
-       name_arry.shift
-       mod_arry = name_arry.join('/')
-       end
-       
-       begin
-       
+      #
+      # Performs some name matching based on input
+      #  
+      def name_match?(name)
+        temp_arry = []
+        mod = nil
+        if (name)
+          name_arry = name.split('/')
+          name_dup = name_arry.dup
+          name_arry.shift
+          mod_arry = name_arry.join('/')
+        end
+        begin
          valid_file_mods.each do |item|
            if name_dup[0] == item
-              temp_arry.push(name_dup[0], mod_arry)
-              mod = temp_arry
-          end
-      
+             temp_arry.push(name_dup[0], mod_arry)
+             mod = temp_arry
+           end
+         end
         end
-       
-       end
-       
        return mod
-       end
+      end
 
       
       
