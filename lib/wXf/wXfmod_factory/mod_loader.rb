@@ -176,7 +176,7 @@ end
        def reload(obj)
          case obj
            when 'rurls'
-             self.rurls_load_list = rurls_load(WXf::ModRurls) 
+             self.rurls_load_list = []
              self.rurls_load_list = rurls_load(WXf::ModRurls) 
            when 'lfiles'
              self.lfile_load_list = []
