@@ -892,7 +892,7 @@ def arg_show(*cmd)
         "cd"       => "Change Directory",
         "create"   => "Create an 'exploit' or 'payload'",
         "current"  => "Displays the current activity of focus within the stack",
-        "ex"       => "Exit the console (shortcut)a",
+        "ex"       => "Exit the console (shortcut)",
         "exit"     => "Exit the console",
         "help"     => "Help menu",
         "import"   => "Imports a user provided file",
