@@ -607,7 +607,7 @@ def arg_show(*cmd)
     if in_focus
       type_name = in_focus.type
     end
-    
+        
     case item
       when "current" 
         if !in_focus
@@ -625,7 +625,8 @@ def arg_show(*cmd)
           full_name = "#{type_name}/#{name}"
           framework.modules.reload(in_focus, full_name)
           arg_use(full_name)
-       elsif type_name.match(/(db_exploit)/)        
+       elsif type_name.match(/(db_exploit)/) 
+         web_shut       
          arg_use(self.mpholder)
        elsif type_name.match(/webserver/)
          web_shut
