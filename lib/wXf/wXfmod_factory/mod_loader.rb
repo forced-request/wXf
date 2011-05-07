@@ -265,7 +265,7 @@ end
             conc.module_eval(File.read(file, File.size(file)))
             inst = conc.const_get('WebXploit')
           rescue NameError
-            print("Failed to load module: #{path}")
+            print("Failed to load module: #{path}\n")
           end
            
             if (inst and path)
