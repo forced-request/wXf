@@ -19,6 +19,27 @@ class CoreProcs
             self.framework =  control.framework
       end
 
+ 
+    #
+    # Update command
+    #  
+    def arg_update(*cmd)
+     if !cmd.empty?
+       control.prnt_err('Please type "update" only') 
+       return
+      end      
+      pwd = Dir.pwd      
+      if pwd == WXf::WorkingDir
+        exec = ::IO.popen("git pull", "r")
+        exec.each do |data|
+          print(data)
+        end
+        exec.close
+      else
+        control.prnt_err("You need to be in wXf root directory to update")
+      end
+    end           
+      
       
     #   
     # When the user types "use" 
@@ -907,6 +928,7 @@ def arg_show(*cmd)
         "server"   => "Setup a local webserver",
         "set"      => "Sets a variable to a value",
         "show"     => "Displays modules of a given type",
+        "update"   => "Upates the framework",
         "use"      => "Selects an exploit by name",
         "version"  => "Show the framework and console library version numbers",
         
