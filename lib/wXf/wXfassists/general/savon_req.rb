@@ -10,9 +10,7 @@ require 'rubygems'
 module WXf
 module WXfassists
 module General
-module SavonReq
-     
-  include WXf::WXfui::Console::Prints::PrintSymbols      
+module SavonReq  
        
      attr_accessor :rce
      
