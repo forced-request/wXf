@@ -9,8 +9,7 @@ module WXf
 module WXfassists
 module General
 module MechReq
-
-  include WXf::WXfui::Console::Prints::PrintSymbols      
+     
       attr_accessor :rce, :rce_code
       
       #

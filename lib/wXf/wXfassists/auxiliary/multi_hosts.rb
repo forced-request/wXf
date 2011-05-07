@@ -3,9 +3,7 @@ require 'wXf/wXfui'
 module WXf
 module WXfassists
 module Auxiliary
-module MultiHosts  
-  
-  include WXf::WXfui::Console::Prints::PrintSymbols   
+module MultiHosts   
   
   #
   # Global Options are created
