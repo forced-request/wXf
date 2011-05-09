@@ -5,17 +5,20 @@
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
+ include WXf::WXfassists::General::MechReq
+ include WXf::WXfassists::Auxiliary::MultiHosts   
+  
   def initialize
       super(
         'Name'        => 'DIRCHEX',
         'Version'     => '1.0',
         'Description' => %q{
-          Command line version of the program DirChex by k3r0s1n3 and cktricky.                        },
+          Command line version of the program DirChex by k3r0s1n3.                        },
         'References'  =>
         [
           [ 'URL', 'http://code.google.com/p/dirchex/' ],
         ],
-        'Author'      => [ 'CKTRICKY' ],
+        'Author'      => [ 'k3r0s1n3' ],
         'License'     => WXF_LICENSE
 
       )
@@ -32,18 +35,56 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
+    dradis = WXf::WXflog::DradisLog.new({
+      'Filename' => "dirchex.xml",
+      'Name'     => "DirChex Out"
+    })
    
-=begin    
-    res = mech_req({
-     'method' => datahash[''],
-     'UA' => check,
-     'RURL'=> rurl,
-     'PROXY_ADDR' => proxya,
-     'PROXY_PORT' => proxyp,
-     'REDIRECT' => 'false',
-               }                                                                 
-             )
-=end
+    
+    # Beginning of the loop
+    rurls.each do |rurl|  
+      res = nil 
+       case datahash['METHOD']
+         when "GET"
+          res = mech_req({
+            'method' => "GET",
+            'UA' => datahash['UA'],
+            'RURL'=> rurl,
+            'PROXY_ADDR' => proxya,
+            'PROXY_PORT' => proxyp,
+            'DEBUG'      => 'log'
+          })
+         when "PUT"           
+           res = mech_req({
+             'method'       => "PUT",
+             'UA'           => datahash['UA'],
+             'RURL'         => rurl,
+             'RFILE'        => datahash['PUTFILE'],
+             'RFILECONTENT' => datahash['FILECONTENT'],
+             'PROXY_ADDR'   => proxya,
+             'PROXY_PORT'   => proxyp,
+             'DEBUG'        => 'log',
+             'RPARAMS'       => {'Content-Type' => datahash['CONTENTTYPE']}               
+          })
+         else
+          prnt_err("Only use GET or PUT methods") 
+          return
+       end
+     
+             
+     if (rce) and (rce_code)
+       header_hash = {'URL' => "#{rurl}"}          
+       dradis.add_ritems([header_hash, "#{rce_code}", "#{rce}"])
+     end
+      
+
+      
+      if (res) and (res.respond_to?('code'))
+        dradis.add_ritems([res.header, req_seq , res.body])
+      end
+    
+    end #End of the outer loop
+    dradis.log
   end
   
 end
