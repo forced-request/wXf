@@ -11,7 +11,7 @@ module MultiHosts
   def initialize(hash_info={})    
     super
       init_opts([
-        WXf::WXfmod_Factory::OptString.new('RURLS', [true, 'Target addresses file', 'rurls/host_list.txt']),
+        WXf::WXfmod_Factory::OptString.new('RURLS', [true, 'Target addresses file', 'host_list.txt']),
       ])
       
       # Important to delete the RURL option
