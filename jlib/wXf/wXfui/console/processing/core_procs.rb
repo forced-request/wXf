@@ -355,6 +355,10 @@ def arg_show(*cmd)
      when 'all'  
       show_auxiliary
       show_exploits
+      show_buby
+      
+     when 'buby'
+      show_buby
               
      when 'exploits'
       show_exploits
@@ -401,9 +405,9 @@ def arg_show(*cmd)
      activity = self.in_focus
      list = []
      if (activity) 
-       list = ["exploits","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced"]
+       list = ["exploits","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "buby"]
      else
-       list = ["exploits","auxiliary", "lfiles", "ua", "content", "rurls", "advanced"]
+       list = ["exploits","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "buby"]
      end
     return list 
     end 
@@ -708,11 +712,35 @@ def arg_show(*cmd)
    
     
   #
-  # Shows available exploits in the database
+  # Shows available buby modules
+  #
+  def show_buby
+    list = framework.modules.mod_pair['buby'].sort
+    # Display the commands
+    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Title'  => "Buby",
+      'Justify'  => 4,
+      'Columns' =>
+      [
+        'Name',
+        'Description'
+      ])
+                       
+      list.each {|item, obj|
+        name =  "buby/#{item}"
+        desc =  obj.description.to_s.lstrip.rstrip
+        tbl.add_ritems([name,desc[0..50]])
+      }
+   tbl.prnt
+  end         
+    
+    
+  #
+  # Shows available file based exploits
   #
   def show_exploits
     opts = []
-    file_list =  list = framework.modules.mod_pair['file_exploit'].sort
+    list = framework.modules.mod_pair['file_exploit'].sort
     # Display the commands
       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
         'Title'  => "Exploits",
@@ -723,7 +751,7 @@ def arg_show(*cmd)
           'Description'
         ])
             
-     file_list.each do |item, obj|
+      list.each do |item, obj|
        name =  "file_exploit/#{item}"
        desc =  obj.description.to_s.lstrip.rstrip
        tbl.add_ritems([name,desc[0..50]])
