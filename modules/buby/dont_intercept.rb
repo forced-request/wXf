@@ -2,8 +2,8 @@
 
 class WebXploit < WXf::WXfmod_Factory::Buby 
     
-  module Runner
-        
+  module Runner   
+   
       def evt_proxy_message(*param)
          msg_ref, is_req, rhost, rport, is_https, http_meth, url, resourceType, status, req_content_type, message, action = param
            if not rhost == "#{$datahash['RHOST']}"
