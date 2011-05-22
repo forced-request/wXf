@@ -883,7 +883,7 @@ def arg_show(*cmd)
         "import"   => "Imports a user provided file",
         "info"     => "Displays info about one or more module",
         "reload"   => "Reload rurls and lfiles lists",
-        "server"   => "Setup a local webserver",
+        #"server"   => "Setup a local webserver",
         "set"      => "Sets a variable to a value",
         "show"     => "Displays modules of a given type",
         "update"   => "Upates the framework",
