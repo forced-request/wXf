@@ -270,15 +270,15 @@ end
            
             if (inst and path)
               inst_obj = inst.new
-              # Module types need to have 
-              if (inst_obj.respond_to?('type')) and (valid_file_mods.include?("#{inst_obj.type}"))
-               type = inst_obj.type
-               name = norm_name(type,path)
-               init_add_fullname(path, type)
-               init_add_module(inst_obj,name,type)
-              end
-           end
-       end
+              # Module types need to have        
+                if (inst_obj.respond_to?('type')) and (valid_file_mods.include?("#{inst_obj.type}"))
+                  type = inst_obj.type
+                  name = norm_name(type,path)
+                  init_add_fullname(path, type)
+                  init_add_module(inst_obj,name,type)
+                end
+            end
+      end
        
        
       #

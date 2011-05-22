@@ -7,6 +7,7 @@ module WXf
   
   WXFCORE = WXf::WXfdb::Core.new(WXFDIR, 1)
   
+  BUBY   = 'buby'
   DB_EXP = 'db_exploit'
   DB_PAY = 'db_payload'
   FILE_EXP = 'file_exploit'
@@ -18,6 +19,7 @@ module WXf
   
   FUNCTION_TYPES = 
   [ 
+    BUBY,
     DB_EXP,
     DB_PAY,
     FILE_EXP,
