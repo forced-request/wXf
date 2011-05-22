@@ -1,2 +1,2 @@
-http://www.example.com
-http://www.example1.com
+http://www.cnn.com
+http://www.yahoo.com

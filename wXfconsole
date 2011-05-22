@@ -1,9 +1,75 @@
 #!/usr/bin/env ruby
 
+
+
+case RUBY_PLATFORM
+when 'java'
+
+wXfbase = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+WXFDIR = File.join(File.expand_path(File.dirname(wXfbase)))
+$:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'jlib'))
+
+ require 'rubygems'
+ require 'optparse'
+
+
+class OptsParse
+
+  def self.parse(cmds)
+    options = {}
+    OptionParser.new do |opt|
+      
+      opt.on("-b", "-b <burp.jar>", "Load the specified burp jar file") do |b|
+	    options['Burp'] = b
+	  end  
+	
+	  opt.on_tail("-h", "--help", "Show this message") do
+        puts opt
+        exit
+      end
+        
+	  begin
+	    opt.parse!(cmds)
+	  rescue OptionParser::InvalidOption
+        puts "\e[1;31m[wXf error]\e[0m Invalid option, try -h for usage"
+        exit
+      rescue OptionParser::MissingArgument
+        puts "\e[1;31m[wXf error]\e[0m You are missing an argument"
+        exit
+	  end
+	
+	end
+   options
+  end
+    
+end
+
+options = OptsParse.parse(ARGV)
+
+begin
+ require 'buby'
+rescue LoadError
+ puts("!!!!! WARNING: PLEASE INSTALL buby !!!!.\n sudo jruby -S gem install buby")
+end
+
+require 'wXf/wXfassists'
+require 'wXf/wXfconductors'
+require 'wXf/wXfconstants'
+require 'wXf/wXflog'
+require 'wXf/wXfmod_factory'
+require 'wXf/wXfui'
+require 'wXf/wXfwebserver'
+
+begin
+WXf::WXfui::Console::Operations::Control.new("wXf", "//>", options).start
+rescue Interrupt		
+end
+
+else
+
 wXfbase = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 WXFDIR = File.join(File.expand_path(File.dirname(wXfbase)))
 $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'lib'))
-$:.unshift(ENV['WXF_LOCAL_LIB']) if ENV['WXF_LOCAL_LIB']
 
 require 'wXf/wXfassists'
 require 'wXf/wXfconductors'
@@ -18,4 +84,5 @@ require 'wXf/wXfwebserver'
 begin
 WXf::WXfui::Console::Operations::Control.new("wXf", "//>" ).start
 rescue Interrupt		
+end
 end

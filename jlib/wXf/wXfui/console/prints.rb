@@ -1,0 +1,5 @@
+require 'wXf/wXfui/console/prints/print_color'
+require 'wXf/wXfui/console/prints/print_display'
+require 'wXf/wXfui/console/prints/print_pretty'
+require 'wXf/wXfui/console/prints/print_symbols'
+require 'wXf/wXfui/console/prints/print_table'
