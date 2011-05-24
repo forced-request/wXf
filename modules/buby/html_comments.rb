@@ -55,7 +55,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
 
             'Name'        => 'Extract HTML Comments',
             'Description' => %q{
-             Extracts comments from the target host (RHOST).
+             Puts the remote URL (RURL) in scope and extracts comments from any in scope site.
             },
             'References'  =>
              [               
