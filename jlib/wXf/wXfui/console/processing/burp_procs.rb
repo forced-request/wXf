@@ -19,8 +19,9 @@ module Processing
     def avail_args
       {
         "alert"  =>  "Sends an alert",
+        "restore" => "Restores from a state file, Ex: restore /tmp/save_state",
         "start"   => "Starts Burp",
-        "stop"    => "Stops Burp",         
+        "stop"    => "Stops Burp"         
        }
     end
 
@@ -52,7 +53,7 @@ module Processing
     end
     
     #
-    #
+    # Sends an alert to Burp
     #
     def arg_alert(*cmd)
       if $burp
@@ -60,6 +61,25 @@ module Processing
       end 
     end
     
+    
+    #
+    # Allows the user to restore their state
+    #
+    def arg_restore(*cmd)
+      if $burp
+        if $burp.respond_to?("restore_state")
+          if File.exists?("#{cmd}")         
+            $burp.restore_state("#{cmd}")
+          else
+            control.prnt_err("This restore file does not exist!")
+          end
+        else
+          control.prnt_err("It would appear your version of Burp doesn't allow a restore :-(")
+        end
+      else
+        control.prnt_err("No instance of Burp is running!")
+      end
+    end
        
     
    
