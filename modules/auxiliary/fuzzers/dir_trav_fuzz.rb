@@ -27,7 +27,8 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
 				OptString.new('METHOD', [true, 'Choose either get or post', 'get']),
         OptString.new('RPARAMS', [false, 'Enter the body like so: foo=bar&cow=moo', '']),
         OptString.new('FUZZPARAM', [false, 'Identify which param is to be fuzzed' '']),
-        OptString.new('LOG', [false,'If yes, the output will be logged in dradis upload format, under wXf/wXflog', 'no'])
+        OptString.new('LOG', [false,'If yes, the output will be logged in dradis upload format, under wXf/wXflog', 'no']),
+        OptString.new('COOKIES', [false, 'Enter the cookies here. Ex: set COOKIES ASPSESSIONID=1234;'])
         			])
 	end
 
@@ -37,12 +38,16 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
       'Name' => "fuzzing 192.168.1.117",
       'Filename' => 'dir_trav_fuzz.xml'
      })
-  
+    cookies = nil
 		fuzzparam = datahash['FUZZPARAM'] 
 		file =  datahash['FILE']
 		fuzzfile = datahash['LFILE']
 		rparams = datahash['RPARAMS']  
     test_arry = []
+      
+    if not datahash['COOKIES'] == ''
+      cookies = {'Cookie' => datahash['COOKIES'] }
+    end
 		
       begin
 			  check = File.open(fuzzfile)
@@ -63,7 +68,8 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
           		      'RURL'  =>  "#{rurl}",
        				      'PROXY_ADDR' => proxya,
        				      'PROXY_PORT' => proxyp,
-       				      'RPARAMS' => rhash      				
+       				      'RPARAMS' => rhash,
+                    'HEADERS' => cookies		
 							    })
 				        elsif datahash['METHOD'].match(/(POST|post)/)
 				          mod_params = convert_params("#{rparams}")
@@ -77,7 +83,8 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
                     'RURL'  =>  "#{rurl}",
                     'PROXY_ADDR' => proxya,
                     'PROXY_PORT' => proxyp,
-                    'RPARAMS' => mod_params
+                    'RPARAMS' => mod_params,
+                    'HEADERS' => cookies
                   })  
 				       end
 
