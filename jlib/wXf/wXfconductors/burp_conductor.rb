@@ -8,7 +8,7 @@ module WXfconductors
     def initialize(control)  
       self.options = {
         'BURP'    => "",
-        'VERSION' => ""                        
+        'VERSION' => ""                       
       }    
          
       burp = control.options['Burp']
