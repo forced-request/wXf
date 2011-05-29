@@ -75,7 +75,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
    if $burp
      $burp.includeInScope("#{datahash['RURL']}")
      $burp.extend(Runner)
-     prnt_gen("We've started running the modules")
+     prnt_gen("We've started running the module")
    else
      prnt_err("A burp instance is not running")
    end
