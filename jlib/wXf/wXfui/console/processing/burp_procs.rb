@@ -48,7 +48,7 @@ module Processing
     # 
     def arg_stop(*cmd)
       if $burp
-        $burp.close
+        $burp.close(true)
       end
     end
     
