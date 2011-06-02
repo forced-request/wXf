@@ -1,0 +1,8 @@
+uid
+profileId
+user_id
+profile_id
+account_id
+Price
+useraccountid
+area

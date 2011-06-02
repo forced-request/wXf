@@ -61,7 +61,9 @@ class WebXploit < WXf::WXfmod_Factory::Buby
    $datahash = datahash 
    if $burp
      $burp.extend(Runner)
-     prnt_gen("We've started running the module")
+     prnt_plus("Extending the module, please wait...")
+     select(nil,nil,nil, 3)
+     prnt_gen("Running module...")
    else
      prnt_err("A burp instance is not running")
    end
