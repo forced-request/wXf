@@ -43,6 +43,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
             'Description' => %q{
              Inflates ZLib compressed data (a.k.a decompresses) and then sends to Burp.
             },
+            'Version' => '1.0',
             'References'  =>
              [         
                ['http://www.gdssecurity.com/l/b/2008/02/19/a-delfate-burp-plug-in/']      

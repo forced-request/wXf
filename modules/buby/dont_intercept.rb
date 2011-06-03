@@ -22,6 +22,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
             'Description' => %q{
              All requests to hosts EXCEPT the target RHOST will automatically bypass interception via the proxy.
             },
+            'Version' => '1.0',
             'References'  =>
              [               
              ],

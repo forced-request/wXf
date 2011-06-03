@@ -100,6 +100,7 @@ end
              Searches Burp's proxy history looking for parameters that meet keyword searches (keywords are listed in the LFILE).
              When found, sends to repeater and intruder and then alerts the user of the activity. 
             },
+            'Version' => '1.0',
             'References'  =>
              [               
              ],
