@@ -57,6 +57,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
             'Description' => %q{
              Puts the remote URL (RURL) in scope and extracts comments from any in scope site.
             },
+            'Version' => '1.0',
             'References'  =>
              [       
                ['http://blog.portswigger.net/2009/04/using-burp-extender.html']        
