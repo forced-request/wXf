@@ -97,9 +97,6 @@ module SavonReq
     rurl = opts['RURL'] || ''
     rparams = opts['RPARAMS'] || {}
     raction = opts['RACTION'] || nil
-
-    proxyp = opts['PROXYP'] 
-    proxya = opts['PROXYA']
     headers = opts['HEADERS'] || {}
     basic_user = opts['USER'] || nil
     basic_pass =  opts['PASS'] || nil
