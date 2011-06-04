@@ -110,8 +110,6 @@ def run
           'method' => 'GET', 
           'UA'      => ua,
           'RURL'  => rurl,
-          'PROXY_ADDR' => proxya,
-          'PROXY_PORT' => proxyp,
           'REDIRECT' => 'false',
           
           
@@ -208,8 +206,6 @@ def run
             'method' => 'GET',
             'UA' => check,
             'RURL'=> rurl,
-            'PROXY_ADDR' => proxya,
-            'PROXY_PORT' => proxyp,
             'REDIRECT' => 'false',
            }                                                                 
          )

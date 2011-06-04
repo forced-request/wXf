@@ -913,9 +913,7 @@ include WXf::WXfassists::General::MechReq
         'RURL'     => rurl + check[:path],
         'REDIRECT' => 'false',
         'DEBUG'      => 'log',
-        'method'  => check[:type],
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp
+        'method'  => check[:type]
       })
 
         if (res.nil?)
@@ -949,9 +947,7 @@ include WXf::WXfassists::General::MechReq
         'RURL'     => rurl + check[:path],
         'REDIRECT' => 'false',
         'DEBUG'      => 'log',
-        'method'  => check[:type],
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp
+        'method'  => check[:type]
       })
       if (res.nil?)
           prnt_err("No response for #{rurl}")

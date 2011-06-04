@@ -16,11 +16,13 @@ module MechReq
       # Global Options are created
       #
       def initialize(hash_info={})
-          super
+        @@count = 0 
+        super
             init_opts([
               WXf::WXfmod_Factory::OptString.new('RURL',   [true, 'Target address', 'http://www.example.com/test.php']),
               WXf::WXfmod_Factory::OptInteger.new('PROXYA', [false, 'Proxy IP Address', '']),
               WXf::WXfmod_Factory::OptString.new('PROXYP', [false, 'Proxy Port Number', '']),
+              WXf::WXfmod_Factory::OptInteger.new('THROTTLE', [false, 'Specify a number, after x requests we pause', '0' ])
            ])           
      end
      
@@ -36,6 +38,22 @@ module MechReq
      def proxya
        datahash['PROXYA']
      end
+     
+     #
+     # Added to solve throttling issues
+     #
+     def throttle
+       datahash['THROTTLE'].to_i
+     end
+    
+     #
+     # Had to add this so that when an interrupt occurs we reset the counter
+     # ...to 0. It is extremely important. It makes throttling work.
+     #
+     def self.count(cnt)
+       @@count = cnt
+     end  
+
 =begin       
       # [RURL]
       # [PROXYA]
@@ -95,6 +113,9 @@ module MechReq
       # An agent object is instantiated (Mechanize) and debugging is determined
       #
       def mech_req(opts={})
+        # Add a 1, simple right?
+        @@count += 1 
+        
         debug = opts['DEBUG']
         agent = nil
         
@@ -114,10 +135,19 @@ module MechReq
           else
             agent = WAx::WAxHTTPLibs::Mechanize.new {|a| a.log = Logger.new(false)}
           end 
+        end     
+       
+        if @@count > 0 and @@count == throttle
+            prnt_plus("sleep 3 seconds")
+            sleep(3)
+            @@count = 0
+            req_sequence(opts, agent)
+        else
+          req_sequence(opts, agent)
         end
         
-       req_sequence(opts, agent)
-       
+        
+         
       end
       
       
@@ -127,6 +157,7 @@ module MechReq
     # Determines method and process based off this information   
     #
     def req_sequence(opts, agent)         
+      
           # Request object cleared/init'd
           req = nil
           
@@ -144,18 +175,14 @@ module MechReq
          
           # rparams
           rparams = opts['RPARAMS'] || []
-          
+                       
           # User Agent Information
           ua = opts['UA']
           agent.user_agent = ua || 'Mechanize'  
-        
-          # Proxy options (if any)
-          proxyaddr = opts['PROXY_ADDR'] || ''
-          proxyport = opts['PROXY_PORT'] || ''   
           
          #Begin setting a proxy if need be  
-          if (proxyport != '') and (proxyaddr != '') and (proxyport != nil) and (proxyaddr !=nil)
-          agent.set_proxy("#{proxyaddr}", "#{proxyport}") 
+          if (proxyp != '') and (proxya != '') and (proxyp != nil) and (proxya !=nil)
+          agent.set_proxy("#{proxya}", "#{proxyp}") 
           end 
                       
           # This is the HTTP Method chosen by the dev, set to lowercase
@@ -196,6 +223,7 @@ module MechReq
           if (basic_auth_user) and (basic_auth_pass) 
             agent.basic_auth("#{basic_auth_user}", "#{basic_auth_pass}")
           end
+          
             
           # Makes a decision based on the supplied HTTP Method.
           abbr = 'agent_'+ "#{req_type}"
@@ -206,11 +234,10 @@ module MechReq
           
           rescue WAx::WAxHTTPLibs::Mechanize::ResponseCodeError => self.rce
           temp_rce_code = "#{self.rce}".match(/\d{3}/)
-          self.rce_code = temp_rce_code[0].to_i
-                 
-          rescue => $!
-                       
+          self.rce_code = temp_rce_code[0].to_i   
+          rescue => $!            
           prnt_err("Mechanize Error: #{$!}")
+          
         
         end
     
@@ -249,7 +276,7 @@ module MechReq
     # HTTP POST
     #
     def agent_post(agent, url, rparams, headers, rfile, rfile_content)
-      agent.post("#{url}", rparams, headers)
+      agent.post("#{url}", rparams, headers)      
     end  
      
      

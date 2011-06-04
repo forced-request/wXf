@@ -466,9 +466,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       res = mech_req({
         'RURL'     => rurl + check[:path],
         'method'  => check[:type],
-        'REDIRECT' => 'false',
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp
+        'REDIRECT' => 'false'
       })
 
       if (res.nil?)

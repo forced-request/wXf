@@ -34,8 +34,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     res = mech_req({
       'RURL' => rurl + path + dad + injection + url_dba + sql_check_priv, 
       'method' => 'GET',
-      'PROXY_ADDR' => proxya,
-      'PROXY_PORT' => proxyp,
       'REDIRECT'   => 'false'
         })
 
@@ -74,8 +72,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     res = mech_req({
       'RURL' => rurl + path + dad + injection + url_code + exploit,
       'method' => 'GET',
-      'PROXY_ADDR' => proxya,
-      'PROXY_PORT' => proxyp,
       'REDIRECT'   => 'false'      
         })
 
@@ -136,8 +132,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     res = mech_req({
       'RURL' => rurl + path + dad + injection + url_dba + sql_check, 
       'method' => 'GET',
-      'PROXY_ADDR' => proxya,
-      'PROXY_PORT' => proxyp,
       'REDIRECT'   => 'false'
     })
 

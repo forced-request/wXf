@@ -38,8 +38,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       res = mech_req({
         'RURL'     => rurl + davrequest,
         'method'  => 'GET',
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp,
         'UA'         => datahash['UA']                                                               
       })
 
@@ -66,8 +64,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       res = send_request_cgi({
         'RURL'     => rurl + guestrequest,
         'method'  => 'GET',
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp,
         'UA'         => datahash['UA']                                                                           
       })
 
@@ -101,9 +97,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
         'RURL'     => rurl + davrequest,
         'method'  => 'GET', 
         'HEADERS' => {'Cookie' => cookie},
-        'KEEP-ALIVE' => 300,
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp                                                       
+        'KEEP-ALIVE' => 300                                                      
       })
      
       

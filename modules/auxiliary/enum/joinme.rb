@@ -48,8 +48,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       'method' => 'GET',
       'RURL'   => rurl + code,
       'UA'     => datahash['UA'],
-      'PROXY_ADDR' => proxya,
-      'PROXY_PORT' => proxyp,
       'REDIRECT'   => 'false'
     })
     i += 1
