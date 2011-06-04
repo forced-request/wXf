@@ -41,8 +41,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'RURL'       => rurl,
     'PASS'       => datahash['PASS'],
     'USER'       => datahash['USER'],
-    'PROXYP'     => proxyp,
-    'PROXYA'    =>  proxya, 
     'RACTION'   =>  datahash['RACTION'],
     'RPARAMS'   => {datahash['PARAM'] => datahash['VALUE']},
     #'HEADERS'   => {"Testy" => "McTesterton"} 
