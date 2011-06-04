@@ -44,8 +44,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     'DEBUG'      => 'log',
     'RURL'       => rurl,
     'UA'         => datahash['UA'],
-    'PROXY_ADDR' => proxya,
-    'PROXY_PORT' => proxyp,
     'REDIRECT'   => datahash['REDIRECT'],
     'KEEP-ALIVE' => 200,
     'HEADERS'    => {'Content-Type' => datahash['CONTENT']}

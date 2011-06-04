@@ -30,9 +30,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       res = mech_req({
         'RURL'   => rurl, 
         'method' => 'GET',
-        'DEBUG'      => 'log',
-        'PROXY_ADDR' => proxya,
-        'PROXY_PORT' => proxyp
+        'DEBUG'      => 'log'
       })
 
       if (res) and (res.header['server'])

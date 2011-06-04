@@ -62,8 +62,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       res = mech_req({
         'RURL'         => rurl + path + dad + check1, 
         'method'       => 'GET',
-        'PROXY_ADDR'   => proxya,
-        'PROXY_PORT'   => proxyp,
         'REDIRECT'     => 'false'
       })
 

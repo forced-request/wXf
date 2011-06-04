@@ -45,6 +45,7 @@ module Shell
       end
       rescue Interrupt
        print("\nExample: use the 'exit' command to quit\n\n" )
+        WXf::WXfassists::General::MechReq.count(0) 
         retry
       end
     end

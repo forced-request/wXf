@@ -49,8 +49,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
             'method' => "GET",
             'UA' => datahash['UA'],
             'RURL'=> rurl,
-            'PROXY_ADDR' => proxya,
-            'PROXY_PORT' => proxyp,
             'DEBUG'      => 'log'
           })
          when "PUT"           
@@ -60,8 +58,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              'RURL'         => rurl,
              'RFILE'        => datahash['PUTFILE'],
              'RFILECONTENT' => datahash['FILECONTENT'],
-             'PROXY_ADDR'   => proxya,
-             'PROXY_PORT'   => proxyp,
              'DEBUG'        => 'log',
              'RPARAMS'       => {'Content-Type' => datahash['CONTENTTYPE']}               
           })
