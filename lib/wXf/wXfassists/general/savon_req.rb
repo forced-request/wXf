@@ -116,10 +116,17 @@ module SavonReq
     end
     headers.each {|k,v| client.request.headers[k] = v }
    
-    eval("client.#{raction} do |soap|
+    if exists?(raction) and exists?(rparams)
+    eval("
+      client.#{raction} { |soap|
          
           soap.body = rparams
-    end")
+      }
+    ")
+    else
+      prnt_err(" You forgot the RACTION or PARAM/VALUE option(s)!")
+    end
+    
     rescue => $!
       prnt_err(" SavonReq Error: #{$!}")
     end

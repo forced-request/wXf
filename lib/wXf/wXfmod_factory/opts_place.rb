@@ -80,7 +80,12 @@ module WXfmod_Factory
    #
    # Boolean class for Opts
    #  
-   class OptBool < Opts       
+   class OptBool < Opts
+       
+       def initialize(name, vals=[])
+         super(name, vals)
+       end
+             
        def data_type
          return 'bool'
        end
