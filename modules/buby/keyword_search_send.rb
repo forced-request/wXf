@@ -8,7 +8,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
     attr_accessor :fuzz_params 
     
     #
-    #
+    # Grab the fuzz file hoss
     #  
     def fuzz_add
       self.fuzz_params = []
