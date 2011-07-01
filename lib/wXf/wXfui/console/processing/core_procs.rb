@@ -324,12 +324,14 @@ class CoreProcs
   def arg_create(*cmd)
     if (cmd[0] =~ /exploit/)
       control.prnt_gen(" Create new exploit")
+      arg_back()
       operator = Create_Exploit
       control.add_activity(operator)
       self.in_focus = framework.modules.load("create_exploit",control)
       control.mod_prm("#{in_focus.type}" + control.red("(create)"))
     elsif (cmd[0] =~ /payload/)
-     control.prnt_gen(" Create new payload")
+      control.prnt_gen(" Create new payload")
+      arg_back()
       operator = Create_Payload
       control.add_activity(operator)
       self.in_focus = framework.modules.load("create_payload",control)
