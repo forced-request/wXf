@@ -86,7 +86,7 @@ end
         # when working
         #
         def valid_file_mods
-         ["file_exploit","auxiliary", "buby"]
+         ["exploit","auxiliary", "buby", "payload"]
         end
                
          
@@ -119,8 +119,9 @@ end
        def module_collect
         list = []            
         list.concat(mod_pair['auxiliary'].mods_fn_list)
-        list.concat(mod_pair['file_exploit'].mods_fn_list)
+        list.concat(mod_pair['exploit'].mods_fn_list)
         list.concat(mod_pair['buby'].mods_fn_list)
+        list.concat(mod_pair['payload'].mods_fn_list)
         return list.sort
         rescue
        end
@@ -268,10 +269,12 @@ end
        case type
        when 'auxiliary'
         mod_pair['auxiliary'].count
-       when 'file_exploit'
-        mod_pair['file_exploit'].count  
+       when 'exploit'
+        mod_pair['exploit'].count  
        when 'buby'
          mod_pair['buby'].count
+       when 'payload'
+         mod_pair['payload'].count
        end  
         
       end 
@@ -317,7 +320,7 @@ end
 
       
 
-      attr_accessor :wxflist_call, :exploit_list, :payload_list
+      attr_accessor :wxflist_call
       attr_accessor :mod_pair, :module_list, :lfile_load_list, :rurls_load_list
      
     end

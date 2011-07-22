@@ -20,9 +20,9 @@ module MechReq
         super
             init_opts([
               WXf::WXfmod_Factory::OptString.new('RURL',   [true, 'Target address', 'http://www.example.com/test.php']),
-              WXf::WXfmod_Factory::OptInteger.new('PROXYA', [false, 'Proxy IP Address', '']),
+              WXf::WXfmod_Factory::OptString.new('PROXYA', [false, 'Proxy IP Address', '']),
               WXf::WXfmod_Factory::OptString.new('PROXYP', [false, 'Proxy Port Number', '']),
-              WXf::WXfmod_Factory::OptInteger.new('THROTTLE', [false, 'Specify a number, after x requests we pause', '0' ])
+              WXf::WXfmod_Factory::OptInteger.new('THROTTLE', [false, 'Specify a number, after x requests we pause', 0 ])
            ])           
      end
      
@@ -43,7 +43,7 @@ module MechReq
      # Added to solve throttling issues
      #
      def throttle
-       datahash['THROTTLE'].to_i
+       datahash['THROTTLE']
      end
     
      #
@@ -246,7 +246,7 @@ module MechReq
     # Check to see if the user or developer has set a redirect option to false
     #
     def is_false?(string)
-     string == "false"
+     string == false
     end                
     
     #
