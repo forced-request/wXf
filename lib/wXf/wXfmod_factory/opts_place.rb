@@ -2,22 +2,22 @@
 module WXf
 module WXfmod_Factory
    
-  # 
-  # TODO: Add in validation checks, this will need to occur eventually
-  # ...for now we haven't built this in because it works as is although not
-  # fail proof. 
-  #
   
    class Opts
      
+     
+     #
+     # Initialize the Opts class
+     #
      def initialize(name, vals=[])    
        self.name = name
+       self.data_type = data_type
        index_vals(vals)
      end
      
      
      #
-     #
+     # Perform a sanity check, (make sure stuff exists)
      #    
      def index_vals(vals)
        if vals.kind_of?(Array)
@@ -25,33 +25,18 @@ module WXfmod_Factory
        end
      end
      
+     
      #
+     # We perform an existence check on module options
      #
-     #
-     def existence_check(vals)
-              
-       if exists?(vals[0])
-         self.required = vals[0]
-       else
-         self.required = false  
-       end
-       
-       if exists?(vals[1])
-         self.desc = vals[1]
-       else
-         self.desc = "No Description Available"
-       end
-       
-       if exists?(vals[2])
-         self.data = vals[2]
-       else
-         self.data = ''
-       end
-       
+     def existence_check(vals)              
+       exists?(vals[0]) ? self.required = vals[0] : self.required = false  
+       exists?(vals[1]) ? self.desc = vals[1]  : self.desc = "No Description Available"
+       exists?(vals[2]) ? self.data = vals[2]  : self.data = ''
      end
      
      #
-     #
+     # An existence check
      #
      def exists?(val)
        if val.nil?
@@ -61,18 +46,48 @@ module WXfmod_Factory
        end
      end
      
-     attr_reader :data, :name, :desc, :required
+     attr_reader :data, :name, :desc, :required, :data_type
   
      protected
      
-     attr_writer :data, :name, :desc, :required
+     attr_writer :data, :name, :desc, :required, :data_type
      
    end
    
+   
+  #
+  # String class for Opts
+  #   
   class OptString < Opts
-    def datatype
-      return 'string'
+    
+       
+    #
+    # Initialize the class
+    #      
+    def initialize(name, vals=[])
+      vals[2] =  str_validate(vals)
+     super(name, vals)
     end
+    
+    
+    #
+    # Validate string value
+    #
+    def str_validate(vals)
+      val_to_s = ''      
+      if (vals[2])
+        val_to_s = vals[2].to_s
+      end
+     return val_to_s
+    end
+    
+    #
+    # Provides a datatype declaration
+    #   
+    def data_type
+      return 'String'
+    end
+        
   end
    
    
@@ -81,14 +96,35 @@ module WXfmod_Factory
    # Boolean class for Opts
    #  
    class OptBool < Opts
-       
-       def initialize(name, vals=[])
-         super(name, vals)
-       end
-             
-       def data_type
-         return 'bool'
-       end
+    
+     
+    #
+    # Initialize the class
+    #      
+    def initialize(name, vals=[])
+      vals[2] =  bool_validate(vals)
+      super(name, vals)
+    end
+    
+    
+    #
+    # Validate boolean value
+    #
+    def bool_validate(vals)
+      bool_match = "#{vals[2]}".match(/(true|false)/)
+      bool_match_val = bool_match.kind_of?(MatchData) ? bool_match[1] : false
+      final_val = bool_match_val == "true" ? true : false
+     return final_val
+    end
+    
+    
+    #
+    # Provides a datatype declaration
+    #         
+    def data_type
+      return 'Boolean'
+    end
+    
    end
    
    
@@ -97,9 +133,33 @@ module WXfmod_Factory
    # Integer class for Opts
    #
    class OptInteger < Opts
+   
+     #
+     # Initialize the class
+     #      
+     def initialize(name, vals=[])
+       vals[2] =  int_validate(vals)
+       super(name, vals)
+     end
      
+     
+     #
+     # Validate boolean value
+     #
+     def int_validate(vals)
+       final_val = nil
+        if vals[2] and vals[2].kind_of?(Integer)
+          final_val = vals[2]
+        end
+       return final_val
+     end
+     
+     
+     #
+     # Provides a datatype declaration
+     #         
      def data_type
-       return 'integer'
+       return 'Integer'
      end
      
    end

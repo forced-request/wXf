@@ -19,7 +19,9 @@ class DataHash < Hash
   #
   def validate_store_items(opts)
     opts.each_pair {|k,v|
-    store_items(k, "#{v.data.to_s}")
+   # puts "V's data_type: #{v.data_type}"
+   # puts "V: #{v.class}"
+    store_items(k, v.data)
   }
   end
   

@@ -20,19 +20,9 @@ class ModulePair < Hash
   
   def load_other(name, control)
           begin
-              if "#{name}".match(/#{self.exploit_list.join('|')}/)
-                instance = WXf::WXfconductors::Db_Exploit_Conductor.new(name)
-              elsif "#{name}".match(/#{self.payload_list.join('|')}/)
-                instance = WXf::WXfconductors::Db_Payload_Conductor.new(name)
-              elsif name.match(/webserver/)
+              if name.match(/webserver/)
                 instance = WXf::WXfconductors::Webserver_Conductor.new(control)
                 control.red("We've chosen webserver")
-              elsif name.match(/create/)
-                if name.match(/exploit/)
-                  instance = WXf::WXfconductors::Create_Exploit_Conductor.new(control)
-                elsif name.match(/payload/)
-                  instance = WXf::WXfconductors::Create_Payload_Conductor.new(control)
-                end
               end
             end
       return instance
@@ -70,11 +60,6 @@ end
         include Framework::Transient
         
        def initialize(framework, types=FUNCTION_TYPES)
-         self.wxflist_call = WXf::WXfdb::Core.new(WXFDIR, 1)
-           
-         self.payload_list = payload_array 
-         
-         self.exploit_list = exploit_array
          
          self.lfile_load_list = lfile_load(WXf::ModDatum) 
          
@@ -100,7 +85,7 @@ end
         # when working
         #
         def valid_file_mods
-         ["file_exploit","auxiliary"]
+         ["exploit","auxiliary", "payload"]
         end
                
          
@@ -126,46 +111,15 @@ end
            }
         end
                
-        #
-        # Created to collect an array of db payloads, thus the names can be matched
-        # against user input
-        #
-       def payload_array   
-         lpay = []
-                    
-         list = wxflist_call.db.get_payload_list
-         list.each { |id,name, desc| lpay.push(name)                          
-         }
-         
-         return lpay
-       rescue
-       end
-       
-       
-       #
-       # Created to collect an array of db exploits, thus the names can be matched
-       # against user input
-       #
-       def exploit_array
-            lexp = []
-                       
-            list = wxflist_call.db.get_exploit_list
-            list.each { |id,name, desc| lexp.push(name)
-            }
-      
-            return lexp
-       rescue
-       end
-       
        
        #
        # Built as an interim solution to collect db mods
        #
        def module_collect
         list = []            
-        list.concat(payload_array.concat(exploit_array))
         list.concat(mod_pair['auxiliary'].mods_fn_list)
-        list.concat(mod_pair['file_exploit'].mods_fn_list)
+        list.concat(mod_pair['exploit'].mods_fn_list)
+        list.concat(mod_pair['payload'].mods_fn_list)  
         return list.sort
         rescue
        end
@@ -313,10 +267,10 @@ end
        case type
        when 'auxiliary'
         mod_pair['auxiliary'].count
-       when 'file_exploit'
-        mod_pair['file_exploit'].count  
-       when 'payload_mod'  
-         
+       when 'exploit'
+        mod_pair['exploit'].count  
+       when 'payload'  
+        mod_pair['payload'].count  
        end  
         
       end 
@@ -362,7 +316,7 @@ end
 
       
 
-      attr_accessor :wxflist_call, :exploit_list, :payload_list
+      attr_accessor :wxflist_call
       attr_accessor :mod_pair, :module_list, :lfile_load_list, :rurls_load_list
      
     end

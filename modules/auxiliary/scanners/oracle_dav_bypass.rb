@@ -22,7 +22,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       )
 
         init_opts([
-        OptString.new('UA', [ true, "The HTTP User-Agent sent in the request", 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)' ]),
+        OptString.new('UA', [ true, "The HTTP User-Agent sent in the request", "1"]),
       ])
   
   end

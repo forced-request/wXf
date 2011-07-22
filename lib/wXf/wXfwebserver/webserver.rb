@@ -51,7 +51,7 @@ class WebServer
     
     
     #
-    #
+    # Returns boolean value
     #
     def empty_val?(opt)
       @opt == opt.nil? or (opt.to_a.length == 0)
@@ -102,7 +102,7 @@ end
   class WXfServlet < WEBrick::HTTPServlet::AbstractServlet
     
     def do_GET(request, response)
-      status, content_type, body = do_stuff_with(request)
+      status, content_type, body = render(request)
       if ( status == 404 )
             raise HTTPStatus::NotFound
       else
@@ -130,9 +130,9 @@ end
     
     
     #
+    # Render stuff :-)
     #
-    #
-    def do_stuff_with(request)
+    def render(request)
         if (self.file)
               c = ''
               File.open(self.file,"rb") { |file|
