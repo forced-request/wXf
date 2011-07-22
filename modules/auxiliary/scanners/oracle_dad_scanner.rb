@@ -482,7 +482,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       end
       
       if (rce)
-        if datahash['VERBOSE'] == 'true'
+        if datahash['VERBOSE'] == true
           prnt_gen("#{rce} for #{check[:path]}")
         end
       end

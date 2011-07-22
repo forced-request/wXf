@@ -2,12 +2,13 @@ module WXf
 module WXfmod_Factory
   
   
-  class Exploit < Mod_Factory
+  class Payload < Mod_Factory
+       
     
-    attr_accessor :type, :payload
+    attr_accessor :type, :control
     
     def initialize(hash_info ={})
-      self.payload = nil
+      self.control = nil
       super
     end
 
@@ -15,10 +16,9 @@ module WXfmod_Factory
     # Defines the type of module
     #
     def type
-      EXP
+      PAY
     end
-       
-   
+  
   end
 
   

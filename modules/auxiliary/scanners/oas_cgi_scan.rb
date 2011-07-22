@@ -19,7 +19,7 @@ include WXf::WXfassists::General::MechReq
 
   init_opts([
         OptBool.new('DEMOS', [ true, 'Enable checks for all the demo pages', false ]),
-        OptBool.new('VERBOSE', [ true, 'Show all errror codes or just 200/302', false ]),
+        OptBool.new('VERBOSE', [ true, 'Show all errror codes or just 200/302', true ]),
       ])
   end
 
@@ -932,7 +932,7 @@ include WXf::WXfassists::General::MechReq
         end
         
         if (rce)
-          if datahash['VERBOSE'] == 'true'
+          if datahash['VERBOSE'] == true
             prnt_gen("Received #{rce_code} for #{rurl}#{check[:path]}") #debug
           end
         end
@@ -940,7 +940,7 @@ include WXf::WXfassists::General::MechReq
      end
 
         
-    if datahash['DEMOS'] == 'true'
+    if datahash['DEMOS'] ==  true
       prnt_gen("\nRunning checks for common demo pages against #{rurl}\n")
       demos.each do | check |
       res = mech_req({
@@ -967,7 +967,7 @@ include WXf::WXfassists::General::MechReq
           if rce_code == 401
             prnt_plus("Found: #{rurl}#{check[:path]} --> Vuln: #{check[:vuln]}")
           else 
-            if datahash['VERBOSE'] == 'true'
+            if datahash['VERBOSE'] == true
               prnt_gen("Received #{rce_code} for #{rurl}#{check[:path]}") #debug
             end
           end

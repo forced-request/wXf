@@ -15,7 +15,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
           prettynode.each do |nice|
             # Lose punctuation.
             nice = nice.gsub(/[,\.:;\(){}\[\]"]/,'')
-            if nice.length >= $datahash['WORDLEN'].to_i && nice.length <= 20
+            if nice.length >= $datahash['WORDLEN'] && nice.length <= 20
               nice = nice.strip
               @mywords << nice
             end

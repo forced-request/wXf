@@ -26,7 +26,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
         OptString.new('METHOD', [true, 'Choose either get or post', 'get']),
         OptString.new('RPARAMS', [false, 'Enter the body like so: foo=bar&cow=moo', '']),
         OptString.new('FUZZPARAM', [false, 'Identify which param is to be fuzzed' '']),
-        OptString.new('LOG', [false,'If yes, the output will be logged in dradis upload format, under wXf/wXflog', 'no'])
+        OptBool.new('LOG', [false,'If true, the output will be logged in dradis upload format, under wXf/wXflog', false])
               ])
   end
 
@@ -84,7 +84,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
                 end 
          
                 if  (res) and (res.respond_to?('code'))  and (res.code == '200')
-                  if datahash['LOG'] == 'yes'
+                  if datahash['LOG'] == true
                     dradis.add_ritems([res.header, string, "#{res.body}"])
                   end
                  print_status("#{string}")
@@ -98,7 +98,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
            end #Second begin         
         end # do statement, where each string is enumerated 
       end  # First begin
-     if datahash['LOG'] == 'yes'
+     if datahash['LOG'] == true
        dradis.log
      end
    end #End of run method

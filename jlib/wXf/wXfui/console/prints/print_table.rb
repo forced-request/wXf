@@ -24,7 +24,7 @@ module Prints
       self.columns.each {|item|
       cnt = self.columns.index(item)
       col_hash[cnt] = {}
-      col_hash[cnt]['Length'] = item.length
+      col_hash[cnt]['Length'] = item.to_s.length
         }
       
     end
@@ -46,7 +46,7 @@ module Prints
     def compare    
           rows.each_with_index {|ritem,index|
           ritem.each_with_index {|item, idx|
-       if col_hash.has_key?(idx) and col_hash[idx]['Length'] < item.length
+       if col_hash.has_key?(idx) and col_hash[idx]['Length'] < item.to_s.length
           col_hash[idx]['Length'] = item.length
        end
           }
@@ -62,10 +62,10 @@ module Prints
     def space(item, index)
       strn = ''
       val = nil
-      if col_hash.has_key?(index) and (col_hash[index]['Length']  == item.length)
+      if col_hash.has_key?(index) and (col_hash[index]['Length']  == item.to_s.length)
         val = 3
-      elsif (col_hash.has_key?(index)) and (col_hash[index]['Length'] > item.length)
-         diff = col_hash[index]['Length'] - item.length
+      elsif (col_hash.has_key?(index)) and (col_hash[index]['Length'] > item.to_s.length)
+         diff = col_hash[index]['Length'] - item.to_s.length
          val = diff + 3
       end
       spc = ' ' * val

