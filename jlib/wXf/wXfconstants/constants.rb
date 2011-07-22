@@ -3,12 +3,12 @@ module WXf
   
   
   #
-  # Version stuff
+  # Version information
   #
   Major = 1
   Minor = 0
-  Release = "EXPERIMENTAL JRUBY VERSION"
-  Version = "#{Release}"
+  Platform = "EXPERIMENTAL JRUBY VERSION"
+  Version = "#{Major}.#{Minor} - #{Platform}"
   
   
   #
@@ -16,10 +16,8 @@ module WXf
   #
   BUBY = 'buby'
   BURP = 'burp'
-  FILE_EXP = 'file_exploit'
-  FILE_PAY = 'file_payload'
-  CREATE_EXPLOIT = 'create_exploit'
-  CREATE_PAYLOAD = 'create_payload'
+  EXP = 'exploit'
+  PAY = 'payload'
   WEBSERVER = 'webserver'
   AUXILIARY = 'auxiliary'
   
@@ -27,10 +25,8 @@ module WXf
   [ 
     BUBY,
     BURP, 
-    FILE_EXP,
-    FILE_PAY,
-    CREATE_EXPLOIT,
-    CREATE_PAYLOAD,
+    EXP,
+    PAY,
     WEBSERVER,
     AUXILIARY
     ]

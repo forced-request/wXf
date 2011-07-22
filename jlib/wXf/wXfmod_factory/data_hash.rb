@@ -19,7 +19,7 @@ class DataHash < Hash
   #
   def validate_store_items(opts)
     opts.each_pair {|k,v|
-    store_items(k, "#{v.data.to_s}")
+    store_items(k, v.data)
   }
   end
   

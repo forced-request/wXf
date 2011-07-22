@@ -86,8 +86,8 @@ class CoreProcs
        case (actv_type)
        when BUBY
          operator = BubyProcs  
-       when FILE_EXP
-         operator = FileExpProcs   
+       when EXP
+         operator = ExpProcs   
        when AUXILIARY
          operator = AuxiliaryProcs
         else
@@ -105,7 +105,7 @@ class CoreProcs
       
      self.in_focus = activity  
      
-     if auxiliary? or file_exploit?
+     if auxiliary? or exploit?
        #short term workaround
        nickname = arg_name.split('/')
        control.mod_prm("#{activity.type}" + control.red("(#{nickname.last})", true))
@@ -118,7 +118,7 @@ class CoreProcs
     
     def in_focus?
     if self.in_focus
-      arg_back
+      arg_back()
     end
     end
     
@@ -143,8 +143,8 @@ class CoreProcs
      in_focus.type == 'auxiliary'
     end
         
-    def file_exploit?
-      in_focus.type == 'file_exploit'
+    def exploit?
+      in_focus.type == 'exploit'
     end
     
     
@@ -156,115 +156,172 @@ class CoreProcs
      return mods
     end
     
+         
     #
     # Suppots the decision making process of which options to set with arg_set.
     #
     def option_name(cmd)
-        name_of_opt = cmd
-        opt = nil
-        
-        if (in_focus.type == WEBSERVER) and (in_focus.options.has_key?(name_of_opt))
-          opt = 'webserver_options'
-        elsif (in_focus.type == CREATE_EXPLOIT) and (in_focus.options.has_key?(name_of_opt))
-          opt = 'create_exploit_options'
-        elsif (in_focus.type == CREATE_PAYLOAD) and (in_focus.options.has_key?(name_of_opt))
-          opt = 'create_payload_options'
-        elsif (in_focus.type == AUXILIARY) and (in_focus.options.has_key?(name_of_opt))
-          opt = 'auxiliary_options'
-        elsif (in_focus.type == BURP) and (in_focus.options.has_key?(name_of_opt)) 
-          opt = 'burp_options'
-        elsif (in_focus.type == BUBY) and (in_focus.options.has_key?(name_of_opt)) 
-          opt = 'buby_options'
-        elsif (in_focus.type == FILE_EXP) and (in_focus.options.has_key?(name_of_opt))  
-          opt = 'exploit_mod_options'
-        elsif (in_focus.respond_to?('pay')) and (in_focus.pay.respond_to?('options')) and (in_focus.pay.optional.has_key?(name_of_opt))
-         opt = 'optional_payload'
-        elsif (in_focus.respond_to?('pay')) and (in_focus.pay.respond_to?('required')) and (in_focus.pay.required.has_key?(name_of_opt))
-          opt = 'required_payload'
-        elsif (in_focus.respond_to?('exp')) and (in_focus.exp.respond_to?('optional')) and (in_focus.exp.optional.has_key?(name_of_opt))
-          opt = 'optional_exploit'
-        elsif (in_focus.respond_to?('exp')) and (in_focus.exp.respond_to?('required')) and (in_focus.exp.required.has_key?(name_of_opt))
-          opt = 'required_exploit'
-        elsif (name_of_opt == "PAYLOAD")  
-          opt = 'PAYLOAD'
-        else
-          control.prnt_err(" Please enter a valid option, use show options") 
-          return false
-        end
-        
+      name_of_opt = cmd
+      opt = nil
+      opt_type = nil
+         
+      if (in_focus.type == WEBSERVER) and (in_focus.options.has_key?(name_of_opt))
+        opt = 'webserver_options'
+      elsif (in_focus.respond_to?('payload')) and 
+       (in_focus.payload.respond_to?('options')) and 
+       (in_focus.payload.options.has_key?(name_of_opt))
+       opt_type = in_focus.payload.options[name_of_opt].data_type
+       opt = 'payload'   
+      elsif (in_focus.type == BURP) and (in_focus.options.has_key?(name_of_opt)) 
+        opt = 'burp_options'
+      elsif (in_focus.type == BUBY) and (in_focus.options.has_key?(name_of_opt)) 
+        opt_type = in_focus.options[name_of_opt].data_type
+        opt = 'buby_options'
+      elsif (in_focus.type == AUXILIARY) and (in_focus.options.has_key?(name_of_opt))
+        opt_type = in_focus.options[name_of_opt].data_type
+        opt = 'auxiliary' 
+      elsif (in_focus.type == EXP) and (in_focus.options.has_key?(name_of_opt))  
+        opt_type = in_focus.options[name_of_opt].data_type
+        opt = 'exploit'
+      elsif (name_of_opt == "PAYLOAD")  
+        opt = 'PAYLOAD'
+      else
+        control.prnt_err(" Please enter a valid option, use show options")
+        return false
       end
-    
-      
-    #
-    # Used to set options and payloads
-    #
-    def arg_set(*cmd)
-      if cmd[1].nil?
-              control.prnt_err(" Please enter an option and value")      
-       return false 
-    end
-      
-      arg_opt = cmd[0]
-   
-      if (in_focus) and not (cmd[1].nil?)
-          case option_name(cmd[0])    
-              when  'optional_payload'
-                     cmd.slice!(0)
-                     in_focus.pay.optional[arg_opt] = "#{cmd.join(" ")}"       
-              when  'required_payload'
-                     cmd.slice!(0)
-                     in_focus.pay.required[arg_opt] = "#{cmd.join(" ")}"
-              when  'optional_exploit'     
-                     cmd.slice!(0)
-                     in_focus.exp.optional[arg_opt] = "#{cmd.join(" ")}"
-              when  'required_exploit'
-                     cmd.slice!(0)
-                     in_focus.exp.required[arg_opt] = "#{cmd.join(" ")}"
-              when  'auxiliary_options' 
-                     cmd.slice!(0)
-                     in_focus.datahash[arg_opt] = "#{cmd.join(" ")}"  
-              when  'exploit_mod_options'
-                     cmd.slice!(0)
-                     in_focus.datahash[arg_opt] = "#{cmd.join(" ")}"   
-              when  'webserver_options'
-                     cmd.slice!(0)
-                     in_focus.options[arg_opt] =  "#{cmd.join(" ")}" 
-              when   'buby_options'       
-                     cmd.slice!(0)
-                     in_focus.datahash[arg_opt] =  "#{cmd.join(" ")}" 
-              when   'burp_options'       
-                     cmd.slice!(0)
-                     in_focus.options[arg_opt] =  "#{cmd.join(" ")}" 
-              when 'create_exploit_options'
-                     cmd.slice!(0)
-                     in_focus.options[arg_opt] = cmd.join(" ")
-              when 'create_payload_options'
-                     cmd.slice!(0)
-                     in_focus.options[arg_opt] = cmd.join(" ")   
-              when  'PAYLOAD'
-                     begin
-                     
-                     if ((assistant = framework.modules.load("#{cmd[1]}",control)) == nil)
-                       return false
-                     end
-                        return false if (assistant == nil)
-                        self.active_assist_module = assistant.payload 
-                     end
-                    
-                      if (active_assist_module) and not(in_focus.type == 'auxiliary')
-                          self.in_focus.pay = self.active_assist_module
-                          control.prnt_plus(" PAYLOAD => #{cmd[1]}")
-                     else
-                          control.prnt_err(" Incorrect Payload #{cmd[1]}")
-                          return false
-                      end
-            end       
-        end  
+         
+       return opt, opt_type 
     end  
     
     
-    attr_accessor :active_assist_module
+   #
+   # Used to set options and payloads
+   #
+   def arg_set(*cmd)
+     if cmd[1].nil?
+             control.prnt_err(" Please enter an option and value")      
+      return false 
+     end
+     
+     arg_opt = cmd[0]
+  
+     if (in_focus) and not (cmd[1].nil?)
+       opt, opt_type = option_name(cmd[0]) 
+       # If this is a payload, lets get it processed as such
+       case opt 
+       when 'PAYLOAD'
+         option_payload(cmd[1].to_s)
+       when 'webserver_options'
+         in_focus.options[arg_opt] =  process_set_cmd(cmd)
+       when 'burp_options'
+         in_focus.options[arg_opt] =  process_set_cmd(cmd)
+       else
+         # Need to get the command processed and in a nice format
+         processed_command = process_set_cmd(cmd)    
+         # For anything that isn't a payload or webserver option, decide where to send it
+         # ...for further processing
+         case opt_type
+         when 'Integer'
+           set_engine(option_integer(processed_command), opt, arg_opt)
+         when 'Boolean'
+           set_engine(option_boolean(processed_command), opt, arg_opt)
+         when 'String'
+           set_engine(option_string(processed_command), opt, arg_opt)
+         end 
+       end
+     end  
+   end  
+   
+      
+   #
+   #  "set" decision engine based off opt  
+   #
+   def set_engine(option, option_type, arg_opt)
+     print_good = true
+     case option_type
+     when 'auxiliary'        
+       in_focus.datahash[arg_opt] =  option
+     when 'payload'
+       in_focus.payload.datahash[arg_opt] = option
+     when 'exploit'
+       in_focus.datahash[arg_opt] = option
+     when 'buby_options'
+       in_focus.datahash[arg_opt] = option 
+     else 
+       print_good = false
+     end
+     
+     if (print_good)
+       control.prnt_plus("#{arg_opt} => #{option}")
+     else
+       control.prnt_err("An error occurred setting: #{arg_opt}")
+     end 
+   end
+   
+   
+   #
+   # Process the command 
+   #
+   def process_set_cmd(cmd)
+     cmd.slice!(0)
+    return "#{cmd.join(" ")}"         
+   end
+   
+   
+   #
+   # Process and set an integer value
+   #
+   def option_integer(cmd)
+    val = cmd.to_i
+    return val
+   end
+   
+   #
+   # Process and set a string value
+   #
+   def option_string(cmd)
+     val = cmd.to_s
+     return val
+   end
+   
+   #
+   # Process and set an boolean value
+   #
+   def option_boolean(cmd)
+     val = cmd == "true" ? true : false
+     return val 
+   end
+   
+   #
+   #
+   #
+   def option_payload(cmd)
+     begin
+       if ((assistant = framework.modules.load("#{cmd}",control)) == nil)
+         if not (in_focus.type.match(/(auxiliary|webserver|burp|buby)/))
+           control.prnt_err("Incorrect Payload: #{cmd}")
+         else
+           control.prnt_err("Incorrect Option (PAYLOAD): #{cmd}")
+         end
+        return false
+       end
+                       
+       if assistant.type == "payload"
+         self.active_assist_module = assistant
+       end
+     end
+                     
+     if (active_assist_module) and not (in_focus.type.match(/(auxiliary|webserver|burp|buby)/))
+       self.in_focus.payload = self.active_assist_module
+       self.in_focus.payload.control = control
+       control.prnt_plus(" PAYLOAD => #{cmd}")
+     else
+      control.prnt_err("Incorrect Payload: #{cmd}")
+      return false
+     end
+   end 
     
+    attr_accessor :active_assist_module
     
    #
    # Tab completion when 'set' something has occurred.
@@ -274,8 +331,8 @@ class CoreProcs
        
      if in_focus.nil? 
        return nil
-     elsif stra[1] == "PAYLOAD" and in_focus.respond_to?('exp')
-       list.concat(framework.modules.payload_array)
+     elsif stra[1] == "PAYLOAD" and in_focus.type == 'exploit'
+       list.concat(framework.modules.module_list)
      elsif (stra[1] == 'LFILE')
        list.concat(framework.modules.lfile_load_list.keys.sort)
      elsif (stra[1] == 'RURLS')
@@ -288,9 +345,15 @@ class CoreProcs
        list.concat(POPULAR_URLS)  
      end
        
-     
+     case in_focus.type
+     when 'exploit'   
+       in_focus.options.each {|k,v| list.push(k) and list.push("PAYLOAD")}
+       if (in_focus.respond_to?('payload')) and (in_focus.payload.respond_to?('options'))
+         in_focus.payload.options.each {|k,v| list.push(k)}   
+       end
+     else
        in_focus.options.each {|k,v| list.push(k)}
-    
+     end 
        return list
    end
     
@@ -300,11 +363,11 @@ class CoreProcs
     #
     def arg_display(*cmd)
       disp =  control.purple(WXf::WXfui::Console::Prints::PrintDisplay.sample + "\n\n")
-      disp << " Web Exploitation Framework: #{WXf::Version}\n"
-      disp << " The time is currently: #{control.purple(Time.now)}\n\n"
+      disp << " Web Exploitation Framework: #{WXf::Version}\n\n"
       disp << " wXf has the following available resources:\n\n"
       disp << "-{ #{counter("buby")} buby }-\n"
-      disp << "-{ #{counter("exploits")} exploits }-\n"      
+      disp << "-{ #{counter("exploits")} exploits }-\n"   
+      disp << "-{ #{counter("payloads")} payloads }-\n"   
       disp << "-{ #{counter("auxiliary")} auxiliary }-\n\n"
       puts disp
     end     
@@ -344,7 +407,6 @@ class CoreProcs
   end      
     
   
-
 #
 # Show options, exploits, payloads....used for all of that 
 #     
@@ -353,40 +415,44 @@ def arg_show(*cmd)
   cmd << "all" if (cmd.length == 0)
      case "#{cmd}"
      when 'all'  
-      show_auxiliary
-      show_exploits
-      show_buby
+      control.show_payloads
+      control.show_auxiliary
+      control.show_exploits
+      control.show_buby
       
      when 'buby'
-      show_buby
-              
+       control.show_buby
+                
      when 'exploits'
-      show_exploits
-      
+      control.show_exploits
+    
+     when 'payloads'
+      control.show_payloads
+   
      when 'content'
-       show_content
+       control.show_content
        
      when 'rurls'
-       show_rurls  
+       control.show_rurls  
        
      when 'ua'   
-       show_ua
+       control.show_ua
        
      when 'lfiles'
-       show_lfiles      
+       control.show_lfiles      
       
      when 'auxiliary'
-      show_auxiliary
+      control.show_auxiliary
       
      when 'advanced'
-       show_content
-       show_lfiles
-       show_rurls
-       show_ua 
+       control.show_content
+       control.show_lfiles
+       control.show_rurls
+       control.show_ua 
       
      when 'options'           
       if (activity) 
-          show_options(activity)
+          control.show_options(activity)
       end
       
      else
@@ -396,6 +462,7 @@ def arg_show(*cmd)
         end  
      end
   end 
+  
   
    
     #
@@ -482,29 +549,7 @@ def arg_show(*cmd)
   
     end
 
-    
-    
-    
-    #
-    # When an in_focus exists this method becomes the de-facto to module specific options
-    #
-    def show_options(activity)
-     case activity.type
-     when 'file_exploit'
-      activity.usage
-     when 'auxiliary'
-      activity.usage
-     when 'webserver'
-      activity.usage
-     when 'buby'
-       activity.usage
-     when 'burp'
-       activity.usage
-     end       
-    end
- 
-    
-    
+        
     #
     # Shows arg_help for every operator on the stack that has the method defined.
     #
@@ -560,38 +605,36 @@ def arg_show(*cmd)
     #
     def arg_info_comp(str, stra); arg_use_comp(str, stra); end
     
+
     #
     # Thanks to CG [carnal0wnage] for mentioning this method. 
     # ...Returns information on a module
     #
     def arg_info(*cmd)
-       arg_name = cmd[0]
-       
-       if cmd.length == 0 and in_focus.nil?
-         print(
-                   "Example: info <module name>\n\n")
-                   return false
-       end
-      
-       if (cmd.length == 0) and (in_focus)
-         case in_focus.type
-         when 'auxiliary'
-           WXf::WXfui::Console::Prints::PrintPretty.collect(in_focus)
-         when 'buby'
-           WXf::WXfui::Console::Prints::PrintPretty.collect(in_focus)
-         end
+      arg_name = cmd[0]
+   
+      if cmd.length == 0 and in_focus.nil?
+        print(
+          "Example: info <module name>\n\n")
+        return false
       end
-      
-      
+  
+      if (cmd.length == 0) and (in_focus)
+        if in_focus.type.match(/(auxiliary|exploit|buby)/)
+          WXf::WXfui::Console::Prints::PrintPretty.collect(in_focus)
+        end
+      end
+  
+  
       if (cmd.length >= 1)
         if ((mod = framework.modules.load(arg_name, control)) == nil)
-                  control.prnt_err(" Non-existent module: #{arg_name}")
-                return false
+          control.prnt_err(" Non-existent module: #{arg_name}")
+         return false
         else
           WXf::WXfui::Console::Prints::PrintPretty.collect(mod)
         end
       end
-      
+  
     end
   
   
@@ -613,7 +656,7 @@ def arg_show(*cmd)
           control.prnt_err("There is no module in use")    
           return
         end
-        if type_name.match(/(auxiliary|file_exploit|buby)/)
+        if type_name.match(/(auxiliary|exploit|payload|buby)/)
           name = ''
           mods = framework.modules.mod_pair[type_name]
             mods.each {|k,v| 
@@ -624,9 +667,7 @@ def arg_show(*cmd)
         full_name = "#{type_name}/#{name}"
         framework.modules.reload(in_focus, full_name)
         arg_use(full_name)
-       elsif type_name.match(/(db_exploit)/) 
-         web_shut       
-         arg_use(self.mpholder)
+        web shut
        elsif type_name.match(/webserver/)
          web_shut
          arg_server
@@ -676,21 +717,7 @@ def arg_show(*cmd)
    return list
   end  
     
-  #
-  #
-  #
-  def wXflist_call 
-      WXf::WXfdb::Core.new(WXFDIR, 1)
-  end
   
-  
-   #
-   #
-   #
-   def exploit_list_by_name(args)
-      wXflist_call.db.get_exploit_by_name(args)
-   end
-   
   
     
     ### I'd like to move this over to the module factory/loader as a way to organize our payloads, exploits
@@ -700,173 +727,17 @@ def arg_show(*cmd)
       count = 0
      case arg
      when "exploits"     
-      list = framework.modules.counter('file_exploit')    
+      list = framework.modules.counter('exploit')    
      when "auxiliary"
        list = framework.modules.counter('auxiliary')
+     when "payloads"
+       list = framework.modules.counter('payload')
      when "buby"
        list = framework.modules.counter('buby')   
      end 
       return list 
     rescue
-    end
-   
-    
-  #
-  # Shows available buby modules
-  #
-  def show_buby
-    list = framework.modules.mod_pair['buby'].sort
-    # Display the commands
-    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-      'Title'  => "Buby",
-      'Justify'  => 4,
-      'Columns' =>
-      [
-        'Name',
-        'Description'
-      ])
-                       
-      list.each {|item, obj|
-        name =  "buby/#{item}"
-        desc =  obj.description.to_s.lstrip.rstrip
-        tbl.add_ritems([name,desc[0..50]])
-      }
-   tbl.prnt
-  end         
-    
-    
-  #
-  # Shows available file based exploits
-  #
-  def show_exploits
-    opts = []
-    list = framework.modules.mod_pair['file_exploit'].sort
-    # Display the commands
-      tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-        'Title'  => "Exploits",
-        'Justify'  => 4,             
-        'Columns' => 
-        [
-          'Name',
-          'Description'
-        ])
-            
-      list.each do |item, obj|
-       name =  "file_exploit/#{item}"
-       desc =  obj.description.to_s.lstrip.rstrip
-       tbl.add_ritems([name,desc[0..50]])
-     end       
-    tbl.prnt       
-   end
-  
-    
-    
-  #
-  # Show auxiliary mods
-  #    
-  def show_auxiliary
-   list = framework.modules.mod_pair['auxiliary'].sort
-   # Display the commands
-   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-     'Title'  => "Auxiliary",
-     'Justify'  => 4,
-     'Columns' =>
-       [
-         'Name',
-         'Description'
-       ])
-                    
-     list.each {|item, obj|
-       name =  "auxiliary/#{item}"
-       desc =  obj.description.to_s.lstrip.rstrip
-       tbl.add_ritems([name,desc[0..50]])
-     }
-   tbl.prnt
-  end
-  
-  
-  #
-  # show content
-  #
-  def show_content
-    list = WXf::CONTENT_TYPES.sort_by {|k,v| k.to_i}
-    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-      'Title'  => "Content-Types",
-      'Justify'  => 4,            
-      'Columns' => 
-      [
-        'Id',
-        'Content-Type'
-      ])
-      
-        list.each {|id, name|
-          tbl.add_ritems([id,name])
-        }
-    tbl.prnt
-  end  
-  
-  
-  #
-  # Show lfiles
-  #
-  def show_lfiles
-       list = framework.modules.lfile_load_list.sort
-       # Display the commands
-       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-         'Title'  => "Local Files",
-         'Justify'  => 4,             
-         'Columns' => 
-           [
-             'Name',
-            ])
-        list.each {|name, path|
-          tbl.add_ritems([name]) 
-         }
-       tbl.prnt
-  end
-  
-  
-  #
-  #
-  #
-  def show_rurls
-    list = framework.modules.rurls_load_list.sort
-         # Display the commands
-         tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-           'Title'  => "Rurl(s) Files",
-           'Justify'  => 4,             
-           'Columns' => 
-             [
-               'Name',
-              ])
-     list.each {|name, path|
-        tbl.add_ritems([name]) 
-      }
-    tbl.prnt
-  end
-
-  
-  #
-  # Show a list of user-agents
-  #
-  def show_ua
-  list = WXf::UA_MAP.sort_by {|k,v| k.to_i}
-  # Display the commands
-    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
-      'Title'  => "User-Agents",
-      'Justify'  => 4,             
-      'Columns' => 
-        [
-          'Id',
-          'User-Agent'
-        ])
-                          
-     list.each {|id, name|
-       tbl.add_ritems([id,name]) 
-     }
-   tbl.prnt
-  end  
-  
+    end 
   
   
   def avail_args

@@ -1,1 +1,1 @@
-require 'wXf/wXfassists/payload/payload_placeholder'
+require 'wXf/wXfassists/payload/rfi'

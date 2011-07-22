@@ -22,7 +22,7 @@ module SavonReq
              super
              init_opts([
                 WXf::WXfmod_Factory::OptString.new('RURL', [true, 'Target address', 'http://www.example.com/test.php']),
-                WXf::WXfmod_Factory::OptInteger.new('PROXYA', [false, 'Proxy IP Address' , nil]),
+                WXf::WXfmod_Factory::OptString.new('PROXYA', [false, 'Proxy IP Address' , '']),
                 WXf::WXfmod_Factory::OptString.new('PROXYP', [false, 'Proxy Port Number', '']),
              ])
              
