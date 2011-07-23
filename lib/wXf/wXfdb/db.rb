@@ -68,6 +68,18 @@ module WXfdb
       end 
      rescue    
     end
+    
+    def get_rfi_names
+          result = []
+          if @db_file == "wXf.db"
+           result = @db.execute('SELECT r_name FROM rfi')
+          end  
+          if result.empty?
+            raise "No RFI by that name"
+          else
+            return result
+          end
+    end
   
     def get_rfi_by_name(name)
       result = []

@@ -307,6 +307,8 @@ class CoreProcs
        return nil
      elsif stra[1] == "PAYLOAD" and in_focus.type == 'exploit'
        list.concat(framework.modules.module_list)
+     elsif stra[1] == "RFI" and in_focus.type == 'exploit'
+       list.concat( WXFDB.get_rfi_names.flatten.sort)
      elsif (stra[1] == 'LFILE')
        list.concat(framework.modules.lfile_load_list.keys.sort)
      elsif (stra[1] == 'RURLS')
