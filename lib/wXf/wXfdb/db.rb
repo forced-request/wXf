@@ -63,7 +63,7 @@ module WXfdb
     
     def get_rfi_list     
       if @db_file == "wXf.db"
-        rfi_list = @db.execute('SELECT r_name, r_desc FROM rfi')
+        rfi_list = @db.execute('SELECT r_name, r_desc, r_platform, r_lang FROM rfi')
        return rfi_list
       end 
      rescue    

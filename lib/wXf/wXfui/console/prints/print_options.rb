@@ -218,7 +218,7 @@ module PrintOptions
     
     
    #
-   #
+   # Show Remote File Inclusions Strings
    #
    def show_rfi
      list = WXFDB.get_rfi_list.sort
@@ -229,11 +229,13 @@ module PrintOptions
           'Columns' => 
             [
               'Name',
-              'Description'
+              'Description',
+              'Platform',
+              'Language'
             ])
                               
-         list.each {|name, desc|
-           tbl.add_ritems([name,desc]) 
+         list.each {|name, desc, platform, lang|
+           tbl.add_ritems([name,desc, platform, lang]) 
          }
        tbl.prnt     
    end 
