@@ -41,9 +41,9 @@ class WebXploit <  WXf::WXfmod_Factory::Payload
   end
   
   def payload_extraction(data)
-    extract_data = data.to_s.match(/<!--<#>(.*)<%>-->/m) 
+    extract_data = data.to_s.match(/<!--<#>(.*?)<%>-->/m) 
     if extract_data.kind_of?(MatchData) 
-      prnt_plus(extract_data[1])
+    datahash['ENCODE'] == true ? prnt_plus(Base64.decode64("#{extract_data[1]}")): prnt_plus(extract_data[1])
     else
       prnt_err("Exploit unsuccessful")   
     end
