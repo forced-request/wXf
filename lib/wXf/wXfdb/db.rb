@@ -49,6 +49,18 @@ module WXfdb
     end
     
     
+    def get_rfi_requires_auth(name)
+      result = []
+      if @db_file == "wXf.db"
+        result =  @db.execute('SELECT r_require_auth FROM rfi WHERE r_name=:name', "name" => name)
+      end  
+      if result.empty?
+       raise "No RFI by that name"
+      else
+        return result
+      end
+    end
+    
     def get_rfi_list     
       if @db_file == "wXf.db"
         rfi_list = @db.execute('SELECT r_name, r_desc FROM rfi')
