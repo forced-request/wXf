@@ -7,7 +7,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
             'Name'        => 'Joomla Version Scanner',
             'Description' => %q{
-              This is a basic Joomla version detection module. It takes advantage of the Joomla auxiliary assist library                                     
+             This is a basic Joomla version detection module. It takes advantage of the Joomla auxiliary assist library.
+             The module is meant to be used on one host only.                                    
             },           
             'Author'      => [ 'CKTRICKY',],
             'License'     => WXF_LICENSE
