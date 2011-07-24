@@ -18,8 +18,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
-    version = detect_version
-    if version.nil?
+    version = detect_version_single
+    if version.empty?
       prnt_err("No Joomla Version detected, sorry :-(")
     else
       prnt_plus("The Joomla Version detected was version: #{version}")
