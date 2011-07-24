@@ -1,0 +1,1 @@
+require 'wXf/wXfassists/auxiliary/joomla/joomla'
