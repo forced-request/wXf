@@ -9,12 +9,7 @@ class WebXploit <  WXf::WXfmod_Factory::Payload
     'Name'        => 'Payload for simplistic, one line PHP based command execution',
     'Version'     => '1.0',
     'Description' => %q{
-      stuff                       },
-    'References'  =>
-     [
-        [ 'URL', 'http://example.com/' ]
-       
-     ],
+     A single cmd sent, response parsed and then displayed                },
     'Author'      => [ 'CKTRICKY' ],
     'License'     => WXF_LICENSE
 )
