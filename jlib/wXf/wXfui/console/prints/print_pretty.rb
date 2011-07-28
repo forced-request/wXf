@@ -92,20 +92,20 @@ module Prints
     
     
     
-   #
-   # Prints the description value associated with a module
-   #   
-   def self.print_description(mod)   
-    str = ''
-    mod_enum = mod.description.to_s
-    mod_enum.each  {|line|    
-      format_line = line.lstrip       
-      str << ' ' + format_line         
-    }     
-     print("\n Description:\n")
-     print(" ============\n")
-     print("#{str}\n")   
-   end
+    #
+    # Prints the description value associated with a module
+    #   
+    def self.print_description(mod)   
+      str = ''
+      mod_enum = mod.description.to_s
+        mod_enum.each  {|line|    
+          format_line = line.lstrip.rstrip
+          str << "#{format_line}"       
+        }     
+      print("\n Description:\n")
+      print(" ============\n")
+      print(" #{str}\n")   
+    end
    
 
    
