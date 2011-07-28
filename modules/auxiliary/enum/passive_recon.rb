@@ -94,8 +94,10 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
    end
    
    if not (c_arry.empty?)
-     prnt_gen("Detected the following platform specific cookies:\n")
-     prnt_plus("#{c_arry}")
+     prnt_plus("Detected the following platform specific cookies:\n")
+     c_arry.each_with_index do |itm, idx|
+      print("(#{idx}) => #{itm}\n")
+     end
      print("\n")
    else
      print_an_error("cookies")
