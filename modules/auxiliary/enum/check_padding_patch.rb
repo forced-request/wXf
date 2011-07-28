@@ -17,7 +17,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              [
                 [ 'URL', 'https://www.gdssecurity.com/l/t/d.php?k=PadBuster' ],
                 [ 'URL', 'http://twitter.com/julianor/status/26419702099' ],
-    [ 'URL', 'http://bernardodamele.blogspot.com/2011/04/ms10-070-padding-oracle-applied-to-net.html' ],
+                [ 'URL', 'http://bernardodamele.blogspot.com/2011/04/ms10-070-padding-oracle-applied-to-net.html' ],
              ],
             'Author'      => [ 'willis',],
             'License'     => WXF_LICENSE

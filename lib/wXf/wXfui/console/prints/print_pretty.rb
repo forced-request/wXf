@@ -99,12 +99,12 @@ module Prints
     str = ''
     mod_enum = mod.description.to_s
     mod_enum.each  {|line|    
-      format_line = line.lstrip       
-      str << ' ' + format_line         
+      format_line = line.lstrip.rstrip
+      str << "#{format_line}"       
     }     
      print("\n Description:\n")
      print(" ============\n")
-     print("#{str}\n")   
+     print(" #{str}\n")   
    end
    
 
