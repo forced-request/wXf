@@ -16,7 +16,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              [
                 [ 'URL', 'https://www.owasp.org/index.php/Category:OWASP_Cookies_Database' ],
              ],
-            'Author'      => [ 'CKTRICKy',],
+            'Author'      => [ 'CKTRICKY',],
             'License'     => WXF_LICENSE
   
     )
