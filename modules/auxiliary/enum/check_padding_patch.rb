@@ -4,6 +4,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     super(
 
             'Name'        => 'MS10-070 "Oracle Padding Vuln" Check',
+            'Version'     => '1.0',
             'Description' => %q{
          This is a port of the handful of Oracle Padding Vuln scripts that
          check if the MS10-070 patch has been applied using ScriptResource or
