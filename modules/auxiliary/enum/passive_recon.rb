@@ -1,5 +1,7 @@
 class WebXploit < WXf::WXfmod_Factory::Auxiliary   
   
+  include WXf::WXfassists::General::MechReq
+  
   def initialize
     super(
 
@@ -14,7 +16,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              [
                 [ 'URL', 'https://www.owasp.org/index.php/Category:OWASP_Cookies_Database' ],
              ],
-            'Author'      => [ 'willis',],
+            'Author'      => [ 'CKTRICKy',],
             'License'     => WXF_LICENSE
   
     )
