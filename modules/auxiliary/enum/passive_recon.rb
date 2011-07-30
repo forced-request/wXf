@@ -2,6 +2,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
   include WXf::WXfassists::General::MechReq
   
+  attr_accessor :row
+  
   def initialize
     super(
 
@@ -15,6 +17,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
             'References'  =>
              [
                 [ 'URL', 'https://www.owasp.org/index.php/Category:OWASP_Cookies_Database' ],
+                [ 'URL', 'http://projects.webappsec.org/w/page/13246925/Fingerprinting']  
              ],
             'Author'      => [ 'CKTRICKY',],
             'License'     => WXF_LICENSE
@@ -77,8 +80,17 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     }
   end
   
-  def print_an_error(obj)
-    prnt_err("Unable to determine platform from: #{obj}\n")
+  def header_list
+    {
+      'server' => {
+                    'Apache/2.2.3 (CentOS)' => 'Apache Version 2.2.3 on CentOS',
+                    'Apache/2.2.12 (Ubuntu)' => 'Apache Version 2.2.12 on Ubuntu'
+                    },
+    }
+  end
+  
+  def print_an_error(str)
+    prnt_dbg("Unable to determine platform from: #{str}")
   end
   
   def print_notification(obj)
@@ -86,25 +98,73 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
     
   def print_cookies(cookies)
-   c_arry = []
    cookie_list.each do |key, value|
      if cookies.include?("#{key}")
-       c_arry.push(cookie_list["#{key}"])
+       row << ["set-cookie", "#{key}", cookie_list["#{key}"]]
      end
    end
-   
-   if not (c_arry.empty?)
-     prnt_plus("Detected the following platform specific cookies:\n")
-     c_arry.each_with_index do |itm, idx|
-      print("(#{idx}) => #{itm}\n")
-     end
-     print("\n")
+   #  If row is populated, we've got some cookies
+   if not row.empty?
+    prnt_plus("Match made (cookies)")
    else
      print_an_error("cookies")
    end
   end
   
+ 
+  #
+  # Check the individual headers
+  #
+  def header_check(res)
+    print_notification("individual headers")    
+    res.header.keys.each do |hkey|      
+      if header_list.include?(hkey)
+        hval = header_list[hkey].include?("#{res.header[hkey]}")
+        if (hval)
+          rkey = res.header[hkey]
+          row << [hkey, "#{rkey}", "#{header_list[hkey][rkey]}"]
+          prnt_plus("Match made (#{hkey})")
+        else
+          print_an_error("#{hkey}")
+        end
+      end  
+    end
+    
+    if row.empty?
+      prnt_err("Unable to passively recon target")
+    else
+      select(nil,nil,nil, 3)
+      print_headers(row)  
+    end
+    
+  end
+ 
+  def print_headers(*items)
+    list = items.sort
+    # Display the commands
+      tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+        'Justify'  => 4,             
+        'Columns' => 
+        [
+          'Header',
+          'Value',
+          'Description'
+        ])
+    list.each do |arry_row| 
+      arry_row.each do |name, key, val|  
+        tbl.add_ritems([name, key, val])
+      end
+    end
+    tbl.prnt    
+    
+  end
+  
+  
+  #
+  # Kick the module off
+  #
   def run
+    self.row = []
     print("\n")
     prnt_gen("Sending request to URL: #{rurl}")
     res = mech_req({
@@ -125,6 +185,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       else
         print_an_error("cookies")
       end
+      header_check(res)
     end
   end
   
