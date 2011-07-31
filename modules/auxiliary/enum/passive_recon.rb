@@ -98,6 +98,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
                     'Apache/1.3.29 (Unix) mod_perl/1.29' => 'Apache on Unix',
                     'Microsoft-IIS/4.0' =>  'Microsoft Internet Information Services 4.0',
                     'Microsoft-IIS/5.0' =>  'Microsoft Internet Information Services 5.0',
+                    'Microsoft-IIS/6.0' =>  'Microsoft Internet Information Services 6.0',
                     'Netscape-Enterprise/6.0' => 'Netscape Enterprise 6.0',
                     },
       'x-aspnet-version' => {
