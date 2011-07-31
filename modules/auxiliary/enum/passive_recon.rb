@@ -35,7 +35,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     {
       'JSESSIONID'    => 'J2EE Application server',
       'ASPSESSIONID'  => 'Microsoft Internet Information Services 5.0',
-      'ASP.NET_SessionId' => 'Microsoft Internet Information Services 6.0',
+      'ASP.NET_SessionId' => 'Microsoft Internet Information Services 6.0 or later',
       'PHPSESSION' => 'PHP (All Versions)',
       'wiki18_session' => 'MediaWiki 1.8',
       'WebLogicSession' => 'BEA WebLogic (All Versions)',
@@ -84,8 +84,22 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     {
       'server' => {
                     'Apache/2.2.3 (CentOS)' => 'Apache Version 2.2.3 on CentOS',
-                    'Apache/2.2.12 (Ubuntu)' => 'Apache Version 2.2.12 on Ubuntu'
+                    'Apache/2.2.12 (Ubuntu)' => 'Apache Version 2.2.12 on Ubuntu',
+                    'Microsoft-IIS/7.0' => 'Microsoft Internet Information Services 7.0',
+                    'Microsoft-IIS/7.5' => 'Microsoft Internet Information Services 7.5',
+                    'Apache/1.3.29 (Unix) mod_perl/1.29' => 'Apache on Unix',
+                    'Microsoft-IIS/4.0' =>  'Microsoft Internet Information Services 4.0',
+                    'Microsoft-IIS/5.0' =>  'Microsoft Internet Information Services 5.0',
+                    'Netscape-Enterprise/6.0' => 'Netscape Enterprise 6.0',
                     },
+      'x-aspnet-version' => {
+                               '1.1.4322'   => 'ASP.NET Framework 1.1',
+                               '1.2.30327'  => 'ASP.NET Framework 1.1',
+                               '2.0.50215'  => 'ASP.NET Framework 2.0',  
+                               '2.0.50727'  => 'ASP.NET Framework 2.0',
+                               '4.0.30319'  => 'ASP.NET Framework 4.0',
+                               '4.0.21006'  => 'ASP.NET Framework 4.0'
+                            }         
     }
   end
   
