@@ -30,6 +30,10 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
          ])
   end
   
+  
+  #
+  # List of cookies
+  #
   def cookie_list 
     
     {
@@ -80,6 +84,10 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     }
   end
   
+  
+  #
+  # List of interesting header values (fingerprinting)
+  #
   def header_list
     {
       'server' => {
@@ -103,14 +111,27 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     }
   end
   
+  
+  #
+  # When we can match a header with anything in our list,
+  # ...print an error
+  #
   def print_an_error(str)
     prnt_dbg("Unable to determine platform from: #{str}")
   end
   
+  
+  #
+  # Print a general notification
+  #
   def print_notification(obj)
     prnt_gen("Analyzing #{obj}...")
   end
-    
+  
+  
+  #
+  # Need to get those cookies in the row array 
+  #  
   def print_cookies(cookies)
    cookie_list.each do |key, value|
      if cookies.include?("#{key}")
@@ -153,6 +174,10 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     
   end
  
+  
+  #
+  # Print the individual headers which match our lists
+  #
   def print_headers(*items)
     list = items.sort
     # Display the commands
