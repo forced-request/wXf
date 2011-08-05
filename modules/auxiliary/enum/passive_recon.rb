@@ -38,7 +38,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     
     {
       'JSESSIONID'    => 'J2EE Application server',
-      'ASPSESSIONID'  => 'Microsoft Internet Information Services 5.0',
+      'ASPSESSIONID'  => 'Microsoft Internet Information Services 5.0 or 6.0',
       'ASP.NET_SessionId' => 'Microsoft Internet Information Services 6.0 or later',
       'PHPSESSION' => 'PHP (All Versions)',
       'wiki18_session' => 'MediaWiki 1.8',
