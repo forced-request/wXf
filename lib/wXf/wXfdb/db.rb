@@ -92,7 +92,19 @@ module WXfdb
         return result
       end
     end
-  
+    
+    def get_rfi_by_platform(platform)
+      result = []
+      if @db_file == "wXf.db"
+        result = @db.execute('SELECT r_path FROM rfi WHERE r_platform=:platform', "platform" => platform)
+      end  
+      if result.empty?
+        raise "No RFI by that name"
+      else
+        return result
+      end  
+    end
+
   end
 
 end end
