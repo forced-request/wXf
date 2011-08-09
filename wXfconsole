@@ -11,6 +11,13 @@ $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'jlib'))
 
  require 'rubygems'
  require 'optparse'
+ 
+ begin 
+ 	require 'jruby-openssl'
+ rescue LoadError
+ 	print("\e[1;31m[wXf error]\e[0m Please run: $ sudo gem install jruby-openssl\n")
+ 	exit
+ end
 
 
 class OptsParse
