@@ -80,8 +80,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       'Ltpatoken2=' => 'IBM WebSphere Application Server 5.1 and later', 
       'LtpatokenExpiry' => 'IBM Lotus Domino 5.0.x and later ',
       'LtpatokenUsername' => 'IBM Lotus Domino 5.0.x and later ',
-      'DomAuthSessID' => 'Lotus Domino (Unknown Version)',
-      'IBM_HTTP_Server' => 'WebSphere Application Server'      
+      'DomAuthSessID' => 'Lotus Domino (Unknown Version)',       
     }
   end
   
@@ -101,6 +100,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
                     'Microsoft-IIS/5.0' =>  'Microsoft Internet Information Services 5.0',
                     'Microsoft-IIS/6.0' =>  'Microsoft Internet Information Services 6.0',
                     'Netscape-Enterprise/6.0' => 'Netscape Enterprise 6.0',
+                    'IBM_HTTP_Server' => 'WebSphere Application Server'
                     },
       'x-aspnet-version' => {
                                '1.1.4322'   => 'ASP.NET Framework 1.1',
