@@ -499,7 +499,6 @@ def arg_show(*cmd)
     #
     def arg_exit(*cmd)
       #kill webserver processes
-      web_shut
       #obvious
       exit
     end
@@ -667,9 +666,7 @@ def arg_show(*cmd)
         full_name = "#{type_name}/#{name}"
         framework.modules.reload(in_focus, full_name)
         arg_use(full_name)
-        web shut
        elsif type_name.match(/webserver/)
-         web_shut
          arg_server
        else
          unloaded = true
@@ -682,10 +679,8 @@ def arg_show(*cmd)
       when "modules"
         # Reset everything
         framework.modules.mod_load(WXf::ModWorkingDir)
-        web_shut
         arg_back   
       when "all"
-        web_shut
         framework.modules.mod_load(WXf::ModWorkingDir)
         framework.modules.reload("lfiles")
         framework.modules.reload("rurls")
