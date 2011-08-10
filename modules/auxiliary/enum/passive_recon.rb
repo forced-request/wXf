@@ -80,7 +80,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
       'Ltpatoken2=' => 'IBM WebSphere Application Server 5.1 and later', 
       'LtpatokenExpiry' => 'IBM Lotus Domino 5.0.x and later ',
       'LtpatokenUsername' => 'IBM Lotus Domino 5.0.x and later ',
-      'DomAuthSessID' => 'Lotus Domino (Unknown Version)',      
+      'DomAuthSessID' => 'Lotus Domino (Unknown Version)',
+      'IBM_HTTP_Server' => 'WebSphere Application Server'      
     }
   end
   
