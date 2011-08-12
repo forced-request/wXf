@@ -20,25 +20,37 @@ class CoreProcs
       end
     
         
-    #
-    # Update command
-    #  
-    def arg_update(*cmd)
-     if !cmd.empty?
-       control.prnt_err('Please type "update" only') 
-       return
-      end      
-      pwd = Dir.pwd      
-      if pwd == WXf::WorkingDir
-        exec = ::IO.popen("git pull", "r")
-        exec.each do |data|
-          print(data)
+      #
+      # Update command
+      #  
+      def arg_update(*cmd)
+        force_up = false
+        if !cmd.empty?
+          if cmd.first == "force"
+            force_up = true
+          else
+            control.prnt_err('Please type "update" or "update force" only')
+           return
+          end
         end
-        exec.close
-      else
-        control.prnt_err("You need to be in wXf root directory to update")
+        pwd = Dir.pwd
+        if pwd == WXf::WorkingDir
+          if (force_up)
+            exec_f = ::IO.popen("git checkout -f", "r")
+            exec_f.each do |data|
+              print(data)
+            end
+            exec_f.close
+          end
+          exec = ::IO.popen("git pull", "r")
+          exec.each do |data|
+            print(data)
+          end
+          exec.close
+        else
+          control.prnt_err("You need to be in wXf root directory to update")
+        end
       end
-    end           
       
     
     #
