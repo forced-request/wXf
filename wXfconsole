@@ -56,7 +56,8 @@ options = OptsParse.parse(ARGV)
 begin
  require 'buby'
 rescue LoadError
- puts("!!!!! WARNING: PLEASE INSTALL buby !!!!.\n sudo jruby -S gem install buby")
+ print("\e[1;31m[wXf error]\e[0m Please install buby: sudo jruby -S gem install buby\n")
+ exit
 end
 
 require 'wXf/wXfassists'
