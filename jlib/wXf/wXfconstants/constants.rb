@@ -80,7 +80,7 @@ module WXf
           '8' => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.1) Gecko/20100122 firefox/3.6.1',
           '9' => 'Mozilla/5.0 (compatible; Konqueror/3; Linux)',
           '10' => 'Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3',
-          '11' => "WWW-Mechanize/#{VERSION} (http://rubyforge.org/projects/mechanize/)"
+          '11' => "WWW-Mechanize/#{Version} (http://rubyforge.org/projects/mechanize/)"
      }
  
    #Content types  
