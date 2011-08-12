@@ -1,10 +1,9 @@
 begin
   require 'rubygems'
   require 'nokogiri'
-rescue LoadError
-  
-  print(" !!!Please install Nokogiri 'sudo gem install nokogiri'!!!\n")
-  
+rescue LoadError 
+  print("\e[1;31m[wXf error]\e[0m Please install nokogiri: sudo gem install nokogiri\n")
+  exit  
 end
   
 require 'net/http'
