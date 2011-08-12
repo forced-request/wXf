@@ -10,14 +10,13 @@ begin
   require 'sqlite3'
 
 rescue LoadError
-
-  print("\n\n\n" +'WXF ALERT!!!! Please install sqlite3...' + "\n")
+  print("\n\e[1;31m[wXf error]\e[0m Please install sqlite3\n")
   print("\nUsers need to do the following:" +"\n")
   print("-------------------------------" +"\n")
   print("sudo apt-get install sqlite3" +"\n")
   print("sudo apt-get install libsqlite3-dev" +"\n")
-  print('sudo gem install sqlite3 OR sudo gem install sqlite3-ruby (Ubuntu)' + "\n")
-  
+  print('sudo gem install sqlite3-ruby' + "\n\n")
+  exit
 end
   
   
