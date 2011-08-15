@@ -2,10 +2,11 @@
 
 class WebXploit < WXf::WXfmod_Factory::Buby  
    
+
   
   module Runner   
-    
-    attr_accessor :fuzz_params 
+    include WXf::WXfassists::Buby::BubyApi
+    attr_accessor :fuzz_params, :found
     
     #
     # Grab the fuzz file hoss
@@ -61,15 +62,17 @@ class WebXploit < WXf::WXfmod_Factory::Buby
     end
    
    proto = req.protocol == 'https' ? true : false
-   
+   url = "#{req.protocol}://#{req.host}"
+
    bparam.each do |fuzzp,value|
-     if self.fuzz_params.include?(fuzzp) and isInScope($datahash['RURL']) == true
+     if self.fuzz_params.include?(fuzzp) and $datahash['RURL'] == url
        sendToIntruder(req.host, req.port, proto, req.request_string)
        sendToRepeater(req.host, req.port, proto, req.request_string, "#{fuzzp}-#{count}")
        issueAlert("We've sent #{fuzzp}-#{count} to intruder")
        issueAlert("We've sent #{fuzzp}-#{count} to repeater")
      end
    end
+   
 end
     
     
