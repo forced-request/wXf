@@ -43,7 +43,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
 
             'Name'        => 'Extract HTML Comments',
             'Description' => %q{
-             Puts the remote URL (RURL) in scope and extracts comments from any in scope site.
+             Extracts comments from the site of your choosing in an offline fashion by parsing Burp's proxy logs.
             },
             'Version' => '1.0',
             'References'  =>
