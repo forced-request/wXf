@@ -7,7 +7,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
    def process_html_comments(*param)
       url, rhost, rport, prefix, message = param
       str_msg = message.dup
-      file = "#{WXf::LogsDir}comments_#{rhost}"
+      file = "#{WXf::LogsDir}_online_comments_#{rhost}"
       if (message)
         split_msg = str_msg.split(' ')
         true_index = nil  
