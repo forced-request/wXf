@@ -55,7 +55,7 @@ module Processing
         when 'LFILE'
           if control.framework.modules.lfile_load_list.has_key?(inst)        
             name = control.framework.modules.lfile_load_list[inst]
-            activity.datahash[opt] = name
+            activity.datahash[opt] = name           
           end
         when 'RURLS'
           if control.framework.modules.rurls_load_list.has_key?(inst)

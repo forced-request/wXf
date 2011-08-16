@@ -22,7 +22,7 @@ class WebXploit <  WXf::WXfmod_Factory::Auxiliary
               )
       init_opts([
         OptString.new('FILE',     [true, 'File To View', 'boot.ini']),
-        OptString.new('LFILE', [true, 'Directory Traversal Strings File','wordlists/dir_traversal_strings.txt']),
+        OptString.new('LFILE', [true, 'Directory Traversal Strings File','wordlists/dir_traversal/dir_traversal_strings.txt']),
         OptString.new('METHOD', [true, 'Choose either get or post', 'get']),
         OptString.new('RPARAMS', [false, 'Enter the body like so: foo=bar&cow=moo', '']),
         OptString.new('FUZZPARAM', [false, 'Identify which param is to be fuzzed' '']),

@@ -191,7 +191,7 @@ end
              nickname = file.sub(base_path, '')
              hash[nickname] = file
             end
-         }           
+         }      
         return hash
       end
          
