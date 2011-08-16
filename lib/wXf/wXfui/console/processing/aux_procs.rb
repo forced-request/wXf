@@ -52,7 +52,7 @@ module Processing
       inst = val
       self.opts[opt] = val
       case opt
-        when 'LFILE'
+        when 'LFILE'     
           if control.framework.modules.lfile_load_list.has_key?(inst)        
             name = control.framework.modules.lfile_load_list[inst]
             activity.datahash[opt] = name

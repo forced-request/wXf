@@ -65,7 +65,7 @@ module WXf
   ModDatum =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/'
   ModRurls =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'rurls/'  
   PayloadsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/payloads/'
-  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..')) + File::SEPARATOR + 'wXflog/' 
+  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/' 
 
   # User agents
    UA_MAP = {
