@@ -68,7 +68,7 @@ class WebXploit < WXf::WXfmod_Factory::Buby
     )
     
     init_opts([
-      OptString.new('RURL', [true, "Enter the remote url value", "http://www.example.com"])           
+      OptString.new('RURL', [true, "Enter the RURL from which we should extract", "http://www.example.com"])           
     ])
   end
 
