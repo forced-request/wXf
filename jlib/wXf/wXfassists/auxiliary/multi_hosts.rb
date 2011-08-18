@@ -11,7 +11,7 @@ module MultiHosts
   def initialize(hash_info={})    
     super
       init_opts([
-        WXf::WXfmod_Factory::OptString.new('RURLS', [true, 'Target addresses file', 'rurls/some_urls.txt']),
+        WXf::WXfmod_Factory::OptString.new('RURLS', [true, 'Target addresses file', 'host_list.txt']),
       ])
       
       # Important to delete the RURL option
@@ -29,7 +29,10 @@ end
     file = datahash['RURLS']
     if File.file?(file) and File.exist?(file)
       IO.foreach(file) do |line|
-        line_array.push(line) 
+       line.chomp!
+       if not line.empty?
+        line_array.push(line)
+       end
       end   
     end 
      return line_array

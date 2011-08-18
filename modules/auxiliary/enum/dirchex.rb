@@ -41,7 +41,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
    
     
     # Beginning of the loop
-    rurls.each do |rurl|  
+    rurls.each do |rurl| 
       res = nil 
        case datahash['METHOD']
          when "GET"

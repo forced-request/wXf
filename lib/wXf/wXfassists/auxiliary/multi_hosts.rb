@@ -29,7 +29,10 @@ end
     file = datahash['RURLS']
     if File.file?(file) and File.exist?(file)
       IO.foreach(file) do |line|
-        line_array.push(line) 
+       line.chomp!
+       if not line.empty?
+        line_array.push(line)
+       end
       end   
     end 
      return line_array
