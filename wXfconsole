@@ -29,6 +29,11 @@ class OptsParse
       opt.on("-b", "-b <burp.jar>", "Load the specified burp jar file") do |b|
 	    options['Burp'] = b
 	  end  
+	  
+	  opt.on("-r", "-r <save_state>", "Load the specified save state file") do |r|
+	    options['Restore'] = r
+	  end  
+	
 	
 	  opt.on_tail("-h", "--help", "Show this message") do
         puts opt

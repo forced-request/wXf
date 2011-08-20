@@ -61,14 +61,18 @@ module Processing
       end 
     end
     
-    
     #
-    # Allows the user to restore their state
+    # Peforms actual restoration
     #
-    def arg_restore(*cmd)
-      if $burp
+    def restoration(*cmd)
+           
+      if not $burp
+        control.prnt_err("No instance of Burp is running!")
+        return
+      end
+        
         if $burp.respond_to?("restore_state")
-          if File.exists?("#{cmd}")         
+          if File.exists?("#{cmd}")
             $burp.restore_state("#{cmd}")
           else
             control.prnt_err("This restore file does not exist!")
@@ -76,10 +80,27 @@ module Processing
         else
           control.prnt_err("It would appear your version of Burp doesn't allow a restore :-(")
         end
-      else
-        control.prnt_err("No instance of Burp is running!")
-      end
+           
     end
+    
+    
+    #
+    # Allows the user to restore their state
+    #
+    def arg_restore(*cmd)
+      return if cmd.empty? unless control.options.has_key?('Restore')      
+      
+      if cmd.length > 0
+        restoration(cmd)
+        return                   
+      elsif control.options.has_key?('Restore')
+        restore = control.options['Restore']
+        restoration(restore)  
+      end
+      
+    end
+    
+   
        
     
    
