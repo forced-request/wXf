@@ -103,6 +103,18 @@ module WXfdb
         return result
       end  
     end
+    
+    def get_vuln_wordpress_plugins_list
+      result = []
+      if @db_file == "wXf.db"
+        result = @db.execute('SELECT * FROM wordpress_vuln_plugins' )
+      end  
+      if result.empty?
+        raise "No data"
+      else
+        return result
+      end  
+    end
 
   end
 

@@ -7,9 +7,13 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     super(
       'Name'        => 'Oracle Application Server Detection',
       'Version'     => '1.0',
-      'Description' => 'Checks the server headers for common Oracle Application Server (PL/SQL Gateway) Headers.  
-                        You may want to append /apex/ to the URL; http://example.com/apex/ as a check for Oracle Application Express Servers.',
-      'Author'      => 'CG' ,
+      'Description' => %q{
+        
+        Checks the server headers for common Oracle Application Server (PL/SQL Gateway) Headers.  
+        You may want to append /apex/ to the URL; http://example.com/apex/ as a 
+        check for Oracle Application Express Servers.
+                        },
+      'Author'      => ['CG'] ,
       'License'     => WXF_LICENSE,
       'References'  =>
         [
