@@ -207,15 +207,21 @@ module MechReq
              
           # This allows us to set a CA file if need be
           ca_file = opts['CAFILE'] || nil
-          if (ca_file)
+          if !ca_file == nil
               agent.ca_file = ca_file
           end
           
           # Keep Alive Settings
           keep_alive = opts['KEEP-ALIVE'] || nil
-          if (keep_alive)
+          if !keep_alive == nil
             agent.keep_alive = keep_alive              
           end
+         
+          #Timeout settings
+          timeout = opts['TIMEOUT'] || nil
+            if !timeout.nil == nil
+              agent.open_timeout = timeout
+            end
           
           # Basic Authorization Settings
           basic_auth_user = opts['BASIC_AUTH_USER'] || nil
@@ -232,11 +238,13 @@ module MechReq
           end
           
           
+          rescue Timeout::Error
+            prnt_err("We've received a timeout to: #{rurl}")
           rescue WAx::WAxHTTPLibs::Mechanize::ResponseCodeError => self.rce
-          temp_rce_code = "#{self.rce}".match(/\d{3}/)
-          self.rce_code = temp_rce_code[0].to_i   
+            temp_rce_code = "#{self.rce}".match(/\d{3}/)
+            self.rce_code = temp_rce_code[0].to_i   
           rescue => $!            
-          prnt_err("Mechanize Error: #{$!}")
+            prnt_err("Mechanize Error: #{$!}")
           
         
         end
