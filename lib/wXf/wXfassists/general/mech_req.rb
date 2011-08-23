@@ -219,7 +219,7 @@ module MechReq
          
           #Timeout settings
           timeout = opts['TIMEOUT'] || nil
-            if !timeout.nil == nil
+            if !timeout == nil
               agent.open_timeout = timeout
             end
           
