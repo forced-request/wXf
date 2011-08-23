@@ -11,30 +11,24 @@ module Wordpress
     WXFDB.get_vuln_wordpress_plugins_list
   end
   
-  def enumerate_vuln_plugins(timeout, prnt)
-   
+  def enumerate_vuln_plugins(timeout, prnt)   
     rows = []
     vulns = fetch_wp_vuln_plugins
     vulns.each_with_index do |row, idx|
       count = idx + 1
       if (prnt)
         prnt_gen("Requesting #{count} of #{vulns.length}")
-      end
-      
+      end      
       index = row[0]
       name = row[1]
       vuln = row[2]
-      ref = row[3]   
-    
-      url = "#{rurl}/wp-content/plugins/#{name}"
-    
-      
+      ref = row[3]       
+      url = "#{rurl}/wp-content/plugins/#{name}"  
         res = mech_req({
           'method'=> 'GET',
           'RURL'  =>  url,   
           'TIMEOUT' => timeout,
         })
-    
     
       if res and res.respond_to?('code') and res.code == "200"
         row.unshift(res.code.to_i, true)
