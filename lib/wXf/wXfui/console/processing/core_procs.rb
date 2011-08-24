@@ -576,7 +576,7 @@ def arg_show(*cmd)
     # Method to show version information. *Would like to shift from Core::Version to constants (maybe)
     #
     def arg_version(*cmd)
-      control.prnt_gen("Web Exploitation Framework:" + WXf::WXfdb::Core::Version)
+      control.prnt_gen("Web Exploitation Framework:" + WXf::Version)
     end
  
     
