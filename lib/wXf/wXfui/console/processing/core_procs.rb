@@ -449,10 +449,6 @@ def arg_show(*cmd)
      end
   end 
   
-  
-    #
-    #
-  
  
     #
     # Show tabs helper
