@@ -115,6 +115,28 @@ module WXfdb
         return result
       end  
     end
+    
+    def get_all_wordpress_plugins_list
+      result = []
+      if @db_file == "wXf.db"
+        result = @db.execute('SELECT * FROM wordpress_plugins' )
+      end  
+      if result.empty?
+        raise "No data"
+      else
+        return result
+      end  
+    end
+    
+    def get_wordpress_vuln_by_name(name) 
+      result = []
+      if @db_file == "wXf.db"
+        result =  @db.execute('SELECT title, reference FROM wordpress_vuln_plugins WHERE name=:name', "name" => name)
+      end  
+      if not result.empty?
+       return result
+      end 
+    end
 
   end
 

@@ -5,12 +5,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
   def initialize
     super(
-      'Name'        => 'WordPress Vulnerable Plugins Check',
+      'Name'        => 'WordPress Plugins Check',
       'Version'     => '1.0',
       'Description' => %q{
         
-        Lists vulnerable WordPress plugins that exist on the site, this is based off
-        ethicalhack3r's "wpscan".
+        Tests a WordPress site requesting all plugins that could potentially exist on the site, this is based off
+        ethicalhack3r's "wpscan" but uses a plugin list by CG.
                         },
       'Author'      => ['CG', 'CKTRCKY'] ,
       'License'     => WXF_LICENSE,
@@ -32,9 +32,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              'Response Code',
              'Plugin Name',
              'Vulnerability',
-             'Reference'
+             'Reference',
            ])
-         list_items.each do |code, found, index, name, vuln, ref|  
+         list_items.each do |code, found, index, name, vuln, ref| 
            tbl.add_ritems([code, name, vuln, ref])
          end
        tbl.prnt    
@@ -42,15 +42,21 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   
   def run
     list = []
-    enumerate_vuln_plugins(3, true).each do |row|
+    enumerate_all_plugins(3, true).each do |row|
      code = row[0]
      found = row[1]
      index = row[2]
      name = row[3]
-     vuln = row[4]
-     ref = row[5]
     
      if found
+      ref_data = fetch_wordpress_vuln_by_name("#{name}")
+      if ref_data
+        ref_data.each do |ref_row|
+          row.push("#{ref_row[0]}", "#{ref_row[1]}")
+        end
+      else
+        row.push("none", "none")
+      end
       list.push(row) 
      end
     
@@ -59,7 +65,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     if !list.empty?
       print_found(list)
     else
-      prnt_err("No vulnerable plugins discovered")
+      prnt_err("No plugins discovered")
     end
     
   end
