@@ -200,7 +200,13 @@ module Operations
     # ...method 
     #               
     def runcmd(line)
-      args = line.split
+      
+      if line.kind_of?(String)
+        args = line.split
+      else
+        args = line
+      end
+      
       command = args.shift
       found = false
       entries = activities.length
