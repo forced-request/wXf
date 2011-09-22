@@ -20,6 +20,8 @@ module Shell_Func
    def initialize(tab_completion=nil)
      rl_check
      rl_tabcomp_engine(tab_completion)
+     history = History.new
+     @file = File.open(history.history_file, "a")
    end
    
    
@@ -28,9 +30,13 @@ module Shell_Func
    #   
    def grab        
      line = nil
-    begin          
-     line = ::Readline.readline(prm, true)
-    end
+     begin          
+      line = ::Readline.readline(prm, true)
+      if not line =~ /^\s*$/
+        @file.puts(line)
+      end
+      end
+    return line
    end
       
  
