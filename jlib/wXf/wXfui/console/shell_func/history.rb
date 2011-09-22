@@ -21,9 +21,14 @@ class History
     else
       ::Dir.mkdir(wXf_home_dir)
     end  
-    
+   
     self.history_file = "#{wXf_home_dir}/history"
-    hist_file    
+    
+    if ! ::File.exists?("#{self.history_file}")
+      File.new("#{self.history_file}", "w+")
+    end
+    
+    hist_file
   end
   
   def hist_file
