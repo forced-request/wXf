@@ -283,7 +283,7 @@ module MechReq
     # HTTP POST
     #
     def agent_post(agent, url, rparams, headers, rfile, rfile_content)
-      agent.post("#{url}", rparams, headers)      
+      agent.post({:url=>"#{url}", :headers => headers, :params => rparams})      
     end  
      
      
