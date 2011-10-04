@@ -20,6 +20,7 @@ module WXf
   PAY = 'payload'
   WEBSERVER = 'webserver'
   AUXILIARY = 'auxiliary'
+  DT = 'decision tree'
   
   FUNCTION_TYPES = 
   [ 
@@ -28,7 +29,8 @@ module WXf
     EXP,
     PAY,
     WEBSERVER,
-    AUXILIARY
+    AUXILIARY,
+    DT
     ]
  
   WXF_LICENSE = 'Web Exploitation Framework License GPL'
@@ -65,7 +67,8 @@ module WXf
   ModDatum =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/'
   ModRurls =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'rurls/'  
   PayloadsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/payloads/'
-  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/' 
+  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/'
+  PackagesDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'jlib/wXfgui/packages'
 
   # User agents
    UA_MAP = {

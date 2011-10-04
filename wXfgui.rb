@@ -18,9 +18,8 @@ require 'wXfgui/mod_loader'
 require 'wXfgui/popup_click_listener'
 require 'wXfgui/request_response_tabbed_pane'
 require 'wXfgui/main_tabs'
-require 'wXfgui/decision_tree_model'
-require 'wXfgui/decision_tree_list'
 require 'wXfgui/checkbox_rendering'
+require 'wXfgui/decision_tree'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -137,8 +136,11 @@ class WxfMainPanel < JPanel
       tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1))
       t_scroll_pane_1 = JScrollPane.new(tree_1)
       
-    
-      decisionTreeModel = DecisionTreeModel.new(DecisionTreeList.new)
+      
+      dtm = DecisionTreeFactory.new
+      dtm_modules = dtm.module_hash
+      decisionTreeModel = DecisionTreeModel.new(dtm_modules)   
+      
       tree_2 = JTree.new(decisionTreeModel)
       renderer = CheckBoxNodeRenderer.new
       tree_2.set_cell_renderer(renderer)    
