@@ -10,7 +10,6 @@ require 'java'
 require 'rubygems'
 
 #wXf gui elements
-require 'wXfgui/buttons'
 require 'wXfgui/request_response_tabbed_pane'
 require 'wXfgui/wxfgui_menu'
 require 'wXfgui/modules_tree'

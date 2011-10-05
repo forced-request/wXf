@@ -10,8 +10,6 @@ module WxfGui
           
           def initialize
               self.packages = []
-              # file = File.read(WXf::PackagesDir)
-              # ENSURE YOU CHANGE THIS ONCE INTEGRATED
               file = File.read("#{WXf::PackagesDir}/packages.xml")
               doc = REXML::Document.new(file)
               doc.elements.each("packages/package") do |element|
