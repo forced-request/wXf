@@ -10,6 +10,8 @@ require 'java'
 require 'rubygems'
 
 #wXf gui elements
+require 'wXfgui/workspace_chooser'
+require 'wXfgui/workspace_creator'
 require 'wXfgui/request_response_tabbed_pane'
 require 'wXfgui/wxfgui_menu'
 require 'wXfgui/modules_tree'
@@ -203,6 +205,7 @@ class Wxfgui < JFrame
   def initialize
       super "The Web Exploitation Framework"      
       self.initUI
+      check_workspace
   end
     
   def initUI
@@ -233,7 +236,28 @@ class Wxfgui < JFrame
       self.setVisible true
   end
   
+  def check_workspace
+      home_dir = ENV['HOME']
+      wXf_home_dir = "#{home_dir}/.wXf"
+      pwd = Dir.pwd
+      db_exists = false
+  
+      Dir.foreach(wXf_home_dir) do |f|
+        if File.extname(f) == ".db"
+            db_exists = true
+          next
+        end
+      end
+  
+      if db_exists == true
+        WorkspaceChooser.new
+      else
+        WorkspaceCreator.new     
+      end   
+    end  
+  
 end
+
 
 end
 
