@@ -24,19 +24,18 @@ class MainTabs < JTabbedPane
     @advisories = JTextPane.new()
     @general  = JTextPane.new()
     @console  = JTextPane.new()
-    @scope  = JTextPane.new()
+    @scope  =   ScopePanel.new()
     @advisories.editable = false
     @general.editable = false
     @console.editable = false
-    @scope.editable = false
     @text_pane_advisories  = JScrollPane.new(@advisories)
     @text_pane_general = JScrollPane.new(@general)
     @text_pane_console  = JScrollPane.new(@console)
-    @text_pane_scope  = JScrollPane.new(@scope)
+    @panel_scope  = JScrollPane.new(@scope)
     add("Advisories",  @text_pane_advisories)
     add("General", @text_pane_general)
     add("Console", @text_pane_console)
-    add("Scope", @text_pane_scope)
+    add("Scope", @panel_scope)
   end
   
   def listener(*params)
