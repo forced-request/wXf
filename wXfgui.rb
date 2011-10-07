@@ -21,6 +21,7 @@ require 'wXfgui/request_response_tabbed_pane'
 require 'wXfgui/main_tabs'
 require 'wXfgui/checkbox_rendering'
 require 'wXfgui/decision_tree'
+require 'wXfgui/scope_panel'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'

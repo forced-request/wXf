@@ -73,13 +73,20 @@ class WorkspaceChooser < JFrame
             end
         end
         
+        sel = false
+        
         choose_button = JButton.new "Choose"
         choose_button.addActionListener do |e|
             @db_arry.each do |cb|
                 if cb.selected
+                    sel = true
                     puts cb.text
                     dispose()
                 end
+            end
+            if sel == false
+               JOptionPane.showMessageDialog self, "Please select a workspace",
+                    "Error", JOptionPane::ERROR_MESSAGE
             end
         end  
         
