@@ -51,7 +51,7 @@ class WorkspaceChooser < JFrame
         @db_arry <<(create_checkbox)
         
         create_checkbox.add_item_listener do |e|
-            WorkspaceCreator.new
+            WorkspaceCreator.new(@wXfgui)
             dispose()
         end
         

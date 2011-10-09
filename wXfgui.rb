@@ -34,6 +34,7 @@ require 'wXfgui/main_tabs'
 require 'wXfgui/checkbox_rendering'
 require 'wXfgui/decision_tree'
 require 'wXfgui/scope_panel'
+require 'wXfgui/general_panel'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -239,7 +240,7 @@ class Wxfgui < JFrame
       #
       
       menuBar = JMenuBar.new
-      menuBar.add WxfMenu.new
+      menuBar.add WxfMenu.new(self)
       menuBar.add BubyMenu.new
       menuBar.add AboutMenu.new
             
@@ -277,7 +278,7 @@ class Wxfgui < JFrame
       if db_exists == true
         WorkspaceChooser.new(self)
       else
-        WorkspaceCreator.new     
+        WorkspaceCreator.new(self)     
       end   
   end
   
