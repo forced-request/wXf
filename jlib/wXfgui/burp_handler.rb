@@ -1,7 +1,6 @@
 #!/usr/bin/env jruby
 
 require 'rubygems'
-require 'buby'
 
 java_import javax.swing.JOptionPane
 

@@ -21,10 +21,10 @@ import javax.swing.filechooser::FileNameExtensionFilter
 module WxfGui
 class WorkspaceChooser < JFrame
   
-    def initialize
-        super "Choose your workspace"
-        
+    def initialize(wXfgui)
+        super("Choose your workspace")        
         self.initUI
+        @wXfgui = wXfgui
     end
       
     def initUI
@@ -80,7 +80,8 @@ class WorkspaceChooser < JFrame
             @db_arry.each do |cb|
                 if cb.selected
                     sel = true
-                    puts cb.text
+                    DatabaseManager.new(cb.text)
+                    @wXfgui.restore
                     dispose()
                 end
             end
