@@ -1,6 +1,17 @@
 module WXf
 
   
+  
+  home_dir = ENV['HOME']
+    WXF_HOME_DIR = "#{home_dir}/.wXf"
+        
+  if ::File.exists?(WXF_HOME_DIR)
+   #Stub, maybe add something?
+  else
+   ::Dir.mkdir(WXF_HOME_DIR)
+  end  
+    
+  
   #
   # Version information
   #

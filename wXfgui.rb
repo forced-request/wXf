@@ -6,8 +6,20 @@ $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'jlib'))
 
 
 #System level requirements
-require 'java'
-require 'rubygems'
+  require 'java'
+  require 'rubygems'
+  
+# Gem requirements
+begin
+  require 'jdbc/sqlite3'
+  require 'buby'
+rescue LoadError => le
+  print("\e[1;31m[wXf error]\e[0m Please ensure you have the following gems installed:\n")
+  print("1) buby\n")
+  print("2) jdbc-sqlite3\n")
+  exit
+end
+
 
 #wXf gui elements
 require 'wXfgui/workspace_chooser'
@@ -63,9 +75,9 @@ class WxfGuiTabbedPane < JTabbedPane
     
   def initialize
     super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
-    wXf_cc_panel = WxfMainPanel.new
+    @wXf_cc_panel = WxfMainPanel.new
     wXf_module_panel = WxfModulePanel.new    
-    add("Main", wXf_cc_panel)
+    add("Main", @wXf_cc_panel)
     add("Buby", wXf_module_panel)
     listener
   end
@@ -82,6 +94,10 @@ class WxfGuiTabbedPane < JTabbedPane
   
     end
     #=end 
+  end
+  
+  def restore
+    @wXf_cc_panel.restore
   end
 end
 
@@ -124,7 +140,7 @@ class WxfMainPanel < JPanel
       scroll_checklist = JScrollPane.new(scroll_list)
 =end
 
-      main_tabs = MainTabs.new
+      @main_tabs = MainTabs.new
       
       
       #
@@ -161,7 +177,7 @@ class WxfMainPanel < JPanel
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
       split_pane1.setDividerLocation 390
       split_pane1.add t_scroll_pane_2
-      split_pane1.add main_tabs
+      split_pane1.add @main_tabs
         
       
       split_pane2 = JSplitPane.new JSplitPane::HORIZONTAL_SPLIT
@@ -198,6 +214,10 @@ class WxfMainPanel < JPanel
       p2.addComponent split_pane2
       sv1.addGroup p2
       
+  end
+  
+  def restore
+    @main_tabs.restore
   end
 end
 
@@ -237,6 +257,10 @@ class Wxfgui < JFrame
       self.setVisible true
   end
   
+  def restore
+    @wXf_gui_tabbed_pane.restore
+  end
+  
   def check_workspace
       home_dir = ENV['HOME']
       wXf_home_dir = "#{home_dir}/.wXf"
@@ -251,11 +275,12 @@ class Wxfgui < JFrame
       end
   
       if db_exists == true
-        WorkspaceChooser.new
+        WorkspaceChooser.new(self)
       else
         WorkspaceCreator.new     
       end   
-    end  
+  end
+  
   
 end
 

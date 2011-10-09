@@ -19,8 +19,7 @@ module WxfGui
 class WorkspaceCreator < JFrame
   
     def initialize
-        super "Enter Workspace Name"
-        
+        super "Enter Workspace Name"        
         self.initUI
     end
       
@@ -46,7 +45,8 @@ class WorkspaceCreator < JFrame
             if not text_pane.text.empty?
                new_text = text_pane.text.to_s
                new_text.gsub!('.db', '')
-               DatabaseManager.new(new_text) 
+               dm = DatabaseManager.new(new_text)
+               dm.init_db
                dispose()
             else
                 JOptionPane.showMessageDialog self, "Please enter a workspace name",

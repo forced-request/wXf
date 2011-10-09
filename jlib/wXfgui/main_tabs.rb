@@ -46,6 +46,10 @@ class MainTabs < JTabbedPane
 
     end
   end
+  
+  def restore
+    @scope.restore
+  end
    
    
 end
