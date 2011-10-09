@@ -27,6 +27,7 @@ class DatabaseManager
   def create_scope_table(conn)
     statement = conn.create_statement()
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
+    statement.executeUpdate("CREATE TABLE general(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
   end
   
 end
@@ -91,6 +92,33 @@ module DatabaseManagerModule
     stmt.executeUpdate('delete from scope')
     conn.close
   end
+  
+   def retrieve_general_table
+    rows = []
+    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+    stat = conn.createStatement()
+    result = stat.executeQuery('SELECT * FROM general')
+    while result.next()
+      text = result.getString("text")
+      color = result.getString("color")
+      time = result.getString("time")
+      rows <<([text, color, time])
+    end
+    conn.close()
+    return rows
+  end
+  
+  def db_add_general_text(*params)
+    text, color, time = params    
+    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+    prep = conn.prepareStatement("insert into general(text, color, time) VALUES (?,?,?);")
+    prep.setString(1, text)
+    prep.setString(2, color)
+    prep.setString(3, time)
+    prep.addBatch()
+    prep.executeBatch()
+    conn.close()  
+  end 
     
 end 
 

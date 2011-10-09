@@ -13,9 +13,10 @@ import javax.swing.SwingWorker
 module WxfGui
 class WxfMenu < JMenu
   
-  def initialize
-    super "wXf"
+  def initialize(wXfgui)
+    super("wXf")
     self.initUI
+    @wXfgui = wXfgui
   end
 
   def initUI
@@ -23,16 +24,10 @@ class WxfMenu < JMenu
     wXfrestore = JMenuItem.new "restore workspace"
     wXfrestore.setMnemonic KeyEvent::VK_R
     wXfrestore.addActionListener do |e|
-      puts "restore not yet implemented"
+      @wXfgui.check_workspace
     end
     
-    wXfsave = JMenuItem.new "save workspace"
-    wXfsave.setMnemonic KeyEvent::VK_S
-    wXfsave.addActionListener do |e|
-      puts "save not yet implemented"
-    end
-    
-    wXfstart = JMenuItem.new "start checklist"      
+    wXfstart = JMenuItem.new "start decision tree"      
     wXfstart.setMnemonic KeyEvent::VK_C
     wXfstart.addActionListener do |e|
      puts "start not yet implemented"
@@ -45,7 +40,6 @@ class WxfMenu < JMenu
     end
     
     self.add(wXfrestore)
-    self.add(wXfsave)
     self.add(wXfstart)
     self.add(wXfexit)
   end

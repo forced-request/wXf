@@ -18,9 +18,10 @@ import javax.swing.filechooser::FileNameExtensionFilter
 module WxfGui
 class WorkspaceCreator < JFrame
   
-    def initialize
+    def initialize(wXfgui)
         super "Enter Workspace Name"        
         self.initUI
+        @wXfgui = wXfgui
     end
       
     def initUI
@@ -47,6 +48,7 @@ class WorkspaceCreator < JFrame
                new_text.gsub!('.db', '')
                dm = DatabaseManager.new(new_text)
                dm.init_db
+               @wXfgui.restore
                dispose()
             else
                 JOptionPane.showMessageDialog self, "Please enter a workspace name",
