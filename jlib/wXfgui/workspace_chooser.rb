@@ -82,6 +82,7 @@ class WorkspaceChooser < JFrame
                     sel = true
                     DatabaseManager.new(cb.text)
                     @wXfgui.restore
+                    @wXfgui.send_general_text("Workspace restored: #{cb.text}", "Generic", nil, false)
                     dispose()
                 end
             end

@@ -50,6 +50,10 @@ class MainTabs < JTabbedPane
     @scope.restore
     @general.restore
   end
+  
+  def send_general_text(*params)
+    @general.add_text(*params)
+  end
    
    
 end

@@ -152,7 +152,13 @@ module WxfGui
     
     def add_text(text, color, t=nil, restore=false)
       return unless acceptable_colors.has_key?(color)      
-      t = t.nil? ? time : "[#{t}]\n\n"  
+      
+      if restore
+        t = t.nil? ? time : "#{t}"
+      else
+        t = t.nil? ? time : "[#{t}]\n\n"
+      end 
+        
       
       if not text.empty?        
         if not restore
