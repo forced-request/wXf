@@ -166,7 +166,7 @@ dirs.each { |dirname|
 
 		# Look at code and output status
 		case code
-			when 200, 403, "200", "403"
+			when 200, 401, 403, "200", "401", "403"
 				print_good(code.to_s + ": " + url)
 			else
 				if datahash['VERBOSE'] == "true"
