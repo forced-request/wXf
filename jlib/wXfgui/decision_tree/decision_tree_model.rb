@@ -12,6 +12,9 @@ class DecisionTreeModel
   
   def initialize(dtl)
     @dtl = dtl
+    @dtl.each do |k, v|
+  
+    end
   end
 
   

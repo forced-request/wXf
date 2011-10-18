@@ -156,7 +156,7 @@ class WxfMainPanel < JPanel
     
       tree_1 = JTree.new(treeModel)
       tree_1.shows_root_handles = true
-      tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1))
+      tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1, self))
       t_scroll_pane_1 = JScrollPane.new(tree_1)
       
       
