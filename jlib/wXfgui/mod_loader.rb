@@ -21,10 +21,16 @@ class ModLoader
     @file_array = []
     Find.find(base_path) do |file|     
       if (file =~ /.rb/) and if not (file.match(/svn/))
-        path = file.sub(base_path + "/", '').sub(/.rb/, '')
-        type = path.sub(/\/.*/, '')
-        path.sub!("#{type}/", '')
-        @file_array <<([type, path])
+        data = file.match(/decision_tree\/.+rb/)
+        mdata = data.kind_of?(MatchData) ? false : true
+        if mdata
+          #short_name = File.basename(file)
+          #short_name.to_s.gsub!(/.rb/, '') 
+          path = file.sub(base_path + "/", '').sub(/.rb/, '')
+          type = path.sub(/\/.*/, '')
+          path.sub!("#{type}/", '')
+          @file_array <<([type, path])
+        end 
       end
      end
     end 

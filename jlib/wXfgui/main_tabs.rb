@@ -28,11 +28,10 @@ class MainTabs < JTabbedPane
     @advisories.editable = false
     @console.editable = false
     @text_pane_advisories  = JScrollPane.new(@advisories)
-    @general_panel = JScrollPane.new(@general)
     @text_pane_console  = JScrollPane.new(@console)
     @panel_scope  = JScrollPane.new(@scope)
     add("Advisories",  @text_pane_advisories)
-    add("General", @general_panel)
+    add("General", @general)
     add("Console", @text_pane_console)
     add("Scope", @panel_scope)
   end

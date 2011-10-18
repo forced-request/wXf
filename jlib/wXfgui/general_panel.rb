@@ -22,6 +22,7 @@ module WxfGui
       
       @textPane = JTextPane.new
       @textPane.editable = false
+      @scp = JScrollPane.new(@textPane)
       @doc = @textPane.getStyledDocument()
       add_blue_style
       add_red_style
@@ -62,7 +63,7 @@ module WxfGui
       layout.setHorizontalGroup sh1
       layout.setVerticalGroup sv3      
       
-      sv1.addComponent(@textPane)
+      sv1.addComponent(@scp)
       sv2.addComponent(@clear_button)
       sv2.addComponent(@restore_button)
       p1.addGroup sv1
@@ -71,7 +72,7 @@ module WxfGui
       
       p2.addComponent(@clear_button)
       p2.addComponent(@restore_button)
-      sh1.addComponent(@textPane)
+      sh1.addComponent(@scp)
       sh1.addGroup p2
       
        layout.linkSize SwingConstants::HORIZONTAL, 

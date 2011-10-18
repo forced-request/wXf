@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require  'find'
+require 'wXfgui/notifications'
 
 require 'java'
 
@@ -19,9 +20,17 @@ class DatabaseManager
   end
   
   def init_db
-    connection = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-    create_scope_table(connection)
-    connection.close()
+    error = ''
+     if !File.exists?($db_name)
+      connection = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      create_scope_table(connection)
+      connection.close()
+    else
+      Notifications.new("Workspace Error", "This workspace already exists, try another name")
+      $db_name = nil
+      error = "error"
+     end
+     return error    
   end
   
   def create_scope_table(conn)
@@ -37,19 +46,21 @@ module DatabaseManagerModule
   
   def retrieve_scope_table
     rows = []
-    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-    stat = conn.createStatement()
-    result = stat.executeQuery('SELECT * FROM scope')
-    while result.next()
-      #id = result.getInt("id")
-      scope_status = result.getString("scope_status")
-      prefix = result.getString("prefix")
-      host = result.getString("host")
-      port = result.getInt("port")
-      path = result.getString("path")      
-      rows <<([scope_status, prefix, host, port, path])
-    end
-    conn.close()
+    if not $db_name.nil?
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      stat = conn.createStatement()
+      result = stat.executeQuery('SELECT * FROM scope')
+      while result.next()
+        #id = result.getInt("id")
+        scope_status = result.getString("scope_status")
+        prefix = result.getString("prefix")
+        host = result.getString("host")
+        port = result.getInt("port")
+        path = result.getString("path")      
+        rows <<([scope_status, prefix, host, port, path])
+      end
+      conn.close()
+    end     
     return rows
   end
   
@@ -95,29 +106,33 @@ module DatabaseManagerModule
   
    def retrieve_general_table
     rows = []
-    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-    stat = conn.createStatement()
-    result = stat.executeQuery('SELECT * FROM general')
-    while result.next()
-      text = result.getString("text")
-      color = result.getString("color")
-      time = result.getString("time")
-      rows <<([text, color, time])
-    end
-    conn.close()
+    if not $db_name.nil?
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      stat = conn.createStatement()
+      result = stat.executeQuery('SELECT * FROM general')
+      while result.next()
+        text = result.getString("text")
+        color = result.getString("color")
+        time = result.getString("time")
+        rows <<([text, color, time])
+      end
+      conn.close()
+    end 
     return rows
   end
   
   def db_add_general_text(*params)
-    text, color, time = params    
-    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-    prep = conn.prepareStatement("insert into general(text, color, time) VALUES (?,?,?);")
-    prep.setString(1, text)
-    prep.setString(2, color)
-    prep.setString(3, time)
-    prep.addBatch()
-    prep.executeBatch()
-    conn.close()  
+    if not $db_name.nil?
+      text, color, time = params    
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      prep = conn.prepareStatement("insert into general(text, color, time) VALUES (?,?,?);")
+      prep.setString(1, text)
+      prep.setString(2, color)
+      prep.setString(3, time)
+      prep.addBatch()
+      prep.executeBatch()
+      conn.close()
+    end 
   end 
     
 end 

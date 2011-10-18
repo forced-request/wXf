@@ -10,13 +10,14 @@ module WxfGui
 class PopUpItem < JPopupMenu
 
   
-  def initialize(tree)
+  def initialize(tree, wXfgui)
     super()
     @tree = tree
+    @wXfgui = wXfgui
     send_to_console_item = JMenuItem.new("send to console")
-    send_to_console_item.addMouseListener(SelectModuleListener.new(send_to_console_item))
+    send_to_console_item.addMouseListener(SelectModuleListener.new(send_to_console_item, @wXfgui))
     view_description_item = JMenuItem.new("view module description")
-    view_description_item.addMouseListener(SelectModuleListener.new(view_description_item))
+    view_description_item.addMouseListener(SelectModuleListener.new(view_description_item, @wXfgui))
     self.add(send_to_console_item)
     self.add(view_description_item)
   end
@@ -43,16 +44,17 @@ end
 
 class SelectModuleListener < MouseAdapter
   
-  def initialize(menu_item)
+  def initialize(menu_item, wXfgui)
+    @wXfgui = wXfgui
     @menu_item = menu_item
     super()
   end
   
   def mousePressed(event)
     if @menu_item.text == "send to console"
-      panel = JPanel.new
+      # We can access the send to console function now
     elsif @menu_item.text == "view module description"
-     # Do stuff here
+     # Stub
     end 
   end
   
@@ -66,9 +68,10 @@ end
 
 class ModulesPopUpClickListener < MouseAdapter
   
-  def initialize(tree)
+  def initialize(tree, wXfgui)
     super()
-    @pop_up = PopUpItem.new(tree)
+    @wXfgui = wXfgui
+    @pop_up = PopUpItem.new(tree, @wXfgui)
   end
   
   def mousePressed(event)

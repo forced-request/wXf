@@ -47,10 +47,12 @@ class WorkspaceCreator < JFrame
                new_text = text_pane.text.to_s
                new_text.gsub!('.db', '')
                dm = DatabaseManager.new(new_text)
-               dm.init_db
-               @wXfgui.restore
-               @wXfgui.send_general_text("Workspace Created: #{new_text}", "Generic", nil, false)
-               dispose()
+               err = dm.init_db == 'error' ? true : false
+               if err == false
+                 @wXfgui.restore
+                 @wXfgui.send_general_text("Workspace Created: #{new_text}", "Generic", nil, false)
+                 dispose()
+               end 
             else
                 JOptionPane.showMessageDialog self, "Please enter a workspace name",
                     "Error", JOptionPane::ERROR_MESSAGE
