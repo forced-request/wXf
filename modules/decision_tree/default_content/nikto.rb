@@ -13,4 +13,8 @@ class Dti < WxfGui::DecisionTreeItem
                      
             )
     end
+    
+    def start
+    end
+    
 end
