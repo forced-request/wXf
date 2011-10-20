@@ -105,16 +105,18 @@ class DecisionTreeLoader
        
        def init         
          @packages.uniq!
-         
          if (@dtl)
-          
              @packages.each do |item|
                item_array = []
                @dtl.dt_modules.each do |mod|
+                if not mod.respond_to?('start')
+                  print("\e[1;31m[wXf error]\e[0m Failed to load module: #{mod.name}\n")
+                  return
+                end 
                 if mod.options.has_key?(item)
-                  item_array <<(JCheckBox.new(mod.name, false))
+                  item_array <<(JCheckBox.new(mod.name, false)) 
                 end
-              module_hash[item] = item_array
+                module_hash[item] = item_array
              end
            end
          end

@@ -12,8 +12,10 @@ class DecisionTreeModel
   
   def initialize(dtl)
     @dtl = dtl
-    @dtl.each do |k, v|
-  
+    @dtl.each do |k, row|
+      row.each do |cb|
+       # puts cb.text
+      end     
     end
   end
 
