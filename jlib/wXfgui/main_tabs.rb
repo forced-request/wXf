@@ -31,9 +31,9 @@ class MainTabs < JTabbedPane
     @text_pane_console  = JScrollPane.new(@console)
     @panel_scope  = JScrollPane.new(@scope)
     add("Advisories",  @text_pane_advisories)
-    add("Log", @log)
-    add("Console", @text_pane_console)
     add("Scope", @panel_scope)
+    add("Console", @text_pane_console)    
+    add("Log", @log)
   end
   
   def listener(*params)
