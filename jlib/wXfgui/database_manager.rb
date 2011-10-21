@@ -36,7 +36,7 @@ class DatabaseManager
   def create_scope_table(conn)
     statement = conn.create_statement()
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
-    statement.executeUpdate("CREATE TABLE general(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
+    statement.executeUpdate("CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
   end
   
 end
@@ -104,12 +104,12 @@ module DatabaseManagerModule
     conn.close
   end
   
-   def retrieve_general_table
+   def retrieve_log_table
     rows = []
     if not $db_name.nil?
       conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
       stat = conn.createStatement()
-      result = stat.executeQuery('SELECT * FROM general')
+      result = stat.executeQuery('SELECT * FROM log')
       while result.next()
         text = result.getString("text")
         color = result.getString("color")
@@ -121,11 +121,11 @@ module DatabaseManagerModule
     return rows
   end
   
-  def db_add_general_text(*params)
+  def db_add_log_text(*params)
     if not $db_name.nil?
       text, color, time = params    
       conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-      prep = conn.prepareStatement("insert into general(text, color, time) VALUES (?,?,?);")
+      prep = conn.prepareStatement("insert into log(text, color, time) VALUES (?,?,?);")
       prep.setString(1, text)
       prep.setString(2, color)
       prep.setString(3, time)

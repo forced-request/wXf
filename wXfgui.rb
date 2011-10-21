@@ -34,7 +34,7 @@ require 'wXfgui/main_tabs'
 require 'wXfgui/checkbox_rendering'
 require 'wXfgui/decision_tree'
 require 'wXfgui/scope_panel'
-require 'wXfgui/general_panel'
+require 'wXfgui/log_panel'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -101,8 +101,8 @@ class WxfGuiTabbedPane < JTabbedPane
     @wXf_cc_panel.restore
   end
   
-  def send_general_text(*params)
-    @wXf_cc_panel.send_general_text(*params)
+  def send_log_text(*params)
+    @wXf_cc_panel.send_log_text(*params)
   end
 end
 
@@ -225,8 +225,8 @@ class WxfMainPanel < JPanel
     @main_tabs.restore
   end
   
-  def send_general_text(*params)
-    @main_tabs.send_general_text(*params)
+  def send_log_text(*params)
+    @main_tabs.send_log_text(*params)
   end
 end
 
@@ -270,8 +270,8 @@ class Wxfgui < JFrame
     @wXf_gui_tabbed_pane.restore
   end
   
-  def send_general_text(*params)
-    @wXf_gui_tabbed_pane.send_general_text(*params)
+  def send_log_text(*params)
+    @wXf_gui_tabbed_pane.send_log_text(*params)
   end
   
   def check_workspace
