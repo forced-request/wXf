@@ -50,7 +50,7 @@ class WorkspaceCreator < JFrame
                err = dm.init_db == 'error' ? true : false
                if err == false
                  @wXfgui.restore
-                 @wXfgui.send_general_text("Workspace Created: #{new_text}", "Generic", nil, false)
+                 @wXfgui.send_log_text("Workspace Created: #{new_text}", "Generic", nil, false)
                  dispose()
                end 
             else
