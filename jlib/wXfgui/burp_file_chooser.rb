@@ -86,7 +86,7 @@ class BurpFileChooser < JFrame
         p2.addComponent  open_button
         sv1.addGroup p2
 
-        self.setSize 400, 100
+        self.setSize 400, 125
         self.setLocationRelativeTo nil
         self.setVisible true
     end
