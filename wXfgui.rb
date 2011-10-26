@@ -1,5 +1,12 @@
 #!/usr/bin/env jruby
 
+case RUBY_PLATFORM
+when 'java'
+else
+   print("\e[1;31m[wXf error]\e[0m Please start this application using JRuby\n")
+   exit
+end
+
 wXfbase = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 WXFDIR = File.join(File.expand_path(File.dirname(wXfbase)))
 $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'jlib'))
@@ -76,10 +83,12 @@ class WxfGuiTabbedPane < JTabbedPane
     
   def initialize
     super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
-    @wXf_cc_panel = WxfMainPanel.new
-    wXf_module_panel = WxfModulePanel.new    
+    @wXf_cc_panel = WxfMainPanel.new   
+    @wXf_analysis_panel = WxfAnalysisPanel.new
+    @wXf_buby_panel = WxfBubyPanel.new  
     add("Main", @wXf_cc_panel)
-    add("Buby", wXf_module_panel)
+    add("Analysis", @wXf_analysis_panel)
+    add("Buby", @wXf_buby_panel)
     listener
   end
   
@@ -109,10 +118,26 @@ end
 
 #
 #
-# This is going to be a class that we use to institute a console interface
+# This is going to be a buby tab where the buby work can happen on its own
 #
 #
-class WxfModulePanel < JPanel
+class WxfBubyPanel < JPanel
+  
+   include MouseListener
+   include FocusListener
+  
+  def initialize
+    super
+  end
+  
+end
+
+#
+#
+# This is going to be an analysis tab where the decision tree works its magic
+#
+#
+class WxfAnalysisPanel < JPanel
   
    include MouseListener
    include FocusListener
