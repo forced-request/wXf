@@ -65,17 +65,19 @@ module DatabaseManagerModule
   end
   
   def db_add_scope(*params)
-    scope_status, prefix, host, port, path = params
-    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-    prep = conn.prepareStatement("insert into scope(scope_status, prefix, host, port, path) VALUES (?,?,?,?,?);")
-    prep.setString(1, scope_status)
-    prep.setString(2, prefix)
-    prep.setString(3, host)
-    prep.setInt(4, port)
-    prep.setString(5, path)
-    prep.addBatch()
-    prep.executeBatch()
-    conn.close()    
+    if not $db_name.nil?
+      scope_status, prefix, host, port, path = params
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      prep = conn.prepareStatement("insert into scope(scope_status, prefix, host, port, path) VALUES (?,?,?,?,?);")
+      prep.setString(1, scope_status)
+      prep.setString(2, prefix)
+      prep.setString(3, host)
+      prep.setInt(4, port)
+      prep.setString(5, path)
+      prep.addBatch()
+      prep.executeBatch()
+      conn.close()
+    end
   end
 
   
