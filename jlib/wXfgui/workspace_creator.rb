@@ -52,6 +52,7 @@ class WorkspaceCreator < JFrame
                  @wXfgui.restore
                  @wXfgui.send_log_text("Workspace Created: #{new_text}", "Generic", nil, false)
                  dispose()
+                 @wXfgui.initUI
                end 
             else
                 JOptionPane.showMessageDialog self, "Please enter a workspace name",
