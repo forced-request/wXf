@@ -55,8 +55,6 @@ class CheckBoxNodeRenderer
   end
    
   def getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
-
-
     if value.kind_of?(JCheckBox)
       returnValue = value
     else
@@ -99,7 +97,7 @@ class CheckBoxNodeEditor < AbstractCellEditor
   end
  
  
-  def getCellEditorValue() 
+  def getCellEditorValue()
     checkbox = @renderer.getLeafRenderer()
     checkBoxNode = JCheckBox.new(checkbox.getText(), checkbox.isSelected())
     return checkBoxNode
@@ -110,15 +108,19 @@ class CheckBoxNodeEditor < AbstractCellEditor
     editor = @renderer.getTreeCellRendererComponent(tree, value, true, expanded, leaf, row, true)
     
     if editor.kind_of?(JCheckBox)
-      editor.add_item_listener do |e|
-       if stopCellEditing == true
-          fireEditingStopped()
-       end
-      end 
+      listener(editor)
     end
     return editor
   end
-
+  
+  def listener(editor)
+    editor.add_item_listener do |e|
+       if stopCellEditing == true
+          fireEditingStopped()
+       end
+    end 
+  end
+  
 end
 
 end
