@@ -29,20 +29,13 @@ end
 
 
 #wXf gui elements
-require 'wXfgui/workspace_chooser'
-require 'wXfgui/workspace_creator'
-require 'wXfgui/request_response_tabbed_pane'
-require 'wXfgui/wxfgui_menu'
-require 'wXfgui/modules_tree'
-require 'wXfgui/mod_loader'
-require 'wXfgui/popup_click_listener'
-require 'wXfgui/main_tabs'
-require 'wXfgui/checkbox_rendering'
+require 'wXfgui/analysis'
+require 'wXfgui/buby'
+require 'wXfgui/database'
 require 'wXfgui/decision_tree'
-require 'wXfgui/scope_panel'
-require 'wXfgui/log_panel'
-require 'wXfgui/analysis_panel'
-require 'wXfgui/buby_panel'
+require 'wXfgui/main'
+require 'wXfgui/modules_factory'
+require 'wXfgui/workspace'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -136,7 +129,7 @@ class WxfMainPanel < JPanel
       # SCROLL PANE
       #
       
-      treeModel = ModulesTree.new(ModLoader.new)
+      treeModel = ModulesTree.new(ModulesLoader.new)
     
       tree_1 = JTree.new(treeModel)
       tree_1.shows_root_handles = true

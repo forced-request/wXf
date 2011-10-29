@@ -1,0 +1,5 @@
+require 'wXfgui/main/menu'
+require 'wXfgui/main/notifications'
+require 'wXfgui/main/panels'
+require 'wXfgui/main/popup_click_listener'
+require 'wXfgui/main/tabs'
