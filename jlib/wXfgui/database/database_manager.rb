@@ -2,7 +2,7 @@
 
 require 'rubygems'
 require  'find'
-require 'wXfgui/notifications'
+#require 'wXfgui/notifications'
 
 require 'java'
 

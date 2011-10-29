@@ -1,7 +1,7 @@
 #!/usr/bin/env jruby
 
 require 'java'
-require 'wXfgui/burp_handler'
+#require 'burp_handler'
 
 import java.awt.Dimension
 import javax.swing.GroupLayout

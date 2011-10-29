@@ -3,7 +3,7 @@
 require 'find'
 
 module WxfGui
-class ModLoader
+class ModulesLoader
   
   attr_accessor :payload_names, :exploit_names, :buby_names, :auxiliary_names
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env jruby
 
 require 'java'
-require 'wXfgui/database_manager'
+#require 'wXfgui/database_manager'
 
 
 import java.awt.Dimension

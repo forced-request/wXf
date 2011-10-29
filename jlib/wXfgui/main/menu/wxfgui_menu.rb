@@ -1,7 +1,7 @@
 #!/usr/bin/env jruby
 
 require 'find'
-require 'wXfgui/burp_file_chooser'
+#require 'wXfgui/burp_file_chooser'
 
 import java.awt.event.ActionEvent
 import java.awt.event.KeyEvent
