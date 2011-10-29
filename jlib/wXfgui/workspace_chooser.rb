@@ -84,6 +84,7 @@ class WorkspaceChooser < JFrame
                     @wXfgui.restore
                     @wXfgui.send_log_text("Workspace restored: #{cb.text}", "Generic", nil, false)
                     dispose()
+                    @wXfgui.initUI
                 end
             end
             if sel == false

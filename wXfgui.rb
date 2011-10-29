@@ -159,17 +159,6 @@ class WxfMainPanel < JPanel
   
   def init
 
-=begin    
-      #
-      # Templated Request/Response Tabbed Panes
-      #
-      
-      rrtp = RequestResponseTabbedPane.new
-
-      scroll_list  = RequestResponseList.new
-      scroll_checklist = JScrollPane.new(scroll_list)
-=end
-
       @main_tabs = MainTabs.new
       
       
@@ -243,14 +232,17 @@ end
 class Wxfgui < JFrame
   
   def initialize
-      super "The Web Exploitation Framework"      
-      self.initUI
-      check_workspace
+      super "The Web Exploitation Framework"
+      init_classes
+      check_workspace      
+  end
+  
+  def init_classes
+     @wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
   end
     
   def initUI
-      
-      @wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
+    
       self.add @wXf_gui_tabbed_pane
       
       #
@@ -285,12 +277,11 @@ class Wxfgui < JFrame
   end
   
   def check_workspace
-      home_dir = ENV['HOME']
-      wXf_home_dir = "#{home_dir}/.wXf"
+    
       pwd = Dir.pwd
       db_exists = false
   
-      Dir.foreach(wXf_home_dir) do |f|
+      Dir.foreach(WXf::WXF_HOME_DIR) do |f|
         if File.extname(f) == ".db"
             db_exists = true
           next
