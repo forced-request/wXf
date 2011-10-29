@@ -183,21 +183,8 @@ class WxfMainPanel < JPanel
       tree_1.shows_root_handles = true
       tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1, self))
       t_scroll_pane_1 = JScrollPane.new(tree_1)
-      
-      
-      dtm = DecisionTreeFactory.new
-      dtm_modules = dtm.module_hash
-      decisionTreeModel = DecisionTreeModel.new(dtm_modules)   
-      
-      tree_2 = JTree.new(decisionTreeModel)
-      renderer = CheckBoxNodeRenderer.new
-      tree_2.set_cell_renderer(renderer)    
-      tree_2.cell_editor = CheckBoxNodeEditor.new(tree_2, renderer)
-      tree_2.editable = true
-      tree_2.shows_root_handles = true
-      t_scroll_pane_2 = JScrollPane.new(tree_2)
-             
-               
+      t_scroll_pane_2 = DecisionPanel.new
+  
       
       #
       # SPLIT PANES  
@@ -216,8 +203,6 @@ class WxfMainPanel < JPanel
       split_pane2.add split_pane1
       
        
-      
-      
       
       #
       # GROUP LAYOUT OPTIONS
