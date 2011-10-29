@@ -12,6 +12,7 @@ class DecisionTreeModel
   
   def initialize(dtl)
     @dtl = dtl
+    select_all
   end
 
   
@@ -72,7 +73,6 @@ class DecisionTreeModel
      @dtl.each do |k, row|
       row.each do |cb|
         cb.selected = true
-        
       end   
     end
   end
@@ -81,7 +81,6 @@ class DecisionTreeModel
      @dtl.each do |k, row|
       row.each do |cb|
         cb.selected = false
-        
       end   
     end
   end
