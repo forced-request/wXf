@@ -36,12 +36,13 @@ require 'wXfgui/wxfgui_menu'
 require 'wXfgui/modules_tree'
 require 'wXfgui/mod_loader'
 require 'wXfgui/popup_click_listener'
-require 'wXfgui/request_response_tabbed_pane'
 require 'wXfgui/main_tabs'
 require 'wXfgui/checkbox_rendering'
 require 'wXfgui/decision_tree'
 require 'wXfgui/scope_panel'
 require 'wXfgui/log_panel'
+require 'wXfgui/analysis_panel'
+require 'wXfgui/buby_panel'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -116,37 +117,6 @@ class WxfGuiTabbedPane < JTabbedPane
 end
 
 
-#
-#
-# This is going to be a buby tab where the buby work can happen on its own
-#
-#
-class WxfBubyPanel < JPanel
-  
-   include MouseListener
-   include FocusListener
-  
-  def initialize
-    super
-  end
-  
-end
-
-#
-#
-# This is going to be an analysis tab where the decision tree works its magic
-#
-#
-class WxfAnalysisPanel < JPanel
-  
-   include MouseListener
-   include FocusListener
-  
-  def initialize
-    super
-  end
-  
-end
 
 class WxfMainPanel < JPanel
   
