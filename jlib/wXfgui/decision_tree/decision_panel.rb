@@ -59,15 +59,13 @@ class DecisionPanel < JPanel
       deselect_all_button  = JButton.new("deselect all")
       
       select_all_button.add_action_listener do |e|
-        puts "select test"
-        #Stubbed
-        # Code here will activate all tree items to become selected
+        decisionTreeModel.select_all
+        dt.repaint()
       end
       
       deselect_all_button.add_action_listener do |e|
-        puts "deselect test"
-        #Stubbed
-        # Code here will activate all tree items to become DE-selected
+        decisionTreeModel.deselect_all
+        dt.repaint()
       end
       
       p1.addComponent(select_all_button)

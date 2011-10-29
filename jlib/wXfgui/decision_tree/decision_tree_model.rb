@@ -12,11 +12,6 @@ class DecisionTreeModel
   
   def initialize(dtl)
     @dtl = dtl
-    @dtl.each do |k, row|
-      row.each do |cb|
-       # puts cb.text
-      end     
-    end
   end
 
   
@@ -71,6 +66,24 @@ class DecisionTreeModel
   end
   
   def valueForPathChanged(arg0, arg1)
+  end
+  
+  def select_all
+     @dtl.each do |k, row|
+      row.each do |cb|
+        cb.selected = true
+        
+      end   
+    end
+  end
+  
+  def deselect_all
+     @dtl.each do |k, row|
+      row.each do |cb|
+        cb.selected = false
+        
+      end   
+    end
   end
   
   
