@@ -1,1 +1,1 @@
-require 'wXfgui/main/menu/wXfgui_menu'
+require 'wXfgui/main/menu/wxfgui_menu'
