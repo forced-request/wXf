@@ -455,12 +455,16 @@ def arg_show(*cmd)
       
      when 'auxiliary'
       control.show_auxiliary
+
+     when 'rfi'
+      control.show_rfi
       
      when 'advanced'
        control.show_content
        control.show_lfiles
        control.show_rurls
        control.show_ua 
+       control.show_rfi
       
      when 'options'           
       if (activity) 
@@ -484,9 +488,9 @@ def arg_show(*cmd)
      activity = self.in_focus
      list = []
      if (activity) 
-       list = ["exploits","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "buby"]
+       list = ["exploits","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
      else
-       list = ["exploits","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "buby"]
+       list = ["exploits","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
      end
     return list 
     end 
