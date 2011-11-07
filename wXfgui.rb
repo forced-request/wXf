@@ -40,6 +40,7 @@ require 'wXfgui/workspace'
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
 require 'wXf/wXfconductors'
+require 'wXf/wXfdb'
 require 'wXf/wXfconstants'
 require 'wXf/wXflog'
 require 'wXf/wXfmod_factory'
@@ -223,7 +224,7 @@ class Wxfgui < JFrame
       
       # Set the overall side of the frame
       self.setJMenuBar menuBar
-      self.setPreferredSize Dimension.new 1300, 900
+      self.setPreferredSize Dimension.new(1300, 900)
       self.pack
     
       self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE

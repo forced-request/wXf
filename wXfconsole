@@ -67,6 +67,7 @@ end
 
 require 'wXf/wXfassists'
 require 'wXf/wXfconductors'
+require 'wXf/wXfdb'
 require 'wXf/wXfconstants'
 require 'wXf/wXflog'
 require 'wXf/wXfmod_factory'
