@@ -29,8 +29,8 @@ module WXf
     
     def initialize(db)
       db_file = db
-      if File.exist?("/Users/cktricky/Documents/workspace/wXf/datum/databases/#{db_file}" )
-        @db = "/Users/cktricky/Documents/workspace/wXf/datum/databases/#{db_file}"
+      if File.exist?("#{db_file}")
+        @db = "#{db_file}"
       else
         @db = nil
         puts(" #{db_file} does not exist")
