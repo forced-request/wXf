@@ -1,0 +1,1 @@
+require 'wXfgui/analysis/analysis_panel'

@@ -1,0 +1,1 @@
+require 'wXfgui/database/database_manager'

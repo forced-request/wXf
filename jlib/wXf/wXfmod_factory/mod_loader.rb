@@ -204,8 +204,12 @@ end
        def mod_load(base_path)
          Find.find(base_path) do |file|
            if (file =~ /.rb/) and if not (file.match(/svn/))
-             path = file.sub(base_path + "/", '').sub(/.rb/, '')
-             load_mods(path,file)
+              data = file.match(/decision_tree\/.+rb/)
+              mdata = data.kind_of?(MatchData) ? true : false
+              if mdata == false
+                path = file.sub(base_path + "/", '').sub(/.rb/, '')
+                load_mods(path,file)
+              end          
             end
            end
          end

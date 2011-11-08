@@ -242,6 +242,29 @@ module PrintOptions
        end 
     end
     
+  #
+  # Show Remote File Inclusions Strings
+  #
+  def show_rfi
+    list = WXFDB.get_rfi_list.sort
+     # Display the commands
+       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+         'Title'  => "RFI List",
+         'Justify'  => 4,             
+         'Columns' => 
+           [
+             'Name',
+             'Description',
+             'Platform',
+             'Language'
+           ])
+                             
+        list.each {|name, desc, platform, lang|
+          tbl.add_ritems([name,desc, platform, lang]) 
+        }
+      tbl.prnt     
+  end 
+    
   
 end
 
