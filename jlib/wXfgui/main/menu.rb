@@ -1,0 +1,1 @@
+require 'wXfgui/main/menu/wxfgui_menu'

@@ -1,0 +1,1 @@
+require 'wXf/wXfdb/db'
