@@ -80,7 +80,7 @@ module WXf
   #
   # wXf database
   #
-  WXFDB = WXf::WXfdb::Db.new('wXf.db')
+  WXFDB = WXf::WXfdb::Db.new("#{ModDatumDb}wXf.db")
   
 
   # User agents
