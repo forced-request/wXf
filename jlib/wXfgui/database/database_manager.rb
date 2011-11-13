@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require  'find'
+
 #require 'wXfgui/notifications'
 
 require 'java'
@@ -15,6 +16,7 @@ import org.sqlite.JDBC;
 
 module WxfGui
 class DatabaseManager
+
   def initialize(name)
     $db_name = "#{WXf::WXF_HOME_DIR}/#{name}.db"
   end
