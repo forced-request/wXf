@@ -40,6 +40,7 @@ class DecisionTreeModel
     end 
   end
   
+  
   def getIndexOfChild(parent, child)
   end
   
@@ -84,6 +85,7 @@ class DecisionTreeModel
       end   
     end
   end
+  
   
   
 end
