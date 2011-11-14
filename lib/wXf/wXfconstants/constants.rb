@@ -1,6 +1,17 @@
 module WXf
 
   
+  
+  home_dir = ENV['HOME']
+    WXF_HOME_DIR = "#{home_dir}/.wXf"
+        
+  if ::File.exists?(WXF_HOME_DIR)
+   #Stub, maybe add something?
+  else
+   ::Dir.mkdir(WXF_HOME_DIR)
+  end  
+    
+  
   #
   # Version information
   #
@@ -69,7 +80,7 @@ module WXf
   #
   # wXf database
   #
-  WXFDB = WXf::WXfdb::Db.new('wXf.db')
+  WXFDB = WXf::WXfdb::Db.new("#{ModDatumDb}wXf.db")
   
 
   # User agents

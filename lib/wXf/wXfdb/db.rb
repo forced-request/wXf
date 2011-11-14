@@ -27,8 +27,8 @@ module WXfdb
  
     def initialize(db)
       @db_file = db
-      if File.exist?(WXf::ModDatumDb + "#{@db_file}" )
-        @db = SQLite3::Database.new(WXf::ModDatumDb + "#{@db_file}")
+      if File.exist?("#{@db_file}")
+        @db = SQLite3::Database.new("#{@db_file}")
       else
         puts(" #{@db_file} + does not exist")
       end
@@ -37,7 +37,7 @@ module WXfdb
   
     def get_rfi_string_by_name(name)
      result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result =  @db.execute('SELECT r_path FROM rfi WHERE r_name=:name', "name" => name)
       end  
       if result.empty?
@@ -50,7 +50,7 @@ module WXfdb
     
     def get_rfi_requires_auth(name)
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result =  @db.execute('SELECT r_require_auth FROM rfi WHERE r_name=:name', "name" => name)
       end  
       if result.empty?
@@ -60,17 +60,18 @@ module WXfdb
       end
     end
     
-    def get_rfi_list     
-      if @db_file == "wXf.db"
-        rfi_list = @db.execute('SELECT r_name, r_desc, r_platform, r_lang FROM rfi')
-       return rfi_list
+    def get_rfi_list
+      result = []     
+      if File.exists?(@db_file)
+        result = @db.execute('SELECT r_name, r_desc, r_platform, r_lang FROM rfi')
       end 
+      return result
      rescue    
     end
     
     def get_rfi_names
           result = []
-          if @db_file == "wXf.db"
+          if File.exists?(@db_file)
            result = @db.execute('SELECT r_name FROM rfi')
           end  
           if result.empty?
@@ -82,7 +83,7 @@ module WXfdb
   
     def get_rfi_by_name(name)
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
        result = @db.execute('SELECT * FROM rfi WHERE r_name=:name', "name" => name)
       end  
       if result.empty?
@@ -94,7 +95,7 @@ module WXfdb
     
     def get_rfi_by_platform(platform)
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result = @db.execute('SELECT r_path FROM rfi WHERE r_platform=:platform', "platform" => platform)
       end  
       if result.empty?
@@ -106,8 +107,8 @@ module WXfdb
     
     def get_vuln_wordpress_plugins_list
       result = []
-      if @db_file == "wXf.db"
-        result = @db.execute('SELECT * FROM wordpress_vuln_plugins' )
+      if File.exists?(@db_file)
+        result = @db.execute('SELECT * FROM wordpress_vuln_plugins')
       end  
       if result.empty?
         raise "No data"
@@ -118,7 +119,7 @@ module WXfdb
     
     def get_all_wordpress_plugins_list
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result = @db.execute('SELECT * FROM wordpress_plugins' )
       end  
       if result.empty?
@@ -130,7 +131,7 @@ module WXfdb
 
 	def get_wp_timthumb_list
 	 result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result = @db.execute('SELECT * FROM wordpress_timthumb' )
       end  
       if result.empty?
@@ -142,7 +143,7 @@ module WXfdb
     
     def get_wordpress_vuln_by_name(name) 
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result =  @db.execute('SELECT title, reference FROM wordpress_vuln_plugins WHERE name=:name', "name" => name)
       end  
       if not result.empty?

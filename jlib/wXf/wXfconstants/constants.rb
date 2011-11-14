@@ -1,6 +1,16 @@
 module WXf
 
   
+  # wXf resources will be stored in the WXF_HOME_DIR directory
+  home_dir = ENV['HOME']
+  WXF_HOME_DIR = "#{home_dir}/.wXf"
+  
+      
+  if ::File.exists?(WXF_HOME_DIR)
+   #Stub, maybe add something?
+  else
+    ::Dir.mkdir(WXF_HOME_DIR)
+  end  
   
   #
   # Version information
@@ -20,6 +30,7 @@ module WXf
   PAY = 'payload'
   WEBSERVER = 'webserver'
   AUXILIARY = 'auxiliary'
+  DT = 'decision tree'
   
   FUNCTION_TYPES = 
   [ 
@@ -28,7 +39,8 @@ module WXf
     EXP,
     PAY,
     WEBSERVER,
-    AUXILIARY
+    AUXILIARY,
+    DT
     ]
  
   WXF_LICENSE = 'Web Exploitation Framework License GPL'
@@ -63,9 +75,17 @@ module WXf
   ModWorkingDir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..','..')) + File::SEPARATOR + 'modules'
   ModWordLists =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/wordlists/'
   ModDatum =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/'
+  ModDatumDb =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/databases/'
   ModRurls =  File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'rurls/'  
   PayloadsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/payloads/'
-  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/' 
+  LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/'
+  PackagesDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'jlib/wXfgui/packages'
+    
+
+  #
+  # wXf database
+  #
+  WXFDB = WXf::WXfdb::Db.new("#{ModDatumDb}wXf.db")
 
   # User agents
    UA_MAP = {
