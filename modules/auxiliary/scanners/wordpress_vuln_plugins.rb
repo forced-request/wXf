@@ -29,13 +29,14 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
            'Justify'  => 4,             
            'Columns' => 
            [
+             'Body Length',
              'Response Code',
              'Plugin Name',
              'Vulnerability',
              'Reference'
            ])
-         list_items.each do |code, found, index, name, vuln, ref|  
-           tbl.add_ritems([code, name, vuln, ref])
+         list_items.each do |length, code, found, index, name, vuln, ref|  
+           tbl.add_ritems([length,code, name, vuln, ref])
          end
        tbl.prnt    
   end
@@ -43,12 +44,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   def run
     list = []
     enumerate_vuln_plugins(3, true).each do |row|
-     code = row[0]
-     found = row[1]
-     index = row[2]
-     name = row[3]
-     vuln = row[4]
-     ref = row[5]
+     code = row[1]
+     found = row[2]
+     index = row[3]
+     name = row[4]
+     vuln = row[5]
+     ref = row[6]
     
      if found
       list.push(row) 
