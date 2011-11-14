@@ -174,6 +174,22 @@ module WXf
       return rows
     end
     
+    def get_wp_timthumb_list
+      rows = []
+      if not @db.nil?
+        conn = DriverManager.getConnection("jdbc:sqlite:#{@db}")
+        stat = conn.createStatement()
+        result = stat.executeQuery('SELECT * FROM wordpress_timthumb')
+        while result.next()
+         id = result.getInt("id")
+         name = result.getString("name")
+         rows<<([id, name])
+        end
+        conn.close()
+      end 
+      return rows
+    end
+    
     def get_wordpress_vuln_by_name(name)
       rows = []
       if not @db.nil?

@@ -119,7 +119,7 @@ module WXfdb
     
     def get_all_wordpress_plugins_list
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result = @db.execute('SELECT * FROM wordpress_plugins' )
       end  
       if result.empty?
@@ -131,7 +131,7 @@ module WXfdb
 
 	def get_wp_timthumb_list
 	 result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result = @db.execute('SELECT * FROM wordpress_timthumb' )
       end  
       if result.empty?
@@ -143,7 +143,7 @@ module WXfdb
     
     def get_wordpress_vuln_by_name(name) 
       result = []
-      if @db_file == "wXf.db"
+      if File.exists?(@db_file)
         result =  @db.execute('SELECT title, reference FROM wordpress_vuln_plugins WHERE name=:name', "name" => name)
       end  
       if not result.empty?
