@@ -2,6 +2,11 @@
 
 require 'java'
 
+# It isn't initialized when decision panel pops up yet so we have to require it here
+require 'wXfgui/main/popup_menus/expand_collapse'
+
+
+
 import java.awt.FlowLayout
 import java.awt.Dimension
 import javax.swing.JPanel
@@ -13,6 +18,8 @@ import javax.swing.GroupLayout
 
 module WxfGui
 class DecisionPanel < JPanel
+  
+  include ExpandCollapse
   
   def initialize
     super
@@ -54,10 +61,10 @@ class DecisionPanel < JPanel
       @dt.editable = true
       @dt.shows_root_handles = true
       @dt.addMouseListener(ModulesPopUpClickListener.new(@dt))
-   
-      expand_all(false)
-     
-   
+      
+      # put in expansion code
+      expand_all(@dt)
+      
       tree_scroll_pane = JScrollPane.new(@dt)
       
       select_all_button  = JButton.new("select all")
@@ -90,24 +97,6 @@ class DecisionPanel < JPanel
       
   end
  
- 
-    def expand_all(bool)
-      #additional expansion code for testing and later use
-      total_count = @dt.getRowCount()
-      count = 0
-      paths = []
-      while count < total_count
-        paths<<(@dt.getPathForRow(count))#.getLastPathComponent())
-        count +=1
-      end  
-      paths.each_with_index do |item, idx|
-        if bool == true
-          @dt.expandPath(item)
-        elsif bool == false
-          @dt.collapsePath(item)
-        end 
-      end
-    end
   
 end
 end 

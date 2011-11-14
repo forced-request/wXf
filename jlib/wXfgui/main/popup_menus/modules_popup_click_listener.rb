@@ -15,9 +15,15 @@ class ModPopUpItem < JPopupMenu
     @tree = tree
     @wXfgui = wXfgui
     send_to_console_item = JMenuItem.new("send to console")
-    send_to_console_item.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui))
+    send_to_console_item.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui, @tree))
     view_description_item = JMenuItem.new("view module description")
-    view_description_item.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui))
+    view_description_item.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui, @tree))
+    expand_all = JMenuItem.new("expand all")
+    expand_all.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui, @tree))
+    collapse_all = JMenuItem.new("collapse all")
+    collapse_all.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui, @tree))
+    self.add(expand_all)
+    self.add(collapse_all)
     self.add(send_to_console_item)
     self.add(view_description_item)
   end
@@ -49,7 +55,6 @@ class ModPopUpItem < JPopupMenu
 end
 
 class DtModPopUpItem < JPopupMenu
-
   
   def initialize(tree)
     super()
@@ -70,20 +75,10 @@ class DtModPopUpItem < JPopupMenu
   
   def show_it(event)
     node = @tree.getSelectionPath
-    path = normalize_path(node)
-    
-    if path.length == 3
+    return if node == nil
+    if not node.getLastPathComponent().kind_of?(JCheckBox)
       self.show(event.getComponent(), event.getX(), event.getY());
     end 
-  end
-  
-  def normalize_path(node)
-    path = []
-    if not node.nil?
-      node_string = node.to_s
-      path = node_string[1..-2].split(',').collect! {|n| n.to_s}
-    end 
-    return path    
   end
 
 end
@@ -95,9 +90,12 @@ end
 #
 class ModSelectModuleListener < MouseAdapter
   
-  def initialize(menu_item, wXfgui)
+  include ExpandCollapse
+   
+  def initialize(menu_item, wXfgui, tree)
     @wXfgui = wXfgui
     @menu_item = menu_item
+    @tree = tree
     super()
   end
   
@@ -122,6 +120,8 @@ end
 #
 class DtModSelectModuleListener < MouseAdapter
   
+  include ExpandCollapse
+  
   def initialize(menu_item, tree)
     @tree = tree
     @menu_item = menu_item
@@ -130,9 +130,9 @@ class DtModSelectModuleListener < MouseAdapter
   
   def mousePressed(event)
     if @menu_item.text == "expand all"
-      # We can access the send to console function now
+      expand_all(@tree)
     elsif @menu_item.text == "collapse all"
-     # Stub
+      collapse_all(@tree)
     end 
   end
   
