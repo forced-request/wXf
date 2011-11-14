@@ -13,16 +13,8 @@ class History
   end
   
   def history_file_init
-    home_dir = ENV['HOME']
-    wXf_home_dir = "#{home_dir}/.wXf"
     
-    if ::File.exists?(wXf_home_dir)
-      #Stub, maybe add something?
-    else
-      ::Dir.mkdir(wXf_home_dir)
-    end  
-   
-    self.history_file = "#{wXf_home_dir}/history"
+    self.history_file = "#{WXf::WXF_HOME_DIR}/history"
     
     if ! ::File.exists?("#{self.history_file}")
       File.new("#{self.history_file}", "w+")

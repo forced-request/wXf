@@ -208,11 +208,11 @@ module WXfmod_Factory
       # If the option is a hash type, this method is 
       # ...called to begin the next step.
       #
-      def add_opts_hash(opts)
-       opts.each_pair do |name, opt|
-       add_sin_opt(opt, name)
+     def add_opts_hash(opts)
+      opts.each do |key, value|
+        self.store(key, value)
       end
-     end  
+     end 
      
      
      #
