@@ -14,6 +14,10 @@ class ModPopUpItem < JPopupMenu
     super()
     @tree = tree
     @wXfgui = wXfgui
+    self.init
+  end
+  
+  def init
     send_to_console_item = JMenuItem.new("send to console")
     send_to_console_item.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui, @tree))
     view_description_item = JMenuItem.new("view module description")
@@ -24,10 +28,10 @@ class ModPopUpItem < JPopupMenu
     collapse_all.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui, @tree))
     self.add(expand_all)
     self.add(collapse_all)
+    self.addSeparator()
     self.add(send_to_console_item)
     self.add(view_description_item)
   end
-  
   
   #
   # Note: show_it and normalize_path aren't utilizing jtree's methods
@@ -144,7 +148,17 @@ class DtModSelectModuleListener < MouseAdapter
   
 end
 
-
+class WxfTestPanel < JPanel
+  
+   include MouseListener
+   include FocusListener
+  
+  def initialize(tree)
+    super
+    
+  end
+  
+end
 
 
 class ModulesPopUpClickListener < MouseAdapter
