@@ -37,7 +37,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
-	db = SQLite3::Database.new("datum/databases/wXf.db")
     list = []
     enumerate_timthumb(3, true).each do |row|
      code = row[0]
