@@ -182,8 +182,9 @@ module WXf
         result = stat.executeQuery('SELECT * FROM wordpress_timthumb')
         while result.next()
          id = result.getInt("id")
-         name = result.getString("name")
-         rows<<([id, name])
+         name = result.getString("theme_name")
+         path = result.getString("path")
+         rows<<([id, name, path])
         end
         conn.close()
       end 

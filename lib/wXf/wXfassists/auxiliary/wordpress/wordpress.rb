@@ -18,7 +18,7 @@ module Wordpress
   # Fetch all timthumb themes from db
   #	
   def fetch_wp_timthumb
-	WXFDB.get_wp_timthumb_list
+    WXFDB.get_wp_timthumb_list
   end
   
   
