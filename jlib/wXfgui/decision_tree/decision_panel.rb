@@ -61,8 +61,6 @@ class DecisionPanel < JPanel
       @dt.editable = true
       @dt.shows_root_handles = true
       @dt.addMouseListener(ModulesPopUpClickListener.new(@dt))
-      
-      # put in expansion code
       expand_all(@dt)
       
       tree_scroll_pane = JScrollPane.new(@dt)
