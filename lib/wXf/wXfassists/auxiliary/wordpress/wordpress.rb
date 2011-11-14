@@ -62,13 +62,13 @@ module Wordpress
 	puts "Sending req to #{url}"
     
       if res and res.respond_to?('code') and res.code == "200"
-        row.unshift(res.code.to_i, true)
+        row.unshift(res.body.length, res.code.to_i, true)
         rows << row
       elsif rce_code == 403
         row.unshift(rce_code, true)
         rows << row
       elsif res and res.respond_to?('code') and not res.code == "200"
-        row.unshift(res.code.to_i, false)
+        row.unshift(res.body.length, res.code.to_i, false)
         rows << row
       elsif rce_code and not rce_code == 403
         row.unshift(rce_code, false)

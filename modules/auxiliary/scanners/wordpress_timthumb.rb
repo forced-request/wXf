@@ -26,12 +26,13 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
            'Justify'  => 3,             
            'Columns' => 
            [
+             'Body Length',
              'Response Code',
              'Plugin Name',
              'Path',	
            ])
-         list_items.each do |code, found, index, name, path|  
-           tbl.add_ritems([code, name, path])
+         list_items.each do |length, code, found, index, name, path|  
+           tbl.add_ritems([length, code, name, path])
          end
        tbl.prnt    
   end
@@ -39,10 +40,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   def run
     list = []
     enumerate_timthumb(3, true).each do |row|
-     code = row[0]
-     found = row[1]
-     index = row[2]
-     name = row[3]
+     found = row[2]
     
      if found
       list.push(row) 
