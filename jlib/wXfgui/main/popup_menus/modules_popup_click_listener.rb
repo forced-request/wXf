@@ -18,19 +18,19 @@ class ModPopUpItem < JPopupMenu
   end
   
   def init
-    send_to_console_item = JMenuItem.new("send to console")
-    send_to_console_item.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui, @tree))
-    view_description_item = JMenuItem.new("view module description")
-    view_description_item.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui, @tree))
-    expand_all = JMenuItem.new("expand all")
-    expand_all.addMouseListener(ModSelectModuleListener.new(send_to_console_item, @wXfgui, @tree))
-    collapse_all = JMenuItem.new("collapse all")
-    collapse_all.addMouseListener(ModSelectModuleListener.new(view_description_item, @wXfgui, @tree))
-    self.add(expand_all)
-    self.add(collapse_all)
+    @send_to_console_item = JMenuItem.new("send to console")
+    @send_to_console_item.addMouseListener(ModSelectModuleListener.new(@send_to_console_item, @wXfgui, @tree))
+    @view_description_item = JMenuItem.new("view module description")
+    @view_description_item.addMouseListener(ModSelectModuleListener.new(@view_description_item, @wXfgui, @tree))
+    @expand_all = JMenuItem.new("expand all")
+    @expand_all.addMouseListener(ModSelectModuleListener.new(@expand_all, @wXfgui, @tree))
+    @collapse_all = JMenuItem.new("collapse all")
+    @collapse_all.addMouseListener(ModSelectModuleListener.new(@collapse_all, @wXfgui, @tree))
+    self.add(@expand_all)
+    self.add(@collapse_all)
     self.addSeparator()
-    self.add(send_to_console_item)
-    self.add(view_description_item)
+    self.add(@send_to_console_item)
+    self.add(@view_description_item)
   end
   
   #
@@ -43,8 +43,16 @@ class ModPopUpItem < JPopupMenu
     path = normalize_path(node)
     
     if path.length == 3
+      @send_to_console_item.enabled = true
+      @view_description_item.enabled = true
+    else
+      @send_to_console_item.enabled = false
+      @view_description_item.enabled = false
+    end
+    
+    if path.length > 0
       self.show(event.getComponent(), event.getX(), event.getY());
-    end 
+    end
   end
   
   def normalize_path(node)
@@ -108,6 +116,10 @@ class ModSelectModuleListener < MouseAdapter
       # We can access the send to console function now
     elsif @menu_item.text == "view module description"
      # Stub
+    elsif @menu_item.text == "expand all"
+      expand_all(@tree)
+    elsif @menu_item.text == "collapse all"
+      collapse_all(@tree)
     end 
   end
   
