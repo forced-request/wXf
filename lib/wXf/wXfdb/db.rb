@@ -128,6 +128,18 @@ module WXfdb
         return result
       end  
     end
+
+	def get_wp_timthumb_list
+	 result = []
+      if @db_file == "wXf.db"
+        result = @db.execute('SELECT * FROM wordpress_timthumb' )
+      end  
+      if result.empty?
+        raise "No data"
+      else
+        return result
+      end  
+	end
     
     def get_wordpress_vuln_by_name(name) 
       result = []
