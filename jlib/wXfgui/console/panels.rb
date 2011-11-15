@@ -1,0 +1,1 @@
+require 'wXfgui/console/panels/console_panel'
