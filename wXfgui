@@ -31,6 +31,7 @@ end
 #wXf gui elements
 require 'wXfgui/analysis'
 require 'wXfgui/buby'
+require 'wXfgui/console'
 require 'wXfgui/database'
 require 'wXfgui/decision_tree'
 require 'wXfgui/main'
@@ -81,8 +82,10 @@ class WxfGuiTabbedPane < JTabbedPane
     @wXf_cc_panel = WxfMainPanel.new   
     @wXf_analysis_panel = WxfAnalysisPanel.new
     @wXf_buby_panel = WxfBubyPanel.new  
+    @wXf_console_pane = WxfConsolePanel.new
     add("Main", @wXf_cc_panel)
     add("Analysis", @wXf_analysis_panel)
+    add("Console", @wXfconsole)
     add("Buby", @wXf_buby_panel)
     listener
   end

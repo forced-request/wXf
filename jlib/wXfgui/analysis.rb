@@ -1,1 +1,1 @@
-require 'wXfgui/analysis/analysis_panel'
+require 'wXfgui/analysis/panels'
