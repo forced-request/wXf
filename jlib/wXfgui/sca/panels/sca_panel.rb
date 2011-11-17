@@ -2,6 +2,7 @@
 
 require 'java'
 
+import javax.swing.JTabbedPane
 import javax.swing.GroupLayout
 import java.awt.Color
 import javax.swing.JButton
@@ -22,7 +23,7 @@ import java.awt.Dimension
 #
 #
 module WxfGui
-class WxfScaPanel < JPanel
+class ScaPanel < JPanel
   
    include MouseListener
    include FocusListener
@@ -60,6 +61,7 @@ class WxfScaPanel < JPanel
       # Add stuff to panels
       jp1.add(tf1)
       jp2.add(tf2)
+      jp3.add(ta)
       
       #
       # GROUP LAYOUT OPTIONS
@@ -89,6 +91,7 @@ class WxfScaPanel < JPanel
       # Horizontal
       p1.addComponent(jp1)
       p1.addComponent(jp2)
+      p1.addComponent(jp3)
       sh1.addGroup(p1)
       p2.addComponent(chooseDir)
       p2.addComponent(searchButton)
@@ -99,6 +102,7 @@ class WxfScaPanel < JPanel
       # Vertical
       sv1.addComponent(jp1)
       sv1.addComponent(jp2)
+      sv1.addComponent(jp3)
       sv2.addComponent(chooseDir)
       sv2.addComponent(searchButton)
       p3.addGroup(sv1)
@@ -108,6 +112,20 @@ class WxfScaPanel < JPanel
      
   end
   
+end
+
+
+class WxfScaPanel < JTabbedPane
+   
+   def initialize
+      super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
+      init
+   end
+   
+   def init
+    cp = ScaPanel.new
+    self.add("Regexp Search", cp)
+   end
 end
 
 =begin
@@ -125,9 +143,10 @@ class TestFrame < JFrame
   
   def init
      
-  
-    cp = WxfScaPanel.new
-    self.add(cp)
+    
+    smp = WxfScaPanel.new
+    
+    self.add(smp)
     
     self.setJMenuBar menuBar
     self.setPreferredSize Dimension.new(1300, 900)
