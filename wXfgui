@@ -20,10 +20,12 @@ $:.unshift(File.join(File.expand_path(File.dirname(wXfbase)), 'jlib'))
 begin
   require 'jdbc/sqlite3'
   require 'buby'
+  require 'to_regexp'
 rescue LoadError => le
   print("\e[1;31m[wXf error]\e[0m Please ensure you have the following gems installed:\n")
   print("1) buby\n")
   print("2) jdbc-sqlite3\n")
+  print("2) to_regexp\n")
   exit
 end
 
@@ -161,7 +163,6 @@ class WxfMainPanel < JPanel
       split_pane2.add t_scroll_pane_1
       split_pane2.add split_pane1
       
-       
       
       #
       # GROUP LAYOUT OPTIONS

@@ -1,13 +1,24 @@
 #!/usr/bin/env jruby
 
+require 'rubygems'
 require 'java'
+require 'find'
+
+begin
+   require 'to_regexp'
+rescue LoadError
+    print("\e[1;31m[wXf error]\e[0m Please ensure you have the following gems installed:\n")
+    print("1) to_regexp\n")
+end
 
 import javax.swing.JTabbedPane
 import javax.swing.GroupLayout
 import java.awt.Color
 import javax.swing.JButton
 import java.awt.FlowLayout
+import javax.swing.JFileChooser
 import javax.swing.JFrame
+import javax.swing.JOptionPane
 import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.JTextArea
@@ -15,6 +26,7 @@ import javax.swing.JScrollPane
 import java.awt.event.FocusListener
 import java.awt.event.MouseListener
 import java.awt.Dimension
+import javax.swing.JLabel
 
 
 #
@@ -35,22 +47,30 @@ class ScaPanel < JPanel
   
   def init
      
+      # Labels
+      
+      l1 = JLabel.new("Directory to search")
+      l2 = JLabel.new("string to search for")
+      
+     
       # Panels
       jp1 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       jp2 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       jp3 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+      jp4 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+      jp5 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       
       # Text Fields
-      tf1 = JTextField.new(20)
-      tf2 = JTextField.new(20)
+      @tf1 = JTextField.new(50)
+      @tf2 = JTextField.new(25)
      
       # Text area
-      ta = JTextArea.new(450, 200)
-      ta.setBackground(Color.black)
-      ta.setForeground(Color.green)
+      @ta = JTextArea.new(450, 200)
+      @ta.setBackground(Color.black)
+      @ta.setForeground(Color.green)
       
       # Scroll pane
-      js1 = JScrollPane.new(ta)
+      @js1 = JScrollPane.new(@ta)
       
       
       # Buttons
@@ -59,9 +79,39 @@ class ScaPanel < JPanel
       
       
       # Add stuff to panels
-      jp1.add(tf1)
-      jp2.add(tf2)
-      jp3.add(ta)
+      jp1.add(@tf1)
+      jp2.add(@tf2)
+      jp3.add(@js1)
+      jp4.add(l1)
+      jp5.add(l2)
+      
+      # Add listener actions to button
+      #
+      # Choose Directory Button
+      chooseDir.addActionListener do |e|
+        dir = JFileChooser.new
+        dir.setCurrentDirectory(java.io.File.new(Dir.pwd))
+        dir.setFileSelectionMode(JFileChooser::DIRECTORIES_ONLY)
+        ret = dir.showDialog @panel, "Choose Directory"
+        if  ret  == JFileChooser::APPROVE_OPTION
+            destDir = dir.getCurrentDirectory()
+            searchDir = destDir.to_s
+            @tf1.text = searchDir.length > 0 ? searchDir : ''
+        end 
+      end 
+      
+      # Search button
+      searchButton.addActionListener do |e|
+         if @tf1.text.length <= 0
+           error("Please enter a directory")
+         elsif @tf2.text.length <= 0
+           error("Please enter something to search for")
+         else
+            search
+         end
+      end 
+      
+      
       
       #
       # GROUP LAYOUT OPTIONS
@@ -89,9 +139,12 @@ class ScaPanel < JPanel
       
       
       # Horizontal
+      p1.addComponent(jp4)
       p1.addComponent(jp1)
+      p1.addComponent(jp5)
       p1.addComponent(jp2)
       p1.addComponent(jp3)
+      
       sh1.addGroup(p1)
       p2.addComponent(chooseDir)
       p2.addComponent(searchButton)
@@ -100,8 +153,11 @@ class ScaPanel < JPanel
       sh3.addGroup(sh2)
       
       # Vertical
+      sv1.addComponent(jp4)
       sv1.addComponent(jp1)
-      sv1.addComponent(jp2)
+      sv1.addComponent(jp5)
+      sv1.addComponent(jp2)      
+ 
       sv1.addComponent(jp3)
       sv2.addComponent(chooseDir)
       sv2.addComponent(searchButton)
@@ -110,6 +166,44 @@ class ScaPanel < JPanel
       sv3.addGroup(p3)
 
      
+  end
+  
+  def error(text)
+   JOptionPane.showMessageDialog self, "#{text}",
+      "Error", JOptionPane::ERROR_MESSAGE     
+  end
+  
+  def search
+     if @tf1.text.length > 0 and @tf2.text.length > 0
+        if File.directory?("#{@tf1.text}")
+           finder
+        end
+     end
+  end
+  
+  def finder
+     @file_array = []
+     @str = ''
+     return unless @tf1.text.length > 0     
+     
+     #First loop, to collect
+     Find.find(@tf1.text) do |file|
+        if File.file?(file) and File.extname(file) == '.rb'        
+            @file_array<<(file)
+        end
+     end
+     
+     # Second loop, to read
+     @file_array.each do |file|
+        f = File.open(file, "r")
+        f.each_with_index do |line, idx|
+           if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
+              @str << "File: #{file}, line number: #{idx}\n"
+              @ta.text = "#{@str}"
+           end
+        end
+     end
+     @str << "Finished!"
   end
   
 end
