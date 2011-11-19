@@ -11,7 +11,11 @@ rescue LoadError
     print("1) to_regexp\n")
 end
 
+import javax.swing.ListSelectionModel
+import javax.swing.table.DefaultTableModel
+import javax.swing.JTable
 import javax.swing.JTabbedPane
+import javax.swing.SwingConstants
 import javax.swing.GroupLayout
 import java.awt.Color
 import javax.swing.JButton
@@ -28,6 +32,82 @@ import java.awt.event.MouseListener
 import java.awt.Dimension
 import javax.swing.JLabel
 
+class DataEntryPanel < JPanel
+   
+   def initialize
+      super(FlowLayout.new(FlowLayout::LEFT))
+      init
+   end
+   
+   def init
+   
+      # Labels
+      
+      l1 = JLabel.new("Directory to search")
+      l2 = JLabel.new("string to search for")
+      
+      # Text Fields
+      @tf1 = JTextField.new(3)
+      @tf2 = JTextField.new(3)
+      
+      #
+      # GROUP LAYOUT OPTIONS
+      #
+      
+      layout = GroupLayout.new self
+      # Add Group Layout to the frame
+      self.setLayout layout
+      # Create sensible gaps in components (like buttons)
+      layout.setAutoCreateGaps true
+      layout.setAutoCreateContainerGaps true     
+   
+      sh1 = layout.createSequentialGroup
+      sv1 = layout.createSequentialGroup
+      p1 = layout.createParallelGroup
+    
+      layout.setHorizontalGroup sh1
+      layout.setVerticalGroup sv1
+      
+      p1.addComponent(l1)
+      p1.addComponent(@tf1)
+      p1.addComponent(l2)
+      p1.addComponent(@tf2)
+      sh1.addGroup(p1)
+      sv1.addComponent(l1)
+      sv1.addComponent(@tf1)
+      sv1.addComponent(l2)
+      sv1.addComponent(@tf2)
+
+   end
+end
+
+class ResultsTable <  DefaultTableModel
+  # include TableModelListener
+   
+   def initialize
+      super
+      init
+   end
+   
+   def init
+       self.add_column("file")
+       self.add_column("line number")
+       self.add_column("string match")
+   end 
+   
+   def isCellEditable(row, col)
+      return false
+   end
+   
+   def delete_all_rows
+      i = 0
+      while i < self.getRowCount()
+         self.removeRow(i)
+         i+1
+      end
+   end   
+   
+end 
 
 #
 #
@@ -46,31 +126,28 @@ class ScaPanel < JPanel
   end
   
   def init
-     
-      # Labels
-      
-      l1 = JLabel.new("Directory to search")
-      l2 = JLabel.new("string to search for")
+   
       
      
       # Panels
-      jp1 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
-      jp2 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+      jp1 = DataEntryPanel.new()
+      #JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+      #jp2 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       jp3 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
-      jp4 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+      #  jp4 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       jp5 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       
-      # Text Fields
-      @tf1 = JTextField.new(50)
-      @tf2 = JTextField.new(25)
+    
      
-      # Text area
-      @ta = JTextArea.new(450, 200)
-      @ta.setBackground(Color.black)
-      @ta.setForeground(Color.green)
+      # Table area
+       @results_table = ResultsTable.new
+       @table = JTable.new(@results_table)
+       @table.setPreferredScrollableViewportSize(Dimension.new(1000, 250))
+       @table.setFillsViewportHeight(true)
+       @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
       
       # Scroll pane
-      @js1 = JScrollPane.new(@ta)
+      @js1 = JScrollPane.new(@table)
       
       
       # Buttons
@@ -79,11 +156,11 @@ class ScaPanel < JPanel
       
       
       # Add stuff to panels
-      jp1.add(@tf1)
-      jp2.add(@tf2)
+     # jp1.add(@tf1)
+      #jp2.add(@tf2)
       jp3.add(@js1)
-      jp4.add(l1)
-      jp5.add(l2)
+     # jp4.add(l1)
+      #jp5.add(l2)
       
       # Add listener actions to button
       #
@@ -139,10 +216,10 @@ class ScaPanel < JPanel
       
       
       # Horizontal
-      p1.addComponent(jp4)
+      #p1.addComponent(jp4)
       p1.addComponent(jp1)
       p1.addComponent(jp5)
-      p1.addComponent(jp2)
+      #@p1.addComponent(jp2)
       p1.addComponent(jp3)
       
       sh1.addGroup(p1)
@@ -153,10 +230,10 @@ class ScaPanel < JPanel
       sh3.addGroup(sh2)
       
       # Vertical
-      sv1.addComponent(jp4)
+     # sv1.addComponent(jp4)
       sv1.addComponent(jp1)
       sv1.addComponent(jp5)
-      sv1.addComponent(jp2)      
+      #sv1.addComponent(jp2)      
  
       sv1.addComponent(jp3)
       sv2.addComponent(chooseDir)
@@ -164,6 +241,9 @@ class ScaPanel < JPanel
       p3.addGroup(sv1)
       p3.addGroup(sv2)
       sv3.addGroup(p3)
+      
+       layout.linkSize SwingConstants::HORIZONTAL, 
+          chooseDir, searchButton
 
      
   end
@@ -199,7 +279,7 @@ class ScaPanel < JPanel
         f.each_with_index do |line, idx|
            if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
               @str << "File: #{file}, line number: #{idx}\n"
-              @ta.text = "#{@str}"
+             # @ta.text = "#{@str}"
            end
         end
      end
@@ -256,4 +336,4 @@ end
 
 end
 
-#WxfGui::TestFrame.new
+WxfGui::TestFrame.new
