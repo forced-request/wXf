@@ -1,0 +1,1 @@
+require 'wXfgui/sca/tables/results_table'
