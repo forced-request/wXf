@@ -488,9 +488,9 @@ def arg_show(*cmd)
      activity = self.in_focus
      list = []
      if (activity) 
-       list = ["exploits","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
+       list = ["exploits", "payloads", "auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
      else
-       list = ["exploits","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
+       list = ["exploits", "payloads", "auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "buby", "rfi"]
      end
     return list 
     end 
