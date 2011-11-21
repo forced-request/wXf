@@ -109,6 +109,7 @@ class WxfGuiTabbedPane < JTabbedPane
   
   def restore
     @wXf_cc_panel.restore
+    @wXf_sca_panel.restore
   end
   
   def send_log_text(*params)

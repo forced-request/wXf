@@ -46,13 +46,13 @@ class ScaPanel < JPanel
   def init
      
       # Panels
-      jp1 = DataEntryPanel.new()
+      jp1 = DataEntryPanel.new(self)
       jp2 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
       
       # Table area
        @results_table = ResultsTable.new
        @table = JTable.new(@results_table)
-       @table.setPreferredScrollableViewportSize(Dimension.new(500, 250))
+       @table.setPreferredScrollableViewportSize(Dimension.new(800, 400))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
       
@@ -94,6 +94,14 @@ class ScaPanel < JPanel
        
   end
   
+   def restore
+      @results_table.restore
+   end 
+  
+   def results_table
+      return @results_table
+   end
+  
 end
 
 
@@ -105,14 +113,18 @@ class WxfScaPanel < JTabbedPane
    end
    
    def init
-    cp = ScaPanel.new
+    @cp = ScaPanel.new
     jpanel = JPanel.new()
     jpanel.setLayout(BorderLayout.new())
-    jpanel.add(cp, BorderLayout::LINE_START)
+    jpanel.add(@cp, BorderLayout::LINE_START)
     jpanel2 = JPanel.new
     jpanel2.setLayout(BorderLayout.new())
     jpanel2.add(jpanel, BorderLayout::PAGE_START)
     self.add("String Search", jpanel2)
+   end
+   
+   def restore
+      @cp.restore
    end
 end
 
@@ -140,7 +152,9 @@ class TestFrame < JFrame
     
   end
   
-end 
+end
+
+# End Test Code
 
 end
 

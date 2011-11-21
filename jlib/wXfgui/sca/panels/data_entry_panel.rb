@@ -2,7 +2,8 @@ module WxfGui
   
   class DataEntryPanel < JPanel
      
-     def initialize
+     def initialize(sca)
+        @sca = sca
         super(FlowLayout.new(FlowLayout::LEFT))
         init
      end
@@ -121,8 +122,11 @@ module WxfGui
       end
       
       def finder
+         # Define instance arrays
          @file_array = []
-         @str = ''
+         result_arry = []
+         
+         # Sanity Check
          return unless @tf1.text.length > 0     
          
          #First loop, to collect
@@ -137,12 +141,12 @@ module WxfGui
             f = File.open(file, "r")
             f.each_with_index do |line, idx|
                if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
-                  @str << "File: #{file}, line number: #{idx}\n"
-                 # @ta.text = "#{@str}"
+                  result_arry <<(["#{file}", "#{idx}", "#{@tf2.text}"])
                end
             end
          end
-         @str << "Finished!"
+         @sca.results_table.insert_results(result_arry)
+         #Put a finished message here or maybe add a progress
       end
   end
   
