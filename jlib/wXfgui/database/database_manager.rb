@@ -39,6 +39,7 @@ class DatabaseManager
     statement = conn.create_statement()
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
     statement.executeUpdate("CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
+    statement.executeUpdate("CREATE TABLE string_search_results(id INTEGER PRIMARY KEY, file TEXT, line_number TEXT, string_match TEXT)")
   end
   
 end
@@ -137,7 +138,39 @@ module DatabaseManagerModule
       prep.executeBatch()
       conn.close()
     end 
-  end 
+  end
+  
+  def db_add_string_results(*params)
+    if not $db_name.nil?
+      file, line_number, string_match = params
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      prep = conn.prepareStatement("insert into string_search_results(file, line_number, string_match) VALUES (?,?,?);")
+      prep.setString(1, file)
+      prep.setString(2, line_number)
+      prep.setString(3, string_match)
+      prep.addBatch()
+      prep.executeBatch()
+      conn.close()
+    end
+  end
+  
+  def retrieve_string_results
+    rows = []
+    if not $db_name.nil?
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      stat = conn.createStatement()
+      result = stat.executeQuery('SELECT * FROM string_search_results')
+      while result.next()
+        #id = result.getInt("id")
+        file = result.getString("file")
+        line_number = result.getString("line_number")
+        string_match = result.getString("string_match")   
+        rows <<([file, line_number, string_match])
+      end
+      conn.close()
+    end     
+    return rows
+  end
     
 end 
 
