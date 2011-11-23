@@ -87,9 +87,9 @@ class WxfGuiTabbedPane < JTabbedPane
     @wXf_sca_panel = WxfScaPanel.new
     add("Main", @wXf_cc_panel)
     add("Analysis", @wXf_analysis_panel)
-    add("Console", @wXf_console_pane)
     add("Buby", @wXf_buby_panel)
     add("SCA", @wXf_sca_panel)
+    add("Console", @wXf_console_pane)
     listener
   end
   

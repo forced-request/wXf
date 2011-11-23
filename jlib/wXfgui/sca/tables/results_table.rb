@@ -1,9 +1,11 @@
 require 'wXfgui/database'
 
 module WxfGui
+
+  
   
   class ResultsTable <  DefaultTableModel
-    # include TableModelListener
+
      include WxfGui::DatabaseManagerModule
      def initialize
         super()

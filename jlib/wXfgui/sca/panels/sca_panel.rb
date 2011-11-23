@@ -55,10 +55,14 @@ class ScaPanel < JPanel
        @table.setPreferredScrollableViewportSize(Dimension.new(800, 400))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+       
       
+       
       # Scroll pane
       @js1 = JScrollPane.new(@table)
       jp2.add(@js1)
+      
+      @table.addMouseListener(ScaPopupMenu.new(@table))
       
           
       #
