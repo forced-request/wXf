@@ -30,7 +30,7 @@ module WxfGui
     def mouseClicked(event)
       if event.getClickCount == 2
         row = @table.getSelectedRow
-        if row and row.kind_of?(Integer)
+        if row and row.kind_of?(Integer) and row != -1
           result = @table.getValueAt(row, 0)
           open_dialog(result)
         end 
@@ -43,7 +43,7 @@ module WxfGui
        # fc = File.read(file).to_s
         IO.readlines(file).each_with_index do |line, idx|
           idx +=1
-          fc << "#{idx}>   #{line}"
+          fc << "#{idx}.      #{line}"
         end
         fopenframe = FileOpenFrame.new(fc, file.to_s)
       end
