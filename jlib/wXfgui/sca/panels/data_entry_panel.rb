@@ -140,6 +140,7 @@ module WxfGui
          @file_array.each do |file|
             f = File.open(file, "r")
             f.each_with_index do |line, idx|
+              idx +=1
                if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
                   result_arry <<(["#{file}", "#{idx}", "#{@tf2.text}"])
                end
