@@ -52,7 +52,7 @@ class ScaPanel < JPanel
       # Table area
        @results_table = ResultsTable.new
        @table = JTable.new(@results_table)
-       @table.setPreferredScrollableViewportSize(Dimension.new(800, 400))
+       @table.setPreferredScrollableViewportSize(Dimension.new(1000, 400))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
        

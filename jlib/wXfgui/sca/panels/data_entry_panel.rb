@@ -18,10 +18,12 @@ module WxfGui
         # Labels      
         l1 = JLabel.new("Directory to search")
         l2 = JLabel.new("String to search for")
+        l3 = JLabel.new("Extension - txt,csv")
         
         # Text Fields
         @tf1 = JTextField.new(30)
         @tf2 = JTextField.new(30)
+        @tf3 = JTextField.new(10)
         
         # Jpanel(s)
         jp1 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
@@ -30,6 +32,9 @@ module WxfGui
         jp2 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
         jp2.add(l2)
         jp2.add(@tf2)
+        jp3 = JPanel.new(FlowLayout.new(FlowLayout::LEFT))
+        jp3.add(l3)
+        jp3.add(@tf3)
      
      
         # Add listener actions to button
@@ -51,8 +56,18 @@ module WxfGui
         searchButton.addActionListener do |e|
            if @tf1.text.length <= 0
              error("Please enter a directory")
+           elsif not File.directory?(@tf1.text.to_s)
+             error("That directory does not exist, try again")
            elsif @tf2.text.length <= 0
              error("Please enter something to search for")
+           elsif @tf3.text.length <= 0
+             opt = yes_no_error("You've not entered an extension. Check all filetypes?\nThis will take some time...")
+             case opt
+             when 0
+               @tf3.text = ''
+               search
+             else
+             end
            else
               search
            end
@@ -88,6 +103,7 @@ module WxfGui
         # Horizontal
         p1.addComponent(jp1)
         p1.addComponent(jp2)
+        p1.addComponent(jp3)
         p2.addComponent(chooseDir)
         p2.addComponent(searchButton)
         sh3.addGroup(p1)
@@ -97,6 +113,7 @@ module WxfGui
         # Vertical
         sv1.addComponent(jp1)
         sv1.addComponent(jp2)
+        sv1.addComponent(jp3)
         sv2.addComponent(chooseDir)
         sv2.addComponent(searchButton)
         p5.addGroup(sv1)
@@ -111,7 +128,16 @@ module WxfGui
     def error(text)
        JOptionPane.showMessageDialog self, "#{text}",
           "Error", JOptionPane::ERROR_MESSAGE     
-      end
+    end
+    
+    def yes_no_error(text)
+      jo = JOptionPane.showConfirmDialog(nil, 
+           "#{text}", 
+           "Confirmation", 
+           javax.swing.JOptionPane::YES_NO_OPTION, 
+           javax.swing.JOptionPane::QUESTION_MESSAGE)
+      return jo
+    end 
       
       def search
          if @tf1.text.length > 0 and @tf2.text.length > 0
@@ -125,27 +151,41 @@ module WxfGui
          # Define instance arrays
          @file_array = []
          result_arry = []
+         ext_arry    = []
          
          # Sanity Check
-         return unless @tf1.text.length > 0     
+         return unless @tf1.text.length > 0
+         return unless @tf3.text.kind_of?(String)
+         ext = @tf3.text.gsub(/\.|\s/, '')
+         ext_arry = ext.split(',')
+         extension = ext == '' ? "*" : ext
          
          #First loop, to collect
-         Find.find(@tf1.text) do |file|
-            if File.file?(file) and File.extname(file) == '.rb'        
+         if ext_arry.empty?
+            Find.find(@tf1.text) do |file|
+              if File.file?(file)    
                 @file_array<<(file)
+              end
+            end 
+         else
+            Find.find(@tf1.text) do |file|
+              if File.file?(file) and ext_arry.include?(File.extname(file).to_s.gsub(/\./, ''))     
+                @file_array<<(file)
+              end
             end
          end
          
+        
          # Second loop, to read
          @file_array.each do |file|
             f = File.open(file, "r")
             f.each_with_index do |line, idx|
               idx +=1
                if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
-                  result_arry <<(["#{file}", "#{idx}", "#{@tf2.text}"])
+                  result_arry <<(["#{file}", "#{idx}", "#{@tf2.text}", "#{extension}"])
                end
-            end
-         end
+           end 
+         end 
          @sca.results_table.insert_results(result_arry)
          #Put a finished message here or maybe add a progress
       end

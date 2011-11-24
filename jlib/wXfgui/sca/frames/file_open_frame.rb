@@ -3,17 +3,18 @@ require 'java'
 import javax.swing.JFrame
 import javax.swing.GroupLayout
 import javax.swing.JPanel
-import javax.swing.JTextArea
 import javax.swing.JButton
-import java.awt.TextArea
+import javax.swing.JTextPane
 import javax.swing.JScrollPane
 import java.awt.Dimension
+import java.awt.Point
 
 module WxfGui
   
   class FileOpenPanel < JPanel
     
-    def initialize(fc, frame)
+    def initialize(fc, num, frame)
+      @num = num.to_i
       @frame = frame
       @fc = fc
       super()
@@ -21,18 +22,26 @@ module WxfGui
     end
     
     def init
-      jb = JButton.new("Close")
-    
-      jt = TextArea.new()
-      jt.editable = false
-      jt.setPreferredSize(Dimension.new(700,800))
-      js = JScrollPane.new(jt)
-      jt.text = @fc
       
+      jb = JButton.new("Close")
+      jp = JPanel.new(BorderLayout.new)
+      @jt = JTextPane.new()
+      @jt.editable = false
+      @jt.setPreferredSize(Dimension.new(700,800))
+      js = JScrollPane.new(@jt)
+      jp.add(js)
+      @doc = @jt.getStyledDocument()
+      
+      # Add color
+      add_colors
+      
+      # Added a button to close JButton 
       jb.addActionListener do |e|
         @frame.dispose()
       end
-      
+    
+      insert_string
+         
       #
       # GROUP LAYOUT OPTIONS
       #
@@ -54,17 +63,40 @@ module WxfGui
       layout.setHorizontalGroup sh1
       layout.setVerticalGroup sv1
      
-      sh1.addComponent(js)
+      sh1.addComponent(jp)
       sh1.addComponent(jb)
-      sv1.addComponent(js)
+      sv1.addComponent(jp)
       sv1.addComponent(jb)
       
-      
     end
+    
+    def add_colors
+      # Yellow
+      style = @jt.addStyle("Yellow", nil)
+      StyleConstants.setBold(style, true);
+      StyleConstants.setBackground(style, Color.yellow)
+      
+      # Bold
+      style2 = @jt.addStyle("Bold", nil)
+      StyleConstants.setBold(style2, true)
+    end
+    
+    def insert_string
+      @fc.each_with_index do |line, idx|
+        idx +=1
+        if idx == @num
+          @doc.insertString(@doc.getLength(), line, @jt.getStyle("Yellow"))
+        else
+          @doc.insertString(@doc.getLength(), line, @jt.getStyle("Bold"))
+        end 
+      end
+    end
+    
   end
   
   class FileOpenFrame < JFrame
-    def initialize(file_contents, file_name)
+    def initialize(file_contents, line_number, file_name)
+      @line_number = line_number
       @fc = file_contents
       super(file_name)      
       initUI
@@ -73,7 +105,7 @@ module WxfGui
     
     def initUI
       
-      fpo = FileOpenPanel.new(@fc, self)
+      fpo = FileOpenPanel.new(@fc, @line_number, self)
       self.add(fpo)
       
       self.setJMenuBar menuBar
