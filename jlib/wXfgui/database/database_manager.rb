@@ -39,7 +39,7 @@ class DatabaseManager
     statement = conn.create_statement()
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
     statement.executeUpdate("CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
-    statement.executeUpdate("CREATE TABLE string_search_results(id INTEGER PRIMARY KEY, file TEXT, line_number TEXT, string_match TEXT)")
+    statement.executeUpdate("CREATE TABLE string_search_results(id INTEGER PRIMARY KEY, file TEXT, line_number TEXT, string_match TEXT, ext TEXT)")
   end
   
 end
@@ -142,12 +142,13 @@ module DatabaseManagerModule
   
   def db_add_string_results(*params)
     if not $db_name.nil?
-      file, line_number, string_match = params
+      file, line_number, string_match, ext = params
       conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-      prep = conn.prepareStatement("insert into string_search_results(file, line_number, string_match) VALUES (?,?,?);")
+      prep = conn.prepareStatement("insert into string_search_results(file, line_number, string_match, ext) VALUES (?,?,?,?);")
       prep.setString(1, file)
       prep.setString(2, line_number)
       prep.setString(3, string_match)
+      prep.setString(4, ext)
       prep.addBatch()
       prep.executeBatch()
       conn.close()
@@ -164,8 +165,9 @@ module DatabaseManagerModule
         #id = result.getInt("id")
         file = result.getString("file")
         line_number = result.getString("line_number")
-        string_match = result.getString("string_match")   
-        rows <<([file, line_number, string_match])
+        string_match = result.getString("string_match")
+        ext = result.getString("ext")
+        rows <<([file, line_number, string_match, ext])
       end
       conn.close()
     end     

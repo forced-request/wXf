@@ -32,12 +32,13 @@ module WxfGui
         row = @table.getSelectedRow
         if row and row.kind_of?(Integer) and row != -1
           result = @table.getValueAt(row, 0)
-          open_dialog(result)
+          ln = @table.getValueAt(row, 1)
+          open_dialog(result, ln)
         end 
       end
     end
   
-    def open_dialog(file)
+    def open_dialog(file, ln)
       fc = ''
       if File.exists?(file) and File.file?(file)
        # fc = File.read(file).to_s
@@ -45,7 +46,7 @@ module WxfGui
           idx +=1
           fc << "#{idx}.      #{line}"
         end
-        fopenframe = FileOpenFrame.new(fc, file.to_s)
+        fopenframe = FileOpenFrame.new(fc, ln, file.to_s)
       end
     end
   

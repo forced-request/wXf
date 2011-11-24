@@ -16,6 +16,7 @@ module WxfGui
          self.add_column("file")
          self.add_column("line number")
          self.add_column("string match")
+         self.add_column("extension")
      end 
      
      def isCellEditable(row, col)
@@ -41,7 +42,8 @@ module WxfGui
               file         = row[0]
               line_number  = row[1]
               string_match = row[2]
-              db_add_string_results(file, line_number, string_match)
+              extension    = row[3]
+              db_add_string_results(file, line_number, string_match, extension)
             end 
           end
        else
@@ -50,7 +52,8 @@ module WxfGui
        update_results_fields
      end
      
-      def update_results_fields  
+      def update_results_fields
+        delete_all_rows
         table_data = retrieve_string_results
         #Lets get the results
         if table_data.kind_of?(Array) and table_data.length > 0
