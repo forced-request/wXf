@@ -21,13 +21,17 @@ module WxfGui
   class DecisionTreeItem
          
          attr_accessor :name, :package, :author, :desc, :is_buby, :options
+         attr_accessor :required_mods, :optional_mods, :info_file
      
          def initialize(opts={})
              self.name = opts['Name'] || nil
              self.package = opts['Package'] || nil
              self.author = opts['Author']  || nil
              self.desc = opts['Description'] || nil
-             self.is_buby = opts['Buby'] || nil            
+             self.is_buby = opts['Buby'] || nil
+             self.required_mods = opts['Required Modules'] || []
+             self.optional_mods = opts['Optional Modules'] || []
+             self.info_file = opts['Info File'] || ''
              self.options = WXf::WXfmod_Factory::OptsPlace.new
              add_options
          end

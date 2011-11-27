@@ -80,12 +80,12 @@ class WxfGuiTabbedPane < JTabbedPane
     
   def initialize
     super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
-    @wXf_cc_panel = WxfMainPanel.new   
+    @wXf_main_panel = WxfMainPanel.new   
     @wXf_analysis_panel = WxfAnalysisPanel.new
     @wXf_buby_panel = WxfBubyPanel.new  
     @wXf_console_pane = WxfConsolePanel.new
     @wXf_sca_panel = WxfScaPanel.new
-    add("Main", @wXf_cc_panel)
+    add("Main", @wXf_main_panel)
     add("Analysis", @wXf_analysis_panel)
     add("Buby", @wXf_buby_panel)
     add("SCA", @wXf_sca_panel)
@@ -108,12 +108,12 @@ class WxfGuiTabbedPane < JTabbedPane
   end
   
   def restore
-    @wXf_cc_panel.restore
+    @wXf_main_panel.restore
     @wXf_sca_panel.restore
   end
   
   def send_log_text(*params)
-    @wXf_cc_panel.send_log_text(*params)
+    @wXf_main_panel.send_log_text(*params)
   end
 end
 

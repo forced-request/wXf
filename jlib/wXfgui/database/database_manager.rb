@@ -54,13 +54,13 @@ module DatabaseManagerModule
       stat = conn.createStatement()
       result = stat.executeQuery('SELECT * FROM scope')
       while result.next()
-        #id = result.getInt("id")
+        id = result.getInt("id")
         scope_status = result.getString("scope_status")
         prefix = result.getString("prefix")
         host = result.getString("host")
         port = result.getInt("port")
         path = result.getString("path")      
-        rows <<([scope_status, prefix, host, port, path])
+        rows <<([id, scope_status, prefix, host, port, path])
       end
       conn.close()
     end     
@@ -92,11 +92,12 @@ module DatabaseManagerModule
       delete_all_scope
       rows.delete_at(num)
       rows.each do |row|
-        scope_status = row[0] 
-        prefix = row[1]
-        host = row[2]
-        port = row[3].to_i
-        path = row[4]        
+        id = row[0]
+        scope_status = row[1] 
+        prefix = row[2]
+        host = row[3]
+        port = row[4].to_i
+        path = row[5]        
         db_add_scope(scope_status, prefix, host, port, path)
       end
     end

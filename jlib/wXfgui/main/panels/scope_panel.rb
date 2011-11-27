@@ -25,6 +25,7 @@ class ScopeTable <  DefaultTableModel
    end
    
    def init
+       self.add_column("id")
        self.add_column("in/out")
        self.add_column("prefix")
        self.add_column("host")
@@ -48,7 +49,7 @@ end
    
 class ScopePanelExtension < JPanel
    
-   attr_accessor :combo_box_pre, :combo_box_io, :host_field, :port_field, :path_field
+   attr_accessor :combo_box_pre, :combo_box_io, :host_field, :port_field, :path_field, :id_field
    
    def initialize
       super(FlowLayout.new(FlowLayout::LEFT))
@@ -67,11 +68,14 @@ class ScopePanelExtension < JPanel
        combo_inout.each do |io|
            self.combo_box_io.addItem(io)
        end
-        
+       
+       self.id_field   = JTextField.new(3)
+       self.id_field.editable = false
        self.host_field = JTextField.new(14)
        self.port_field = JTextField.new(5)
        self.path_field = JTextField.new(22)
        
+       add(id_field)
        add(combo_box_io)
        add(combo_box_pre)
        add(host_field)
@@ -213,12 +217,14 @@ class ScopePanel < JPanel
   
   def update_scope_fields(key, rows)
      row = rows[key]
-     ss = row[0].to_s || "in"
-     pre = row[1].to_s || "https"
-     host = row[2].to_s || ""
-     port = row[3].to_s || ""
-     path = row[4].to_s || ""
+     id = row[0].to_s   || ""
+     ss = row[1].to_s   || "in"
+     pre = row[2].to_s  || "https"
+     host = row[3].to_s || ""
+     port = row[4].to_s || ""
+     path = row[5].to_s || ""
      
+     @spe.id_field.text = id
      @spe.combo_box_io.selected_item = ss
      @spe.combo_box_pre.selected_item = pre
      @spe.host_field.text = host
@@ -227,6 +233,7 @@ class ScopePanel < JPanel
   end
   
   def reset_scope_panel_ext
+      @spe.id_field.text = ""
       @spe.combo_box_io.selected_item = "in"
       @spe.combo_box_pre.selected_item = "https"
       @spe.host_field.text = ""
