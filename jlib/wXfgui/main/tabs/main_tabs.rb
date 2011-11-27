@@ -21,19 +21,11 @@ class MainTabs < JTabbedPane
   end
   
   def add_tabs
-    #@advisories = JTextPane.new()
     @log  = LogPanel.new()
-    #@console  = JTextPane.new()
     @scope  =   ScopePanel.new()
-    #@advisories.editable = false
-    #@console.editable = false
-    #@text_pane_advisories  = JScrollPane.new(@advisories)
-    #@text_pane_console  = JScrollPane.new(@console)
     @panel_scope  = JScrollPane.new(@scope)
-    #add("Console", @text_pane_console)    
     add("Scope", @panel_scope)
     add("Log", @log)
-    #add("Advisories",  @text_pane_advisories)
   end
   
   def listener(*params)
@@ -52,8 +44,7 @@ class MainTabs < JTabbedPane
   
   def send_log_text(*params)
     @log.add_text(*params)
-  end
-   
+  end 
    
 end
 end 

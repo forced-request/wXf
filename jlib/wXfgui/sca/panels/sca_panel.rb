@@ -1,5 +1,9 @@
 #!/usr/bin/env jruby
 
+
+# NOTE to users...
+# To increase the size of memory it runs in -  $ jruby -J-Xmx2048m wXfgui
+
 require 'rubygems'
 require 'java'
 require 'find'
@@ -24,6 +28,7 @@ import javax.swing.JScrollPane
 import java.awt.event.FocusListener
 import java.awt.event.MouseListener
 import java.awt.Dimension
+import javax.swing.JSeparator
 import javax.swing.JLabel
 
 
@@ -84,7 +89,6 @@ class ScaPanel < JPanel
       
       layout.setHorizontalGroup sh1
       layout.setVerticalGroup sv3 
-      
       
       # Horizontal
       p1.addComponent(jp1)
