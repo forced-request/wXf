@@ -86,6 +86,14 @@ class DecisionTreeModel
     end
   end
   
+  def gray_out
+     @dtl.each do |k, row|
+      row.each do |cb|
+        cb.enabled = false
+      end   
+    end
+  end
+  
   
   
 end

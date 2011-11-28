@@ -74,6 +74,7 @@ import javax.swing.GroupLayout
 import java.awt.event.MouseListener
 import java.awt.event.FocusListener
 import java.awt.event.MouseEvent
+import java.awt.event.WindowEvent
 
 module WxfGui
 class WxfGuiTabbedPane < JTabbedPane
@@ -144,7 +145,6 @@ class WxfMainPanel < JPanel
       tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1, self))
       t_scroll_pane_1 = JScrollPane.new(tree_1)
       t_scroll_pane_2 = DecisionPanel.new
-  
       
       #
       # SPLIT PANES  
@@ -228,12 +228,21 @@ class Wxfgui < JFrame
       # FRAME OPTIONS
       #
       
+      self.addWindowListener do |e|
+       if e.kind_of?(WindowEvent)
+        ps = e.paramString.split(',')[0] == "WINDOW_CLOSING" ? true : false
+        if (ps)
+          close_it
+        end        
+       end
+      end
+      
       # Set the overall side of the frame
       self.setJMenuBar menuBar
       self.setPreferredSize Dimension.new(1300, 900)
       self.pack
     
-      self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+      self.setDefaultCloseOperation JFrame::DO_NOTHING_ON_CLOSE
       self.setLocationRelativeTo nil
       self.setVisible true
   end
@@ -265,6 +274,9 @@ class Wxfgui < JFrame
       end   
   end
   
+  def close_it
+    
+  end
   
 end
 
