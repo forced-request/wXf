@@ -35,12 +35,15 @@ module WxfGui
       # Add color
       add_colors
       
+      # Insert the string
+      insert_string
+      
       # Added a button to close JButton 
       jb.addActionListener do |e|
         @frame.dispose()
       end
     
-      insert_string
+      
          
       #
       # GROUP LAYOUT OPTIONS

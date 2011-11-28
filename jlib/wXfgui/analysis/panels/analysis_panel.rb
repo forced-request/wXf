@@ -21,8 +21,13 @@ class WxfAnalysisPanel < JTabbedPane
   
   def initUI
      
-     self.add("Decision Tree", scp)
+     #Instantiate
+     dap = DtAnalysisPanel.new
+    
+     # Add the instantiated objs
+     self.add("Decision Tree", dap)
      #self.add("Results Analysis" rap)
+     
   end
   
 end
