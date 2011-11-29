@@ -36,13 +36,14 @@ class WxfMenu < JMenu
     wXfexit = JMenuItem.new "exit"      
     wXfexit.setMnemonic KeyEvent::VK_E
     wXfexit.addActionListener do |e|
-      java.lang.System.exit 0
+      @wXfgui.close_it
     end
     
     self.add(wXfrestore)
     self.add(wXfstart)
     self.add(wXfexit)
   end
+  
 
 end
 
