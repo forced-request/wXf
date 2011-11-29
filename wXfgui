@@ -275,7 +275,14 @@ class Wxfgui < JFrame
   end
   
   def close_it
-    
+    jo = JOptionPane.showConfirmDialog(nil, 
+           "Are you sure that you'd like to exit wXf?", 
+           "Confirmation", 
+           javax.swing.JOptionPane::YES_NO_OPTION, 
+           javax.swing.JOptionPane::QUESTION_MESSAGE)
+    if jo == JOptionPane::YES_OPTION
+      java.lang.System.exit 0 
+    end
   end
   
 end
