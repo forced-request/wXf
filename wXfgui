@@ -78,19 +78,21 @@ import java.awt.event.WindowEvent
 
 module WxfGui
 class WxfGuiTabbedPane < JTabbedPane
+  
+  attr_accessor :wXf_main_panel, :wXf_analysis_panel, :wXf_buby_panel, :wXf_console_pane, :wXf_sca_panel
     
   def initialize
     super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
-    @wXf_main_panel = WxfMainPanel.new   
-    @wXf_analysis_panel = WxfAnalysisPanel.new
-    @wXf_buby_panel = WxfBubyPanel.new  
-    @wXf_console_pane = WxfConsolePanel.new
-    @wXf_sca_panel = WxfScaPanel.new
-    add("Main", @wXf_main_panel)
-    add("Analysis", @wXf_analysis_panel)
-    add("Buby", @wXf_buby_panel)
-    add("SCA", @wXf_sca_panel)
-    add("Console", @wXf_console_pane)
+    self.wXf_main_panel = WxfMainPanel.new   
+    self.wXf_analysis_panel = WxfAnalysisPanel.new
+    self.wXf_buby_panel = WxfBubyPanel.new  
+    self.wXf_console_pane = WxfConsolePanel.new
+    self.wXf_sca_panel = WxfScaPanel.new
+    add("Main", wXf_main_panel)
+    add("Analysis", wXf_analysis_panel)
+    add("Buby", wXf_buby_panel)
+    add("SCA", wXf_sca_panel)
+    add("Console", wXf_console_pane)
     listener
   end
   
@@ -109,12 +111,12 @@ class WxfGuiTabbedPane < JTabbedPane
   end
   
   def restore
-    @wXf_main_panel.restore
-    @wXf_sca_panel.restore
+    self.wXf_main_panel.restore
+    self.wXf_sca_panel.restore
   end
   
   def send_log_text(*params)
-    @wXf_main_panel.send_log_text(*params)
+    self.wXf_main_panel.send_log_text(*params)
   end
 end
 
@@ -199,7 +201,12 @@ class WxfMainPanel < JPanel
   end
 end
 
+# 
+# MAIN FRAME
+#
 class Wxfgui < JFrame
+  
+  attr_accessor :wXf_gui_tabbed_pane
   
   def initialize
       super "The Web Exploitation Framework"
@@ -208,12 +215,12 @@ class Wxfgui < JFrame
   end
   
   def init_classes
-     @wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
+     self.wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
   end
     
   def initUI
     
-      self.add @wXf_gui_tabbed_pane
+      self.add self.wXf_gui_tabbed_pane
       
       #
       # MENU BAR
@@ -248,11 +255,11 @@ class Wxfgui < JFrame
   end
   
   def restore
-    @wXf_gui_tabbed_pane.restore
+    self.wXf_gui_tabbed_pane.restore
   end
   
   def send_log_text(*params)
-    @wXf_gui_tabbed_pane.send_log_text(*params)
+    self.wXf_gui_tabbed_pane.send_log_text(*params)
   end
   
   def check_workspace

@@ -4,7 +4,7 @@ module WxfGui
     include MouseListener
   
     def initialize
-      super
+      super()
       init
     end
   
