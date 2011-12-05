@@ -20,6 +20,7 @@ module WxfGui
 class DecisionPanel < JPanel
   
   include ExpandCollapse
+  attr_accessor :dtm, :dtm_modules, :decisionTreeModel 
   
   def initialize
     super
@@ -50,9 +51,9 @@ class DecisionPanel < JPanel
       layout.setVerticalGroup sv1
     
       
-      dtm = DecisionTreeFactory.new
-      dtm_modules = dtm.module_hash
-      decisionTreeModel = DecisionTreeModel.new(dtm_modules)   
+      self.dtm = DecisionTreeFactory.new
+      self.dtm_modules = dtm.module_hash
+      self.decisionTreeModel = DecisionTreeModel.new(dtm_modules)   
       
       @dt = JTree.new(decisionTreeModel)
       renderer = CheckBoxNodeRenderer.new
