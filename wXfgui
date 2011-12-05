@@ -29,6 +29,7 @@ end
 
 
 #wXf gui elements
+require 'wXfgui/base'
 require 'wXfgui/analysis'
 require 'wXfgui/buby'
 require 'wXfgui/console'
@@ -205,6 +206,8 @@ end
 # MAIN FRAME
 #
 class Wxfgui < JFrame
+  
+  include Base
   
   attr_accessor :wXf_gui_tabbed_pane
   
