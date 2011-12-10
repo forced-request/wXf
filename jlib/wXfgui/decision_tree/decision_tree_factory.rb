@@ -4,6 +4,11 @@ require 'java'
 
 module WxfGui
   
+  
+  #
+  # This parses the package.xml file to determine what packages are available
+  # ...and what order they should be in
+  #
   class DecisionTreePackage
           
           attr_accessor :packages
@@ -16,12 +21,16 @@ module WxfGui
                    self.packages << element.attributes["name"]
               end
           end
-      end
+  end
   
+  
+  #
+  # When individual DT items are loaded, we need their specific values, this handles that
+  #
   class DecisionTreeItem
          
          attr_accessor :name, :package, :author, :desc, :is_buby, :options
-         attr_accessor :required_mods, :optional_mods, :info_file
+         attr_accessor :required_mods, :optional_mods, :info_file, :path
      
          def initialize(opts={})
              self.name = opts['Name'] || nil
@@ -31,7 +40,7 @@ module WxfGui
              self.is_buby = opts['Buby'] || nil
              self.required_mods = opts['Required Modules'] || []
              self.optional_mods = opts['Optional Modules'] || []
-             self.info_file = opts['Info File'] || ''
+             self.info_file = opts['Info File'] || ''            
              self.options = WXf::WXfmod_Factory::OptsPlace.new
              add_options
          end
@@ -46,20 +55,38 @@ module WxfGui
          
          def module_type
           WXf::DT
-         end 
+         end
+         
+         def make_path(p)
+           
+           if File.exists?(p)
+             self.path = p.gsub!("#{WXf::ModWorkingDir}", '')
+           end
+         end
   end
            
 
-class DecisionTreeLoader
+  #
+  #  Loads decision tree items and instantiates them
+  #
+  class DecisionTreeLoader
      
       attr_accessor :dt_modules     
-  
+       
+       
+       #
+       # Kick off the other methods
+       # 
        def initialize
           self.dt_modules = []
-          load_modules(WXf::ModWorkingDir)
+          dt_module_finder(WXf::ModWorkingDir)
        end
        
-       def load_modules(root_dir)
+       
+       #
+       # Finds prospective DT modules
+       #
+       def dt_module_finder(root_dir)
           modules = []  
           Find.find(root_dir) do |m|
               if m =~ /.rb/
@@ -70,31 +97,40 @@ class DecisionTreeLoader
                    end
               end
           end 
-         dt_module_finder(modules)
+         load_modules(modules)
        end
        
-       def dt_module_finder(modules)
-         mod = ''
-         begin
-              modules.each do |m|
-                   mod = m
-                   conc = ::Module.new
-                   conc.module_eval(File.read(m, File.size(m)))
-                   inst = conc.const_get('Dti')
-                    if (inst)
-                         inst_obj = inst.new
-                         if inst_obj.respond_to?('module_type')
-                              self.dt_modules <<(inst_obj)
-                         end 
-                    end
-              end        
-        rescue NameError 
-              print("\e[1;31mFailed to load module:\e[0m #{File.basename(mod).gsub!('.rb', '')}\n")
-         end
+       
+       #
+       # Loads the modules
+       #
+       def load_modules(modules)
+          mod = ''
+          begin
+            modules.each do |m|
+              mod = m
+              conc = ::Module.new
+              conc.module_eval(File.read(m, File.size(m)))
+              inst = conc.const_get('Dti')
+              if (inst)
+                  inst_obj = inst.new
+                  if inst_obj.respond_to?('module_type') and inst_obj.module_type ==  WXf::DT
+                    inst_obj.make_path(m)
+                    self.dt_modules <<(inst_obj)
+                  end 
+              end
+            end 
+          rescue NameError 
+            print("\e[1;31mFailed to load module:\e[0m #{File.basename(mod).gsub!('.rb', '')}\n")
+          end
        end
        
    end
    
+  
+  #
+  # Kicks off the entire process of loading up decision tree items
+  #
   class DecisionTreeFactory
     
     attr_accessor :module_hash 
@@ -107,6 +143,11 @@ class DecisionTreeLoader
            init              
        end
        
+       
+       #
+       # Removes redundant package names, assigns a package as the key (module_hash)
+       # ...and modules as the values
+       #
        def init         
          @packages.uniq!
          if (@dtl)
