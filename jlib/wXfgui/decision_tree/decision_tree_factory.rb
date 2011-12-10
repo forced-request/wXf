@@ -11,6 +11,7 @@ module WxfGui
   #
   class DecisionTreePackage
           
+          # Packages are our where decision tree items will fall
           attr_accessor :packages
           
           def initialize
@@ -29,6 +30,7 @@ module WxfGui
   #
   class DecisionTreeItem
          
+         # These are necessary options to expose for each decision tree item
          attr_accessor :name, :package, :author, :desc, :is_buby, :options
          attr_accessor :required_mods, :optional_mods, :info_file, :path
      
@@ -45,6 +47,11 @@ module WxfGui
              add_options
          end
          
+         
+         #
+         # We are using the Options hash to store a record of both our package
+         # ...and name
+         #
          def add_options
            opts ={}
            if !name.nil? and !package.nil?
@@ -53,10 +60,19 @@ module WxfGui
            end
          end
          
+         
+         #
+         # Need a type so we can be sure what we're invoking
+         #
          def module_type
           WXf::DT
          end
          
+         
+         #
+         # Make path is just a super easy way to determine where
+         # ...in the modules path this module is located
+         #
          def make_path(p)
            
            if File.exists?(p)
@@ -70,7 +86,8 @@ module WxfGui
   #  Loads decision tree items and instantiates them
   #
   class DecisionTreeLoader
-     
+      
+      # An array containing each of the decisiont tree modules
       attr_accessor :dt_modules     
        
        
@@ -133,13 +150,20 @@ module WxfGui
   #
   class DecisionTreeFactory
     
-    attr_accessor :module_hash 
-    
+    # Exposing the dt_modules and the module hash
+    attr_accessor :module_hash, :dt_modules 
+       
+       
+       #
+       # Dreate a module hash to store instantiated modules, that's
+       # ...the biggest thing here
+       #
        def initialize
            self.module_hash = {}
            dtp = DecisionTreePackage.new
            @packages = dtp.packages
            @dtl = DecisionTreeLoader.new
+           self.dt_modules = @dtl.dt_modules
            init              
        end
        
