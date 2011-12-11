@@ -97,6 +97,13 @@ class DecisionPanel < JPanel
       
   end
  
+   def selected_list
+     self.decisionTreeModel.selected_list
+   end
+   
+   def gray_out
+     self.decisionTreeModel.gray_out
+   end
   
 end
 end 

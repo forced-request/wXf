@@ -103,7 +103,7 @@ class DecisionTreeModel
         end
       end
     end
-    return selected_list
+    return sel
   end
   
   

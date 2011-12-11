@@ -21,27 +21,57 @@ class WxfMenu < JMenu
 
   def initUI
     
-    wXfrestore = JMenuItem.new "restore workspace"
-    wXfrestore.setMnemonic KeyEvent::VK_R
-    wXfrestore.addActionListener do |e|
+    @wXfrestore = JMenuItem.new "restore workspace"
+    @wXfrestore.setMnemonic KeyEvent::VK_R
+    @wXfrestore.addActionListener do |e|
       @wXfgui.check_workspace
     end
     
-    wXfstart = JMenuItem.new "start decision tree"      
-    wXfstart.setMnemonic KeyEvent::VK_C
-    wXfstart.addActionListener do |e|
-      @wXfgui.add_selected_cb_stack
+    @wXfstart = JMenuItem.new "start decision tree"      
+    @wXfstart.setMnemonic KeyEvent::VK_C
+    @wXfstart.addActionListener do |e|
+      @wXfgui.start_dt
     end
     
-    wXfexit = JMenuItem.new "exit"      
-    wXfexit.setMnemonic KeyEvent::VK_E
-    wXfexit.addActionListener do |e|
+    @wXfexit = JMenuItem.new "exit"      
+    @wXfexit.setMnemonic KeyEvent::VK_E
+    @wXfexit.addActionListener do |e|
       @wXfgui.close_it
     end
     
-    self.add(wXfrestore)
-    self.add(wXfstart)
-    self.add(wXfexit)
+    self.add(@wXfrestore)
+    self.add(@wXfstart)
+    self.add(@wXfexit)
+  end
+  
+  def disable(name)
+    case name
+    when "all"
+      @wXfrestore.enabled = false
+      @wXfstart.enabled = false
+      @wXfexit.enabled = false
+    when "restore workspace"
+      @wXfrestore.enabled = false
+    when "start decision tree"
+      @wXfstart.enabled = false
+    when "exit"
+       @wXfexit.enabled = false
+    end
+  end
+  
+   def enable(name)
+    case name
+    when "all"
+      @wXfrestore.enabled = true
+      @wXfstart.enabled = true
+      @wXfexit.enabled = true
+    when "restore workspace"
+      @wXfrestore.enabled = true
+    when "start decision tree"
+      @wXfstart.enabled = true
+    when "exit"
+      @wXfexit.enabled = true
+    end
   end
   
 

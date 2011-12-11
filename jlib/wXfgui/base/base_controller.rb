@@ -32,6 +32,7 @@ module BaseController
   end
   
   def add_all_selected_dt(arry)
+    return unless arry != nil
     if arry.kind_of?(Array)
       self.selected_dt_items.concat(arry)
     end 
