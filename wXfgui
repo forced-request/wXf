@@ -1,4 +1,4 @@
-#!/usr/bin/env jruby
+#!/usr/bin/env ruby
 
 case RUBY_PLATFORM
 when 'java'
@@ -127,7 +127,8 @@ end
 class WxfMainPanel < JPanel
   
    include MouseListener
-  
+   attr_accessor :decision_panel
+   
   def initialize
     super()
     init
@@ -148,7 +149,7 @@ class WxfMainPanel < JPanel
       tree_1.shows_root_handles = true
       tree_1.addMouseListener(ModulesPopUpClickListener.new(tree_1, self))
       t_scroll_pane_1 = JScrollPane.new(tree_1)
-      @decision_panel = DecisionPanel.new
+      self.decision_panel = DecisionPanel.new
       
       #
       # SPLIT PANES  
@@ -199,7 +200,11 @@ class WxfMainPanel < JPanel
   end
   
   def selected_list
-    return @decision_panel.selected_list
+    return decision_panel.selected_list
+  end
+  
+  def gray_out
+    decision_panel.gray_out
   end
   
   def send_log_text(*params)
@@ -231,13 +236,18 @@ class Wxfgui < JFrame
       self.add self.wXf_gui_tabbed_pane
       
       #
-      # MENU BAR
+      # Menu Bar Items
       #
       
-      menuBar = JMenuBar.new
-      menuBar.add WxfMenu.new(self)
-      menuBar.add BubyMenu.new
-      menuBar.add AboutMenu.new
+      @jmenubar  = JMenuBar.new
+      @wxfmenu   = WxfMenu.new(self)
+      @bubymenu  = BubyMenu.new
+      @aboutmenu = AboutMenu.new
+      
+      menuBar  =  @jmenubar
+      menuBar.add @wxfmenu
+      menuBar.add @bubymenu
+      menuBar.add @aboutmenu
             
       #
       # FRAME OPTIONS
@@ -300,10 +310,17 @@ class Wxfgui < JFrame
     end
   end
   
-  def add_selected_cb_stack
-    #base.add_all_selected_dt(
-    wXf_gui_tabbed_pane.wXf_main_panel#.selected_list#)
-    #puts base.selected_dt_items
+  def start_dt
+     # Gotta find a better abstraction, in the meantime...
+     dt_sel = wXf_gui_tabbed_pane.wXf_main_panel.selected_list
+     if not dt_sel.empty?
+        base.add_all_selected_dt(dt_sel)
+        # Grey out selected items
+        wXf_gui_tabbed_pane.wXf_main_panel.gray_out
+        # Gray out start decision tree
+        @wxfmenu.disable("start decision tree")
+        self.repaint()
+     end
   end
   
 end

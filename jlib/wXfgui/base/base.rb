@@ -8,6 +8,7 @@ class Base
   
   def initialize
     Wxfgui.new(self)
+    super()
   end
 
 end
