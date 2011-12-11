@@ -25,7 +25,7 @@ class DatabaseManager
     error = ''
      if !File.exists?($db_name)
       connection = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
-      create_scope_table(connection)
+      create_all_tables(connection)
       connection.close()
     else
       Notifications.new("Workspace Error", "This workspace already exists, try another name")
@@ -35,7 +35,7 @@ class DatabaseManager
      return error    
   end
   
-  def create_scope_table(conn)
+  def create_all_tables(conn)
     statement = conn.create_statement()
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
     statement.executeUpdate("CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
@@ -45,7 +45,7 @@ class DatabaseManager
 end
 
 
-module DatabaseManagerModule
+module ScopeDatabaseManagerModule
   
   def retrieve_scope_table
     rows = []
@@ -109,6 +109,9 @@ module DatabaseManagerModule
     stmt.executeUpdate('delete from scope')
     conn.close
   end
+end  
+ 
+module LogDatabaseManagerModule
   
    def retrieve_log_table
     rows = []
@@ -140,6 +143,9 @@ module DatabaseManagerModule
       conn.close()
     end 
   end
+end
+
+module ScaDatabaseManagerModule
   
   def db_add_string_results(*params)
     if not $db_name.nil?

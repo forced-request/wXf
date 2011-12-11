@@ -11,7 +11,7 @@ import javax.swing.text.StyledDocument
 module WxfGui
   
   class LogPanel < JPanel
-    include WxfGui::DatabaseManagerModule
+    include WxfGui::LogDatabaseManagerModule
     
     def initialize
       super
