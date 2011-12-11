@@ -20,7 +20,7 @@ module WxfGui
 class DecisionPanel < JPanel
   
   include ExpandCollapse
-  attr_accessor :dtm, :dtm_modules, :decisionTreeModel 
+  attr_accessor :dtm, :module_hash, :dt_modules, :decisionTreeModel 
   
   def initialize
     super
@@ -52,8 +52,9 @@ class DecisionPanel < JPanel
     
       
       self.dtm = DecisionTreeFactory.new
-      self.dtm_modules = dtm.module_hash
-      self.decisionTreeModel = DecisionTreeModel.new(dtm_modules)   
+      self.module_hash = dtm.module_hash
+      self.dt_modules = dtm.dt_modules
+      self.decisionTreeModel = DecisionTreeModel.new(module_hash)   
       
       @dt = JTree.new(decisionTreeModel)
       renderer = CheckBoxNodeRenderer.new
