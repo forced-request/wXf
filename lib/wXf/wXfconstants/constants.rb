@@ -16,7 +16,7 @@ module WXf
   # Version information
   #
   Major = 1
-  Minor = 0
+  Minor = 2
   Platform = "Ruby 1.8.7"
   Version = "#{Major}.#{Minor} - #{Platform}"
     
