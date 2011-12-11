@@ -71,7 +71,7 @@ module Wordpress
           row.unshift(res.body.length, res.code.to_i, false)
           rows << row
         elsif rce_code and not rce_code == 403
-          row.unshift(rce_code, false)
+          row.unshift("n/a", rce_code, false)
           rows << row
         end
       end
@@ -112,7 +112,7 @@ module Wordpress
           row.unshift(res.body.length, res.code.to_i, false)
           rows << row
         elsif rce_code and not rce_code == 403
-          row.unshift(rce_code, false)
+          row.unshift("n/a", rce_code, false)
           rows << row
         end
       end
@@ -152,7 +152,7 @@ module Wordpress
           row.unshift(res.body.length, res.code.to_i, false)
           rows << row
         elsif rce_code and not rce_code == 403
-          row.unshift(rce_code, false)
+          row.unshift("n/a", rce_code, false)
           rows << row
         end
       end
