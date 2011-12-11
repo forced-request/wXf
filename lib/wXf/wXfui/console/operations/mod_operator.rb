@@ -9,8 +9,6 @@ module WXf
      module Operations
      
      module ModOperator
-                    
-       #include Operator::ArgModOperator
        
        attr_accessor :control
              

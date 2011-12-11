@@ -1,12 +1,16 @@
 require 'wXfgui/base/base_controller'
 
 module WxfGui
-module Base
+
+class Base
   
-  include BaseController
+  include WxfGui::BaseController
+  attr_accessor :base
   
-  def initialize(val=nil)
-    super()
+  def initialize
+    Wxfgui.new(self)
   end
 
-end end
+end
+
+end

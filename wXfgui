@@ -207,19 +207,19 @@ end
 #
 class Wxfgui < JFrame
   
-  include Base
+  attr_accessor :wXf_gui_tabbed_pane, :base
   
-  attr_accessor :wXf_gui_tabbed_pane
-  
-  def initialize
+  def initialize(base)
       super "The Web Exploitation Framework"
       init_classes
-      check_workspace      
+      check_workspace
+      self.base = base
   end
   
   def init_classes
      self.wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
   end
+  
     
   def initUI
     
@@ -300,4 +300,4 @@ end
 
 end
 
-WxfGui::Wxfgui.new
+WxfGui::Base.new
