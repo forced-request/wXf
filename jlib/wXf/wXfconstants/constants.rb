@@ -16,7 +16,7 @@ module WXf
   # Version information
   #
   Major = 1
-  Minor = 1
+  Minor = 2
   Platform = "EXPERIMENTAL JRUBY VERSION"
   Version = "#{Major}.#{Minor} - #{Platform}"
   
