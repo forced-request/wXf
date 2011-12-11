@@ -5,7 +5,6 @@ module WxfGui
 class Base
   
   include WxfGui::BaseController
-  attr_accessor :base
   
   def initialize
     Wxfgui.new(self)

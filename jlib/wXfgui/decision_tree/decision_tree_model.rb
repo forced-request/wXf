@@ -94,8 +94,17 @@ class DecisionTreeModel
     end
   end
   
-
-  
+  def selected_list
+    sel = []
+    @dtl.each do |k, row|
+      row.each do |cb|
+        if cb.selected == true
+          sel<<(cb)
+        end
+      end
+    end
+    return selected_list
+  end
   
   
 end

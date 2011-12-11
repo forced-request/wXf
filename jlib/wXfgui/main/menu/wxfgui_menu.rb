@@ -30,7 +30,7 @@ class WxfMenu < JMenu
     wXfstart = JMenuItem.new "start decision tree"      
     wXfstart.setMnemonic KeyEvent::VK_C
     wXfstart.addActionListener do |e|
-      @wXfgui.base.testy
+      @wXfgui.add_selected_cb_stack
     end
     
     wXfexit = JMenuItem.new "exit"      
