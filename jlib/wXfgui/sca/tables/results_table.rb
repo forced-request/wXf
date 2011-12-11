@@ -6,7 +6,7 @@ module WxfGui
   
   class ResultsTable <  DefaultTableModel
 
-     include WxfGui::DatabaseManagerModule
+     include WxfGui::ScaDatabaseManagerModule
      def initialize
         super()
         init

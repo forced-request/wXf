@@ -86,7 +86,7 @@ class ScopePanelExtension < JPanel
 end
    
 class ScopePanel < JPanel
-   include WxfGui::DatabaseManagerModule
+   include WxfGui::ScopeDatabaseManagerModule
    include MouseListener
   
   def initialize
