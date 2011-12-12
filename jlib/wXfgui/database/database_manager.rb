@@ -191,6 +191,9 @@ module DecisionTreeDatabaseManager
     end
   end
   
+  def delete_decision_tree_stack
+  end
+  
 end
 
 end

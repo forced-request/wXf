@@ -40,7 +40,6 @@ module BaseController
       self.selected_dt_items.concat(arry)
        insert_decision_tree_stack(arry)
     end
-    self.selected_dt_items.each {|x| puts x.respond_to?('start')}
   end
   
   def remove_all_selected_dt
