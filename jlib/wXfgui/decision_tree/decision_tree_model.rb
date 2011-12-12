@@ -107,7 +107,7 @@ class DecisionTreeModel
     @dtl.each do |k, row|
       row.each do |cb|
         if cb.selected == true
-          sel<<(cb)
+          sel<<(cb.text)
         end
       end
     end

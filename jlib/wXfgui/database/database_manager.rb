@@ -44,16 +44,6 @@ class DatabaseManager
   
 end
 
-module DecisionTreeDatabaseManager
-  
-  def insert_decision_tree_stack(dt_array)
-    if dt_array.kind_of?(Array) and not dt_array.empty?
-     puts "not empty"
-    end
-  end
-  
-end
-
 
 module ScopeDatabaseManagerModule
   
@@ -191,7 +181,17 @@ module ScaDatabaseManagerModule
     return rows
   end
     
-end 
+end
+
+module DecisionTreeDatabaseManager
+  
+  def insert_decision_tree_stack(dt_array)
+    if dt_array.kind_of?(Array) and not dt_array.empty?
+     
+    end
+  end
+  
+end
 
 end
 

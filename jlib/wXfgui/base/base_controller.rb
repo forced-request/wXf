@@ -39,7 +39,13 @@ module BaseController
     if arry.kind_of?(Array)
       self.selected_dt_items.concat(arry)
        insert_decision_tree_stack(arry)
-    end 
+    end
+    self.selected_dt_items.each {|x| puts x.respond_to?('start')}
+  end
+  
+  def remove_all_selected_dt
+    self.selected_dt_items.clear
+    delete_decision_tree_stack
   end
 
 end end
