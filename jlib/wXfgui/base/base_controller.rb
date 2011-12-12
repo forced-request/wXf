@@ -1,9 +1,12 @@
 #!/usr/bin/env jruby
 
 require 'java'
+require 'wXfgui/database'
 
 module WxfGui 
 module BaseController
+ 
+  include WxfGui::DecisionTreeDatabaseManager
   
   attr_accessor :module_stack, :decision_tree_stack, :selected_dt_items
   
@@ -35,6 +38,7 @@ module BaseController
     return unless arry != nil
     if arry.kind_of?(Array)
       self.selected_dt_items.concat(arry)
+       insert_decision_tree_stack(arry)
     end 
   end
 
