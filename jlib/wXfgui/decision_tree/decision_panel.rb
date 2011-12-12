@@ -67,33 +67,33 @@ class DecisionPanel < JPanel
       
       tree_scroll_pane = JScrollPane.new(@dt)
       
-      select_all_button  = JButton.new("select all")
-      deselect_all_button  = JButton.new("deselect all")
+      @select_all_button  = JButton.new("select all")
+      @deselect_all_button  = JButton.new("deselect all")
       
-      select_all_button.add_action_listener do |e|
+      @select_all_button.add_action_listener do |e|
         decisionTreeModel.select_all
         @dt.repaint()
       end
       
-      deselect_all_button.add_action_listener do |e|
+      @deselect_all_button.add_action_listener do |e|
         decisionTreeModel.deselect_all
         @dt.repaint()
       end
       
-      p1.addComponent(select_all_button)
-      p1.addComponent(deselect_all_button)
+      p1.addComponent(@select_all_button)
+      p1.addComponent(@deselect_all_button)
       sh1.addComponent(tree_scroll_pane)
       sh1.addGroup(p1)
       
       sv2.addComponent(tree_scroll_pane)
-      sv3.addComponent(select_all_button)
-      sv3.addComponent(deselect_all_button)
+      sv3.addComponent(@select_all_button)
+      sv3.addComponent(@deselect_all_button)
       p2.addGroup(sv2)
       p2.addGroup(sv3)
       sv1.addGroup(p2)
       
       layout.linkSize SwingConstants::HORIZONTAL, 
-          deselect_all_button, select_all_button
+          @deselect_all_button, @select_all_button
       
   end
  
@@ -110,10 +110,14 @@ class DecisionPanel < JPanel
    
    def gray_out
      self.decisionTreeModel.gray_out
+     @select_all_button.enabled = false
+     @deselect_all_button.enabled = false
    end
    
    def undo_gray_out
      self.decisionTreeModel.undo_gray_out
+     @select_all_button.enabled = true
+     @deselect_all_button.enabled = true
    end
   
 end
