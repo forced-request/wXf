@@ -207,6 +207,10 @@ class WxfMainPanel < JPanel
     decision_panel.gray_out
   end
   
+  def undo_gray_out
+    decision_panel.undo_gray_out
+  end
+  
   def send_log_text(*params)
     @main_tabs.send_log_text(*params)
   end
@@ -309,6 +313,20 @@ class Wxfgui < JFrame
       java.lang.System.exit 0 
     end
   end
+
+  def stop_dt
+     # Gotta find a better abstraction, in the meantime...
+    # dt_sel = wXf_gui_tabbed_pane.wXf_main_panel.selected_list
+     #if not dt_sel.empty?
+     #   base.add_all_selected_dt(dt_sel)
+        # Grey out selected items
+        wXf_gui_tabbed_pane.wXf_main_panel.undo_gray_out
+        # Gray out start decision tree
+        @wxfmenu.enable("start decision tree")
+        @wxfmenu.disable("stop decision tree")
+        self.repaint()
+    # end
+  end 
   
   def start_dt
      # Gotta find a better abstraction, in the meantime...
@@ -319,6 +337,7 @@ class Wxfgui < JFrame
         wXf_gui_tabbed_pane.wXf_main_panel.gray_out
         # Gray out start decision tree
         @wxfmenu.disable("start decision tree")
+        @wxfmenu.enable("stop decision tree")
         self.repaint()
      end
   end

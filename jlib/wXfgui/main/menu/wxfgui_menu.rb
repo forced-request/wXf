@@ -33,6 +33,13 @@ class WxfMenu < JMenu
       @wXfgui.start_dt
     end
     
+    @wXfstop = JMenuItem.new "stop decision tree"      
+    @wXfstop.setMnemonic KeyEvent::VK_C
+    @wXfstop.addActionListener do |e|
+      @wXfgui.stop_dt
+    end
+    disable("stop decision tree")
+    
     @wXfexit = JMenuItem.new "exit"      
     @wXfexit.setMnemonic KeyEvent::VK_E
     @wXfexit.addActionListener do |e|
@@ -41,6 +48,7 @@ class WxfMenu < JMenu
     
     self.add(@wXfrestore)
     self.add(@wXfstart)
+    self.add(@wXfstop)
     self.add(@wXfexit)
   end
   
@@ -49,11 +57,14 @@ class WxfMenu < JMenu
     when "all"
       @wXfrestore.enabled = false
       @wXfstart.enabled = false
+      @wXfstop.enabled = false
       @wXfexit.enabled = false
     when "restore workspace"
       @wXfrestore.enabled = false
     when "start decision tree"
       @wXfstart.enabled = false
+    when "stop decision tree"
+      @wXfstop.enabled = false
     when "exit"
        @wXfexit.enabled = false
     end
@@ -64,11 +75,14 @@ class WxfMenu < JMenu
     when "all"
       @wXfrestore.enabled = true
       @wXfstart.enabled = true
+      @wXfstop.enabled = true
       @wXfexit.enabled = true
     when "restore workspace"
       @wXfrestore.enabled = true
     when "start decision tree"
       @wXfstart.enabled = true
+    when "stop decision tree"
+      @wXfstop.enabled = true
     when "exit"
       @wXfexit.enabled = true
     end

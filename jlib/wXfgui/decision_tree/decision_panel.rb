@@ -104,6 +104,10 @@ class DecisionPanel < JPanel
    def gray_out
      self.decisionTreeModel.gray_out
    end
+   
+   def undo_gray_out
+     self.decisionTreeModel.undo_gray_out
+   end
   
 end
 end 
