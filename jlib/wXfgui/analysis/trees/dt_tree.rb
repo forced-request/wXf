@@ -9,7 +9,7 @@ module WxfGui
   class DtTree
     
     include TreeModel
-    attr_reader :dtl
+  #  attr_reader :dtl
   
     def initialize(dtl)
       @dtl = dtl
