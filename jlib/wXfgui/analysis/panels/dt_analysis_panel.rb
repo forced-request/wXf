@@ -9,8 +9,11 @@ module WxfGui
     end
   
     def init
-#=begin     
-      t_scroll_pane_1 = JPanel.new#JScrollPane.new(#PUT SOMETHING HERE)
+#=begin
+      dt_tree = DtTree.new("a")
+      dt_jtree = JTree.new(dt_tree)
+     
+      t_scroll_pane_1 = JScrollPane.new(dt_jtree)
       t_scroll_pane_2 = JPanel.new# PUT A PANEL HERE
       
            
@@ -22,7 +25,7 @@ module WxfGui
       
       split_pane2 = JSplitPane.new JSplitPane::HORIZONTAL_SPLIT
       split_pane2.setDividerLocation 300
-      split_pane2.add JPanel.new# Panel here
+      split_pane2.add t_scroll_pane_1
       split_pane2.add split_pane1
       
       
