@@ -315,17 +315,13 @@ class Wxfgui < JFrame
   end
 
   def stop_dt
-     # Gotta find a better abstraction, in the meantime...
-    # dt_sel = wXf_gui_tabbed_pane.wXf_main_panel.selected_list
-     #if not dt_sel.empty?
-     #   base.add_all_selected_dt(dt_sel)
+        base.remove_all_selected_dt
         # Grey out selected items
         wXf_gui_tabbed_pane.wXf_main_panel.undo_gray_out
         # Gray out start decision tree
         @wxfmenu.enable("start decision tree")
         @wxfmenu.disable("stop decision tree")
         self.repaint()
-    # end
   end 
   
   def start_dt
@@ -335,6 +331,7 @@ class Wxfgui < JFrame
         base.add_all_selected_dt(dt_sel)
         # Grey out selected items
         wXf_gui_tabbed_pane.wXf_main_panel.gray_out
+        wXf_gui_tabbed_pane.wXf_main_panel
         # Gray out start decision tree
         @wxfmenu.disable("start decision tree")
         @wxfmenu.enable("stop decision tree")
