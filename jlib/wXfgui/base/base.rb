@@ -10,7 +10,7 @@ class Base
     Wxfgui.new(self)
     super()
   end
-
+ 
 end
 
 end
