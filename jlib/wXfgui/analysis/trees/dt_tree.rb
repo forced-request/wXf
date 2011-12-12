@@ -13,32 +13,31 @@ module WxfGui
   
     def initialize(dtl)
       @dtl = dtl
-      select_all
     end
 
   
     def getChild(obj, index)
-      if (obj)
-        if obj ==  "Decision Tree"
-          return @dtl.keys[index]
-        elsif @dtl.has_key?(obj)
-          return @dtl[obj][index]
-        else
+     # if (obj)
+       # if obj ==  "Decision Tree"
+        #  return @dtl.keys[index]
+        #elsif @dtl.has_key?(obj)
+         # return @dtl[obj][index]
+      #  else
           return 0
-        end
-      end 
+        #end
+      #end 
     end
   
     def getChildCount(parent)
-      if (parent)
-        if parent == "Decision Tree"
-          return @dtl.length
-        elsif @dtl.has_key?(parent)
-          return @dtl[parent].length
-        else
+      #if (parent)
+       # if parent == "Decision Tree"
+        #  return @dtl.length
+       # elsif @dtl.has_key?(parent)
+        #  return @dtl[parent].length
+        #else
           return 0  
-        end
-      end 
+       # end
+      #end 
     end
   
   
@@ -55,11 +54,11 @@ module WxfGui
     end
   
     def isLeaf(arg0)
-      if arg0.kind_of?(String)
+     # if arg0.kind_of?(String)
         return false
-      elsif arg0.kind_of?(JCheckBox)
-        return true
-      end
+     # elsif arg0.kind_of?(JCheckBox)
+      #  return true
+      #end
     end
   
     def addTreeModelListener(arg0)
