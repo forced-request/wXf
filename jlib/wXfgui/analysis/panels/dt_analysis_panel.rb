@@ -1,19 +1,26 @@
+require 'java'
+
+import javax.swing.tree.DefaultMutableTreeNode
+
 module WxfGui
   
   class DtAnalysisPanel < JPanel
     include MouseListener
-  
-    def initialize
+    
+    def initialize(wXfgui)
+      @wXfgui = wXfgui
       super()
       init
     end
   
     def init
-#=begin
-      dt_tree = DtTree.new("a")
-      dt_jtree = JTree.new(dt_tree)
+      
+      @dt_tree_listener = DtTreeModelListener.new
+      @dt_tree = DtTree.new()
+      @dt_tree.addTreeModelListener(@dt_tree_listener)
+      @dt_jtree = JTree.new(@dt_tree)
      
-      t_scroll_pane_1 = JScrollPane.new(dt_jtree)
+      @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
       t_scroll_pane_2 = JPanel.new# PUT A PANEL HERE
       
            
@@ -25,9 +32,9 @@ module WxfGui
       
       split_pane2 = JSplitPane.new JSplitPane::HORIZONTAL_SPLIT
       split_pane2.setDividerLocation 300
-      split_pane2.add t_scroll_pane_1
+      split_pane2.add @t_scroll_pane_1
       split_pane2.add split_pane1
-      
+
       
       #
       # GROUP LAYOUT OPTIONS
@@ -55,5 +62,26 @@ module WxfGui
       sv1.addGroup p2
 #=end      
     end
+  
+    
+    def load_dt_tree
+      idx = 0
+      @wXfgui.base.selected_dt_items.each_with_index do |item, index|
+        node = DefaultMutableTreeNode.new("#{item.name}")
+        @wXfgui.base.add_default_mutable_nodes(node)
+        @dt_tree.innerModel.insertNodeInto(node, @dt_tree.getRoot(), idx)
+        idx = index + 1
+      end
+      
+    end  
+  
+    def unload_dt_tree
+      @wXfgui.base.dtmn.each do |item|
+        @dt_tree.innerModel.removeNodeFromParent(item)
+      end
+      @wXfgui.base.remove_all_default_mutable_nodes
+     
+    end
+  
   end
 end

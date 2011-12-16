@@ -7,8 +7,8 @@ class Base
   include WxfGui::BaseController
   
   def initialize
-    Wxfgui.new(self)
     super()
+    Wxfgui.new(self)
   end
  
 end

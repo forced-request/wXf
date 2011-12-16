@@ -14,7 +14,8 @@ import javax.swing.JTabbedPane
 module WxfGui
 class WxfAnalysisPanel < JTabbedPane
   
-  def initialize
+  def initialize(wXfgui)
+     @wXfgui = wXfgui
      super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
      initUI
   end
@@ -22,12 +23,20 @@ class WxfAnalysisPanel < JTabbedPane
   def initUI
      
      #Instantiate
-     dap = DtAnalysisPanel.new#(@wXfgui)
+     @dap = DtAnalysisPanel.new(@wXfgui)
     
      # Add the instantiated objs
-     self.add("Decision Tree", dap)
+     self.add("Decision Tree", @dap)
      #self.add("Results Analysis" rap)
      
+  end
+  
+  def load_dt_tree
+    @dap.load_dt_tree
+  end
+  
+  def unload_dt_tree
+    @dap.unload_dt_tree
   end
   
 end
