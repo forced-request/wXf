@@ -82,10 +82,11 @@ class WxfGuiTabbedPane < JTabbedPane
   
   attr_accessor :wXf_main_panel, :wXf_analysis_panel, :wXf_buby_panel, :wXf_console_pane, :wXf_sca_panel
     
-  def initialize
+  def initialize(wXfgui)
+    @wXfgui = wXfgui
     super(JTabbedPane::TOP, JTabbedPane::SCROLL_TAB_LAYOUT)
     self.wXf_main_panel = WxfMainPanel.new
-    self.wXf_analysis_panel = WxfAnalysisPanel.new
+    self.wXf_analysis_panel = WxfAnalysisPanel.new(@wXfgui)
     self.wXf_buby_panel = WxfBubyPanel.new  
     self.wXf_console_pane = WxfConsolePanel.new
     self.wXf_sca_panel = WxfScaPanel.new
@@ -224,14 +225,14 @@ class Wxfgui < JFrame
   attr_accessor :wXf_gui_tabbed_pane, :base
   
   def initialize(base)
+      self.base = base
       super "The Web Exploitation Framework"
       init_classes
       check_workspace
-      self.base = base
   end
   
   def init_classes
-     self.wXf_gui_tabbed_pane = WxfGuiTabbedPane.new
+     self.wXf_gui_tabbed_pane = WxfGuiTabbedPane.new(self)
   end
   
     
@@ -316,6 +317,7 @@ class Wxfgui < JFrame
 
   def stop_dt
         base.remove_all_selected_dt
+        wXf_gui_tabbed_pane.wXf_analysis_panel.unload_dt_tree
         # Grey out selected items
         wXf_gui_tabbed_pane.wXf_main_panel.undo_gray_out
         # Gray out start decision tree
@@ -330,8 +332,8 @@ class Wxfgui < JFrame
      if not dt_sel.empty?
         base.add_all_selected_dt(dt_sel)
         # Grey out selected items
+        wXf_gui_tabbed_pane.wXf_analysis_panel.load_dt_tree
         wXf_gui_tabbed_pane.wXf_main_panel.gray_out
-        wXf_gui_tabbed_pane.wXf_main_panel
         # Gray out start decision tree
         @wxfmenu.disable("start decision tree")
         @wxfmenu.enable("stop decision tree")
