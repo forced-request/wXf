@@ -72,7 +72,6 @@ module WxfGui
         @dt_tree.innerModel.insertNodeInto(node, @dt_tree.getRoot(), idx)
         idx = index + 1
       end
-      
     end  
   
     def unload_dt_tree
@@ -80,7 +79,6 @@ module WxfGui
         @dt_tree.innerModel.removeNodeFromParent(item)
       end
       @wXfgui.base.remove_all_default_mutable_nodes
-     
     end
   
   end
