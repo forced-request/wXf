@@ -185,8 +185,8 @@ end
 
 module DecisionTreeDatabaseManager
   
-  def insert_decision_tree_stack(dt_array)
-    if dt_array.kind_of?(Array) and not dt_array.empty?
+  def insert_decision_tree_stack(dt_hash)
+    if dt_hash.kind_of?(Hash) and not dt_hash.empty?
      
     end
   end

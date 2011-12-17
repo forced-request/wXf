@@ -59,17 +59,19 @@ module WxfGui
       sh1.addGroup p1
        
       p2.addComponent split_pane2
-      sv1.addGroup p2
-#=end      
+      sv1.addGroup p2   
     end
   
-    
+    def refresh
+       @dt_jtree.updateUI()
+    end 
+     
     def load_dt_tree
-      @dt_jtree.updateUI()
+      refresh
     end  
   
     def unload_dt_tree
-      @dt_jtree.updateUI()
+      refresh
     end
   
   end

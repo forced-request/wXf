@@ -13,7 +13,7 @@ module BaseController
   def initialize
     self.module_stack = []
     self.decision_tree_stack = []
-    self.selected_dt_items = []
+    self.selected_dt_items = {}
   end
   
   def add_module_activity(activity)
@@ -34,12 +34,19 @@ module BaseController
   def remove_decision_tree_activity_by_name(activity_name)
   end
   
-  def add_all_selected_dt(arry)
-    return unless arry != nil
-    if arry.kind_of?(Array)
-      self.selected_dt_items.concat(arry)
-       insert_decision_tree_stack(arry)
-    end
+  def add_all_selected_dt(hsh)
+    return unless hsh != nil
+    if hsh.kind_of?(Hash)
+      hsh.each do |k, row|
+        nrow = []
+        row.each do |dt|
+          nrow.push(dt)
+        end
+        self.selected_dt_items["#{k}"] = nrow
+      end
+      # DatabaseManager Method
+      insert_decision_tree_stack(hsh)
+    end 
   end
   
   def remove_all_selected_dt

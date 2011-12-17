@@ -103,13 +103,15 @@ class DecisionTreeModel
   end
   
   def selected_list
-    sel = []
+    sel = {}
     @dtl.each do |k, row|
+      nrow = []
       row.each do |cb|
-        if cb.selected == true
-          sel<<(cb.text)
-        end
-      end
+       if cb.selected == true
+         nrow.push(cb.text)
+       end
+     end
+     sel["#{k}"] = nrow
     end
     return sel
   end
