@@ -16,7 +16,7 @@ module WxfGui
     def init
       
       @dt_tree_listener = DtTreeModelListener.new
-      @dt_tree = DtTree.new()
+      @dt_tree = DtTree.new(@wXfgui.base.selected_dt_items)
       @dt_tree.addTreeModelListener(@dt_tree_listener)
       @dt_jtree = JTree.new(@dt_tree)
      
@@ -65,20 +65,11 @@ module WxfGui
   
     
     def load_dt_tree
-      idx = 0
-      @wXfgui.base.selected_dt_items.each_with_index do |item, index|
-        node = DefaultMutableTreeNode.new("#{item.name}")
-        @wXfgui.base.add_default_mutable_nodes(node)
-        @dt_tree.innerModel.insertNodeInto(node, @dt_tree.getRoot(), idx)
-        idx = index + 1
-      end
+      @dt_jtree.updateUI()
     end  
   
     def unload_dt_tree
-      @wXfgui.base.dtmn.each do |item|
-        @dt_tree.innerModel.removeNodeFromParent(item)
-      end
-      @wXfgui.base.remove_all_default_mutable_nodes
+      @dt_jtree.updateUI()
     end
   
   end
