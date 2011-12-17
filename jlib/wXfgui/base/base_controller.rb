@@ -8,13 +8,12 @@ module BaseController
  
   include WxfGui::DecisionTreeDatabaseManager
   
-  attr_accessor :module_stack, :decision_tree_stack, :selected_dt_items, :dtmn
+  attr_accessor :module_stack, :decision_tree_stack, :selected_dt_items
   
   def initialize
     self.module_stack = []
     self.decision_tree_stack = []
     self.selected_dt_items = []
-    self.dtmn = []
   end
   
   def add_module_activity(activity)
@@ -47,14 +46,6 @@ module BaseController
     self.selected_dt_items.clear
     # DatabaseManager Method
     delete_decision_tree_stack
-  end
-  
-  def add_default_mutable_nodes(node)
-    self.dtmn.push(node)
-  end
-  
-  def remove_all_default_mutable_nodes
-    self.dtmn.clear
   end
 
 end end

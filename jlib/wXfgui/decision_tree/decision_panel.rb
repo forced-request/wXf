@@ -102,7 +102,7 @@ class DecisionPanel < JPanel
      sl = self.decisionTreeModel.selected_list
      dt_modules.each do |mod|
         if sl.include?("#{mod.name}")
-          sel<<(mod)
+          sel<<(mod.name)
         end
      end
      return sel
