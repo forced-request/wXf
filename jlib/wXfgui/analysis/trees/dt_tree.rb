@@ -10,32 +10,36 @@ module WxfGui
   class DtTree
     
     include TreeModel
-    attr_accessor :innerModel
+    attr_reader :dtl
   
     def initialize(dtl)
      @dtl = dtl
     end
 
   
-    def getChild(obj, index)
-      if (obj)
-        if obj.to_s ==  "Decision Tree" #&& obj.kind_of?(DefaultMutableTreeNode)
-         return @dtl[index]
-        else
-          return 0
-        end
-      end 
-    end
+  def getChild(obj, index)
+    if (obj)
+     if obj ==  "Decision Tree"
+      return @dtl.keys[index] #if @dtl[index] != nil
+     elsif @dtl.has_key?(obj) 
+       return @dtl[obj][index]
+     else
+      return 0
+     end
+    end 
+  end
   
-    def getChildCount(parent)
-      if (parent)
-      if parent.to_s == "Decision Tree"
-        return @dtl.length
-        else
-          return 0  
-        end
-      end 
-    end
+  def getChildCount(parent)
+    if (parent)
+     if parent == "Decision Tree"
+      return @dtl.length
+     elsif @dtl.has_key?(parent)
+       return @dtl[parent].length
+     else
+      return 0  
+     end
+    end 
+  end
   
   
     def getIndexOfChild(parent, child)
@@ -52,6 +56,8 @@ module WxfGui
   
     def isLeaf(arg0)
        if arg0.to_s == "Decision Tree"
+         return false
+       elsif @dtl.has_key?(arg0.to_s)
          return false
        else
          return true

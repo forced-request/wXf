@@ -98,14 +98,8 @@ class DecisionPanel < JPanel
   end
  
    def selected_list
-     sel = []
      sl = self.decisionTreeModel.selected_list
-     dt_modules.each do |mod|
-        if sl.include?("#{mod.name}")
-          sel<<(mod.name)
-        end
-     end
-     return sel
+     return sl
    end
    
    def gray_out
