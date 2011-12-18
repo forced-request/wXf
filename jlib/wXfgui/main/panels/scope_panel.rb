@@ -11,8 +11,8 @@ import javax.swing.JComboBox
 import javax.swing.JButton
 import java.awt.event.MouseListener
 import javax.swing.table.DefaultTableModel
-#import javax.swing.event.TableModelListener
 import javax.swing.ListSelectionModel
+import java.awt.Color
 
 module WxfGui
    
@@ -102,6 +102,9 @@ class ScopePanel < JPanel
        @table.setPreferredScrollableViewportSize(Dimension.new(500, 70))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+       @table.show_vertical_lines = true
+       @table.show_grid = true
+       @table.grid_color = Color.gray
        
        @spe = ScopePanelExtension.new
        add_button  = JButton.new("add")
