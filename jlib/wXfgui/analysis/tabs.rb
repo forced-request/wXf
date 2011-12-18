@@ -1,0 +1,1 @@
+require 'wXfgui/analysis/tabs/dt_tabs'
