@@ -1,6 +1,7 @@
 require 'java'
 
 import javax.swing.tree.DefaultMutableTreeNode
+import javax.swing.JTable
 
 module WxfGui
   
@@ -19,14 +20,17 @@ module WxfGui
       @dt_tree = DtTree.new(@wXfgui.base.selected_dt_items)
       @dt_tree.addTreeModelListener(@dt_tree_listener)
       @dt_jtree = JTree.new(@dt_tree)
+      
+      @dat = DtAnalysisTable.new
+      @dat_jtable = JTable.new(@dat)
      
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
-      t_scroll_pane_2 = JPanel.new# PUT A PANEL HERE
+      @t_scroll_pane_2 = JScrollPane.new(@dat_jtable)
       
            
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
-      split_pane1.setDividerLocation 390
-      split_pane1.add JPanel.new# Put a panel here
+      split_pane1.setDividerLocation 325
+      split_pane1.add @t_scroll_pane_2
       split_pane1.add JPanel.new# Put a panel here
         
       
