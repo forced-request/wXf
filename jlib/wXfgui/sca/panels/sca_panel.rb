@@ -32,6 +32,7 @@ import javax.swing.JSeparator
 import javax.swing.JLabel
 
 
+
 #
 #
 # This is going to be an analysis tab where the decision tree works its magic
@@ -57,6 +58,9 @@ class ScaPanel < JPanel
       # Table area
        @results_table = ResultsTable.new
        @table = JTable.new(@results_table)
+       @table.show_vertical_lines = true
+       @table.show_grid = true
+       @table.grid_color = Color.gray
        @table.setPreferredScrollableViewportSize(Dimension.new(1000, 400))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)

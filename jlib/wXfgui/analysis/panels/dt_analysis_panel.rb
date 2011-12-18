@@ -2,6 +2,7 @@ require 'java'
 
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.JTable
+import java.awt.Color
 
 module WxfGui
   
@@ -23,6 +24,9 @@ module WxfGui
       
       @dat = DtAnalysisTable.new
       @dat_jtable = JTable.new(@dat)
+      @dat_jtable.show_vertical_lines = true
+      @dat_jtable.show_grid = true
+      @dat_jtable.grid_color = Color.black
      
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
       @t_scroll_pane_2 = JScrollPane.new(@dat_jtable)
