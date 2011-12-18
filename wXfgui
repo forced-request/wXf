@@ -159,7 +159,7 @@ class WxfMainPanel < JPanel
            
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
       split_pane1.setDividerLocation 390
-      split_pane1.add @decision_panel
+      split_pane1.add self.decision_panel
       split_pane1.add @main_tabs
         
       
