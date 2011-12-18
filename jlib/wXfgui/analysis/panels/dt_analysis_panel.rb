@@ -1,4 +1,5 @@
 require 'java'
+require 'wXfgui/main/popup_menus/expand_collapse'
 
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.JTable
@@ -8,6 +9,7 @@ module WxfGui
   
   class DtAnalysisPanel < JPanel
     include MouseListener
+    include WxfGui::ExpandCollapse
     
     def initialize(wXfgui)
       @wXfgui = wXfgui
@@ -31,11 +33,12 @@ module WxfGui
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
       @t_scroll_pane_2 = JScrollPane.new(@dat_jtable)
       
+      @dt_tabs = DtTabs.new
            
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
       split_pane1.setDividerLocation 325
       split_pane1.add @t_scroll_pane_2
-      split_pane1.add JPanel.new# Put a panel here
+      split_pane1.add @dt_tabs
         
       
       split_pane2 = JSplitPane.new JSplitPane::HORIZONTAL_SPLIT
@@ -76,10 +79,12 @@ module WxfGui
      
     def load_dt_tree
       refresh
+      expand_all(@dt_jtree)
     end  
   
     def unload_dt_tree
       refresh
+      collapse_all(@dt_jtree)
     end
   
   end
