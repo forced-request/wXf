@@ -9,6 +9,8 @@ class Dti < WxfGui::DecisionTreeItem
                 'Author'  => "cktricky",
                 'Description' => %q{Imports and analyzes the results from a dirbuster scan},
                 'Buby' => false,
+                'Required Modules' => "",
+                'Optional Modules' => "",
                }
                      
             )

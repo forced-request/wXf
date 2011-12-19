@@ -47,15 +47,17 @@ module BaseController
         end
         self.selected_dt_items["#{k}"] = nrow
       end
-      # DatabaseManager Method
-      insert_decision_tree_stack(hsh)
     end 
   end
   
   def remove_all_selected_dt
     self.selected_dt_items.clear
-    # DatabaseManager Method
-    delete_decision_tree_stack
+  end
+  
+  def db_insert_focused_dt
+    mod = in_focus.last
+    idx = in_focus.index(mod)
+    insert_focused_dt(in_focus.last, idx)
   end
 
 end end

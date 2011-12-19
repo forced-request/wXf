@@ -10,6 +10,8 @@ class Dti < WxfGui::DecisionTreeItem
                     'Author'  => "cktricky",
                     'Description' => %q{wXf sends an OPTIONS request to identify allowed HTTP Methods},
                     'Buby' => false,
+                    'Required Modules' => "",
+                    'Optional Modules' => "",
                     
                 }
             )

@@ -334,6 +334,7 @@ class Wxfgui < JFrame
         # Add something to the top of the activity stack
         mod = base.hash_value_at(0, dt_sel)
         base.add_decision_tree_activity(mod)
+        base.db_insert_focused_dt
         # Gray out selected items
         wXf_gui_tabbed_pane.wXf_analysis_panel.load_dt_tree
         wXf_gui_tabbed_pane.wXf_main_panel.gray_out

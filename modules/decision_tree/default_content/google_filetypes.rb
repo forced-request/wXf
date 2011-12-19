@@ -9,6 +9,9 @@ class Dti < WxfGui::DecisionTreeItem
                 'Author'  => "cktricky",
                 'Description' => %q{Uses Google's search engine to return a list of interesting files exposed by the application},
                 'Buby' => false,
+                'Required Modules' => "",
+                'Optional Modules' => "",
+                
                          
                      }
                      
