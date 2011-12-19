@@ -318,9 +318,9 @@ class Wxfgui < JFrame
   def stop_dt
         base.remove_all_selected_dt
         wXf_gui_tabbed_pane.wXf_analysis_panel.unload_dt_tree
-        # Grey out selected items
+        # Undo gray out selected items
         wXf_gui_tabbed_pane.wXf_main_panel.undo_gray_out
-        # Gray out start decision tree
+        # Undo gray out start decision tree
         @wxfmenu.enable("start decision tree")
         @wxfmenu.disable("stop decision tree")
         self.repaint()
@@ -332,8 +332,9 @@ class Wxfgui < JFrame
      if not dt_sel.empty?
         base.add_all_selected_dt(dt_sel)
         # Add something to the top of the activity stack
-        #base.add_decision_tree_activity(dt_sel[0][0])
-        # Grey out selected items
+        mod = base.hash_value_at(0, dt_sel)
+        base.add_decision_tree_activity(mod)
+        # Gray out selected items
         wXf_gui_tabbed_pane.wXf_analysis_panel.load_dt_tree
         wXf_gui_tabbed_pane.wXf_main_panel.gray_out
         # Gray out start decision tree
