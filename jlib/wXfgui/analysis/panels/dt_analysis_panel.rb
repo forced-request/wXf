@@ -23,8 +23,7 @@ module WxfGui
       @dt_jtree = JTree.new(@dt_tree)
       @dt_jtree.set_cell_renderer(@dt_tree_renderer)
       
-      @dt_table_panel = DtTablePanel.new
-    
+      @dt_table_panel = DtTablePanel.new(@wXfgui)    
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
       
       @dt_tabs = DtTabs.new

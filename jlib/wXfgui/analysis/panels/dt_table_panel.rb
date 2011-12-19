@@ -8,7 +8,8 @@ module WxfGui
   
   class DtTablePanel < JPanel
     
-    def initialize
+    def initialize(wXfgui)
+      @wXfgui = wXfgui
       super()
       init
     end
@@ -50,7 +51,9 @@ module WxfGui
       @analyze_button  = JButton.new("analyze")
       
       @next_button.add_action_listener do |e|
-        
+        n_item = @wXfgui.base.next_item
+        @wXfgui.base.add_decision_tree_activity(n_item)
+        @wXfgui.repaint()
       end
       
       @analyze_button.add_action_listener do |e|
@@ -73,6 +76,8 @@ module WxfGui
           @next_button, @analyze_button
       
   end
+
+  
     
   end
 end

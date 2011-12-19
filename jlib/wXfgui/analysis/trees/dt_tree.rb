@@ -104,17 +104,18 @@ module WxfGui
     end
     
     def focused_activity?(node)
-      node = nil
-      if @wXfgui.base.in_focus.respond_to?('name')
-        node == @wXfgui.base.in_focus.last.name
+      bool = false
+      if @wXfgui.base.in_focus.last.respond_to?('name')
+        bool = node == @wXfgui.base.in_focus.last.name ? true : false
       end
-      return node
+      return bool
     end
    
     def getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
         if leaf == true && focused_activity?(value)
           returnValue = @nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
           returnValue.setBackground(Color.yellow)
+          returnValue.setForeground(Color.black)
           returnValue.setOpaque(true)
         else
           returnValue = @nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
