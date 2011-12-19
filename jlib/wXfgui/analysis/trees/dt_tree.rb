@@ -22,7 +22,7 @@ module WxfGui
      if obj ==  "Decision Tree"
       return @dtl.keys[index] #if @dtl[index] != nil
      elsif @dtl.has_key?(obj) 
-       return @dtl[obj][index]
+       return @dtl[obj][index].name
      else
       return 0
      end
