@@ -11,6 +11,8 @@ class Dti < WxfGui::DecisionTreeItem
                    'Description' => %q{This leverages pre-built modules to assist a user in identifying their target and the target's potential weaknesses
                    based on the headers},
                    'Buby' => false,
+                   'Required Modules' => "",
+                   'Optional Modules' => "",
                    
                }
                

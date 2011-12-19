@@ -32,7 +32,7 @@ module WxfGui
          
          # These are necessary options to expose for each decision tree item
          attr_accessor :name, :package, :author, :desc, :is_buby, :options
-         attr_accessor :required_mods, :optional_mods, :info_file, :path
+         attr_accessor :required_modules, :optional_modules, :info_file, :path
      
          def initialize(opts={})
              self.name = opts['Name'] || nil
@@ -40,8 +40,8 @@ module WxfGui
              self.author = opts['Author']  || nil
              self.desc = opts['Description'] || nil
              self.is_buby = opts['Buby'] || nil
-             self.required_mods = opts['Required Modules'] || []
-             self.optional_mods = opts['Optional Modules'] || []
+             self.required_modules = opts['Required Modules'] || ''
+             self.optional_modules = opts['Optional Modules'] || ''
              self.info_file = opts['Info File'] || ''            
              self.options = WXf::WXfmod_Factory::OptsPlace.new
              add_options

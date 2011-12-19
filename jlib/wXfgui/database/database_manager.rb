@@ -40,6 +40,7 @@ class DatabaseManager
     statement.executeUpdate("CREATE TABLE scope(id INTEGER PRIMARY KEY AUTOINCREMENT, scope_status TEXT, prefix TEXT, host TEXT, port NUMERIC, path TEXT);")
     statement.executeUpdate("CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT, time TEXT);")
     statement.executeUpdate("CREATE TABLE string_search_results(id INTEGER PRIMARY KEY, file TEXT, line_number TEXT, string_match TEXT, ext TEXT)")
+    statement.executeUpdate("CREATE TABLE dt_modules(id NUMERIC, package TEXT, required_modules TEXT, optional_modules TEXT, completed TEXT, attack_prob TEXT)")
   end
   
 end
@@ -185,13 +186,29 @@ end
 
 module DecisionTreeDatabaseManager
   
-  def insert_decision_tree_stack(dt_hash)
-    if dt_hash.kind_of?(Hash) and not dt_hash.empty?
+  def insert_focused_dt(mod, idx)
+   return unless $db_name != nil    
+    #
+    # Vals to insert (id, package, required modules, optional modules)
+    #
      
-    end
+    id = idx.to_i
+    package = mod.package.to_s
+    required_modules = mod.required_modules.to_s
+    optional_modules = mod.optional_modules.to_s
+  
+    conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+    prep = conn.prepareStatement("insert into dt_modules(id, package, required_modules, optional_modules) VALUES (?,?,?,?);")
+    prep.setInt(1, id)
+    prep.setString(2, package)
+    prep.setString(3, required_modules)
+    prep.setString(4, optional_modules)
+    prep.addBatch()
+    prep.executeBatch()
+    conn.close()
   end
   
-  def delete_decision_tree_stack
+  def retrieve_focused_dt
   end
   
 end
