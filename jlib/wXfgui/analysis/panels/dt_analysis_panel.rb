@@ -16,11 +16,12 @@ module WxfGui
     end
   
     def init
-      
+      @dt_tree_renderer = DtTreeRenderer.new(@wXfgui)
       @dt_tree_listener = DtTreeModelListener.new
       @dt_tree = DtTree.new(@wXfgui.base.selected_dt_items)
       @dt_tree.addTreeModelListener(@dt_tree_listener)
       @dt_jtree = JTree.new(@dt_tree)
+      @dt_jtree.set_cell_renderer(@dt_tree_renderer)
       
       @dt_table_panel = DtTablePanel.new
     

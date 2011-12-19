@@ -8,12 +8,13 @@ module BaseController
  
   include WxfGui::DecisionTreeDatabaseManager
   
-  attr_accessor :module_stack, :decision_tree_stack, :selected_dt_items
+  attr_accessor :module_stack, :decision_tree_stack, :selected_dt_items, :in_focus
   
   def initialize
     self.module_stack = []
     self.decision_tree_stack = []
     self.selected_dt_items = {}
+    self.in_focus = []
   end
   
   def add_module_activity(activity)
@@ -26,9 +27,11 @@ module BaseController
   end
   
   def add_decision_tree_activity(activity)
+    self.in_focus.push(activity)
   end
 
   def remove_decision_tree_activity
+    self.in_focus.pop
   end
   
   def remove_decision_tree_activity_by_name(activity_name)

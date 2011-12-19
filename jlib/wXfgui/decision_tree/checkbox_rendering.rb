@@ -36,22 +36,6 @@ class CheckBoxNodeRenderer
   def initialize
     @leafRenderer = JCheckBox.new
     @nonLeafRenderer = DefaultTreeCellRenderer.new
-    self.init
-  end
-  
-  def init
-    fontValue = UIManager.getFont("Tree.font");
-    if (fontValue != nil) 
-      @leafRenderer.setFont(fontValue);
-    end
-    booleanValue = UIManager.get("Tree.drawsFocusBorderAroundIcon");
-    @leafRenderer.setFocusPainted(booleanValue != nil)
-    
-    @selectionBorderColor = UIManager.getColor("Tree.selectionBorderColor");
-    @selectionForeground = UIManager.getColor("Tree.selectionForeground");
-    @selectionBackground = UIManager.getColor("Tree.selectionBackground");
-    @textForeground = UIManager.getColor("Tree.textForeground");
-    @textBackground = UIManager.getColor("Tree.textBackground");
   end
    
   def getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)

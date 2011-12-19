@@ -4,6 +4,9 @@ require 'java'
 
 import javax.swing.tree.TreeModel
 import javax.swing.event.TreeModelListener
+import javax.swing.tree.DefaultTreeCellRenderer
+import javax.swing.tree.TreeCellRenderer
+import java.awt.Color
 
 module WxfGui
   
@@ -90,6 +93,40 @@ module WxfGui
     def treeStructureChanged(event)
     end
     
+  end
+  
+  class DtTreeRenderer < DefaultTreeCellRenderer
+
+    def initialize(wXfgui)
+      super()
+      @wXfgui = wXfgui
+      @nonLeafRenderer = DefaultTreeCellRenderer.new
+    end
+    
+    def focused_activity?(node)
+      node = nil
+      if @wXfgui.base.in_focus.respond_to?('name')
+        node == @wXfgui.base.in_focus.last.name
+      end
+      return node
+    end
+   
+    def getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
+        if leaf == true && focused_activity?(value)
+          returnValue = @nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
+          returnValue.setBackground(Color.yellow)
+          returnValue.setOpaque(true)
+        else
+          returnValue = @nonLeafRenderer.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus)
+          returnValue.setOpaque(false)
+        end
+      return returnValue
+    end
+  
+    def getLeafRenderer()
+      return @nonleafRenderer
+    end
+  
   end
   
   
