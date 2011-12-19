@@ -60,7 +60,7 @@ class ScaPanel < JPanel
        @table = JTable.new(@results_table)
        @table.show_vertical_lines = true
        @table.show_grid = true
-       @table.grid_color = Color.gray
+       @table.grid_color = Color.lightGray
        @table.setPreferredScrollableViewportSize(Dimension.new(1000, 400))
        @table.setFillsViewportHeight(true)
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)

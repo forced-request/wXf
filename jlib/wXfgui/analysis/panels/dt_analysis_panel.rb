@@ -2,8 +2,6 @@ require 'java'
 require 'wXfgui/main/popup_menus/expand_collapse'
 
 import javax.swing.tree.DefaultMutableTreeNode
-import javax.swing.JTable
-import java.awt.Color
 
 module WxfGui
   
@@ -24,20 +22,15 @@ module WxfGui
       @dt_tree.addTreeModelListener(@dt_tree_listener)
       @dt_jtree = JTree.new(@dt_tree)
       
-      @dat = DtAnalysisTable.new
-      @dat_jtable = JTable.new(@dat)
-      @dat_jtable.show_vertical_lines = true
-      @dat_jtable.show_grid = true
-      @dat_jtable.grid_color = Color.black
-     
+      @dt_table_panel = DtTablePanel.new
+    
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
-      @t_scroll_pane_2 = JScrollPane.new(@dat_jtable)
       
       @dt_tabs = DtTabs.new
            
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
       split_pane1.setDividerLocation 325
-      split_pane1.add @t_scroll_pane_2
+      split_pane1.add @dt_table_panel
       split_pane1.add @dt_tabs
         
       

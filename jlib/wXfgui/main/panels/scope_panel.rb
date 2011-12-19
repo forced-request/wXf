@@ -104,7 +104,7 @@ class ScopePanel < JPanel
        @table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
        @table.show_vertical_lines = true
        @table.show_grid = true
-       @table.grid_color = Color.gray
+       @table.grid_color = Color.lightGray
        
        @spe = ScopePanelExtension.new
        add_button  = JButton.new("add")
