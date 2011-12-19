@@ -98,8 +98,16 @@ class DecisionPanel < JPanel
   end
  
    def selected_list
+     sel_list = {}
      sl = self.decisionTreeModel.selected_list
-     return sl
+     sl.each do |k, row|
+       nrow = []
+       row.each_with_index do |mod,idx|
+         self.dt_modules.each {|x| nrow<<(x) if x.name == mod }
+       end
+        sel_list["#{k}"] = nrow
+     end
+     return sel_list
    end
    
    def gray_out
