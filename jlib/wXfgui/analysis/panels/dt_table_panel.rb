@@ -14,7 +14,7 @@ module WxfGui
       init
     end
     
-  def init
+    def init
       
       #
       # GROUP LAYOUT OPTIONS
@@ -77,9 +77,15 @@ module WxfGui
       layout.linkSize SwingConstants::HORIZONTAL, 
           @next_button, @analyze_button
       
-  end
-
-  
+    end
+    
+    def update
+      @dat.update_row
+    end
+    
+    def reset
+      @dat.reset
+    end
     
   end
 end

@@ -73,11 +73,13 @@ module WxfGui
     def load_dt_tree
       refresh
       expand_all(@dt_jtree)
+      @dt_table_panel.update
     end  
   
     def unload_dt_tree
       refresh
       collapse_all(@dt_jtree)
+      @dt_table_panel.reset
     end
   
   end
