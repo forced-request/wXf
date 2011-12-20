@@ -35,10 +35,6 @@ module WxfGui
         end
      end
   
-    def update_row
-      delete_all_rows
-    end
-     
     def reset
       delete_all_focused
       restore

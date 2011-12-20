@@ -54,6 +54,8 @@ module WxfGui
         n_item = @wXfgui.base.next_item
         if n_item != nil 
           @wXfgui.base.add_decision_tree_activity(n_item)
+          @wXfgui.base.db_insert_focused_dt
+          update
         end 
         @wXfgui.repaint()
       end
