@@ -18,11 +18,14 @@ class Base
     hash.each do |key, row|
       nrow.concat(row)
     end
-    val = nrow.fetch(arg0)
+    
+    if arg0 < hash.values.flatten.length
+      val = nrow.fetch(arg0)
+    end 
     return val
   end
   
-  def next_item
+ def next_item
     nrow = []
     sdi = selected_dt_items
     sdi.each do |k, row|
