@@ -52,7 +52,9 @@ module WxfGui
       
       @next_button.add_action_listener do |e|
         n_item = @wXfgui.base.next_item
-        @wXfgui.base.add_decision_tree_activity(n_item)
+        if n_item != nil 
+          @wXfgui.base.add_decision_tree_activity(n_item)
+        end 
         @wXfgui.repaint()
       end
       
