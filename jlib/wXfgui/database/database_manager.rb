@@ -209,6 +209,29 @@ module DecisionTreeDatabaseManager
   end
   
   def retrieve_focused_dt
+    return unless $db_name != nil
+      rows = []
+      conn = DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+      stat = conn.createStatement()
+      result = stat.executeQuery('SELECT * FROM dt_modules')
+      while result.next()
+        id = result.getInt("id") || 0
+        package = result.getString("package") || ''
+        required_modules = result.getString("required_modules") || ''
+        optional_modules = result.getString("optional_modules") || ''
+        completed = result.getString("completed") || ''
+        attack_prob = result.getString("attack_prob") || ''
+        rows <<([id, package, required_modules, optional_modules, completed, attack_prob])
+      end
+      conn.close()
+    return rows
+  end
+  
+  def delete_all_focused
+    conn= DriverManager.getConnection("jdbc:sqlite:#{$db_name}")
+    stmt = conn.create_statement()
+    stmt.executeUpdate('delete from dt_modules')
+    conn.close
   end
   
 end
