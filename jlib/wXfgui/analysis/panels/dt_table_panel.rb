@@ -14,7 +14,7 @@ module WxfGui
       init
     end
     
-  def init
+    def init
       
       #
       # GROUP LAYOUT OPTIONS
@@ -52,7 +52,11 @@ module WxfGui
       
       @next_button.add_action_listener do |e|
         n_item = @wXfgui.base.next_item
-        @wXfgui.base.add_decision_tree_activity(n_item)
+        if n_item != nil 
+          @wXfgui.base.add_decision_tree_activity(n_item)
+          @wXfgui.base.db_insert_focused_dt
+          update
+        end 
         @wXfgui.repaint()
       end
       
@@ -75,9 +79,15 @@ module WxfGui
       layout.linkSize SwingConstants::HORIZONTAL, 
           @next_button, @analyze_button
       
-  end
-
-  
+    end
+    
+    def update
+      @dat.update_row
+    end
+    
+    def reset
+      @dat.reset
+    end
     
   end
 end

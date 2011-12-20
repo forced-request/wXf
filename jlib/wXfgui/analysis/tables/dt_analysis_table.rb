@@ -1,12 +1,13 @@
 require 'java'
 
 import javax.swing.table.DefaultTableModel
-
 require 'wXfgui/database'
 
 module WxfGui
 
   class DtAnalysisTable <  DefaultTableModel
+    
+    include WxfGui::DecisionTreeDatabaseManager
 
      def initialize
         super()
@@ -26,53 +27,35 @@ module WxfGui
         return false
      end
      
-     def delete_all_rows
+    def delete_all_rows
         i = 0
         while i < self.getRowCount()
            self.removeRow(i)
            i+1
         end
      end
+  
+    def reset
+      delete_all_focused
+      restore
+    end
      
-     def remove_results
-     end
-     
-     def insert_results(*params)
-       #Make sure we make an information window if empty
-       if params.kind_of?(Array) and params.length > 0
-          params.each do |rows|
-            rows.each do |row|
-              file         = row[0]
-              line_number  = row[1]
-              string_match = row[2]
-              extension    = row[3]
-              db_add_string_results(file, line_number, string_match, extension)
-            end 
-          end
-       else
-         #Show an error
-       end
-       update_results_fields
-     end
-     
-      def update_results_fields
-        delete_all_rows
-        table_data = retrieve_string_results
-        #Lets get the results
-        if table_data.kind_of?(Array) and table_data.length > 0
-          table_data.each do |row|
-            self.add_row(row.to_java)
-          end 
-        end   
-      end
+    def update_row
+      delete_all_rows
+      table_data = retrieve_focused_dt
+      #Lets get the results
+      if table_data.kind_of?(Array) and table_data.length > 0
+        table_data.each do |row|
+          self.add_row(row.to_java)
+        end 
+      end   
+    end
       
-      def restore
-        delete_all_rows
-        update_results_fields
-      end
-     
-     def restore_results
-     end
+    def restore
+      delete_all_rows
+      update_row
+    end
+
      
   end 
   
