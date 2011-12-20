@@ -79,12 +79,16 @@ module WxfGui
       @wXfgui.base.db_insert_focused_dt
       # Finally, update the table view to reflect the db
       @dt_table_panel.update
+      @dt_table_panel.disable_next_button
+      @dt_table_panel.enable_analyze_button
     end  
   
     def unload_dt_tree
       refresh
       collapse_all(@dt_jtree)
       @dt_table_panel.reset
+      @dt_table_panel.disable_next_button
+      @dt_table_panel.disable_analyze_button
     end
   
   end

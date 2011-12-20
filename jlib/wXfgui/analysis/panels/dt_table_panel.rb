@@ -56,12 +56,17 @@ module WxfGui
           @wXfgui.base.add_decision_tree_activity(n_item)
           @wXfgui.base.db_insert_focused_dt
           update
-        end 
+          disable_next_button
+        else
+          disable_next_button
+          disable_analyze_button
+        end
+      
         @wXfgui.repaint()
       end
       
       @analyze_button.add_action_listener do |e|
-      
+        enable_next_button
       end
       
       p1.addComponent(@next_button)
@@ -87,6 +92,22 @@ module WxfGui
     
     def reset
       @dat.reset
+    end
+    
+    def disable_next_button
+      @next_button.enabled = false
+    end
+    
+    def enable_next_button
+      @next_button.enabled = true
+    end
+    
+    def disable_analyze_button
+      @analyze_button.enabled = false
+    end
+    
+    def enable_analyze_button
+      @analyze_button.enabled = true
     end
     
   end
