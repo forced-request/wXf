@@ -73,6 +73,11 @@ module WxfGui
     def load_dt_tree
       refresh
       expand_all(@dt_jtree)
+      #Reset must happen first, deletes the DB
+      @dt_table_panel.reset
+      # Next we insert the focused activity into the db
+      @wXfgui.base.db_insert_focused_dt
+      # Finally, update the table view to reflect the db
       @dt_table_panel.update
     end  
   
