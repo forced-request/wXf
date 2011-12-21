@@ -23,10 +23,10 @@ module WxfGui
       @dt_jtree = JTree.new(@dt_tree)
       @dt_jtree.set_cell_renderer(@dt_tree_renderer)
       
-      @dt_table_panel = DtTablePanel.new(@wXfgui)    
+      @dt_table_panel = DtTablePanel.new(@wXfgui, self)    
       @t_scroll_pane_1 = JScrollPane.new(@dt_jtree)
       
-      @dt_tabs = DtTabs.new
+      @dt_tabs = DtTabs.new(@wXfgui)
            
       split_pane1 = JSplitPane.new JSplitPane::VERTICAL_SPLIT
       split_pane1.setDividerLocation 325
@@ -81,6 +81,7 @@ module WxfGui
       @dt_table_panel.update
       @dt_table_panel.disable_next_button
       @dt_table_panel.enable_analyze_button
+      load_details
     end  
   
     def unload_dt_tree
@@ -89,6 +90,21 @@ module WxfGui
       @dt_table_panel.reset
       @dt_table_panel.disable_next_button
       @dt_table_panel.disable_analyze_button
+      clear
+    end
+    
+    def load_details
+      @dt_tabs.load_details
+      @wXfgui.validate
+    end
+    
+    def load_info
+      @dt_tabs.load_info
+      @wXfgui.validate
+    end
+    
+    def clear
+      @dt_tabs.clear
     end
   
   end
