@@ -12,6 +12,7 @@ class Dti < WxfGui::DecisionTreeItem
                     'Buby' => false,
                     'Required Modules' => "",
                     'Optional Modules' => "",
+                    'Info File' => "http_methods_allowed"
                     
                 }
             )

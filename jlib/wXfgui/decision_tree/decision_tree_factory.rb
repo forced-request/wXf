@@ -42,7 +42,7 @@ module WxfGui
              self.is_buby = opts['Buby'] || nil
              self.required_modules = opts['Required Modules'] || ''
              self.optional_modules = opts['Optional Modules'] || ''
-             self.info_file = opts['Info File'] || ''            
+             self.info_file = "#{WXf::InfoFileDir}#{opts['Info File']}" || ''            
              self.options = WXf::WXfmod_Factory::OptsPlace.new
              add_options
          end

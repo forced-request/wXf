@@ -80,6 +80,7 @@ module WXf
   PayloadsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/payloads/'
   LogsDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/logs/'
   PackagesDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'jlib/wXfgui/packages'
+  InfoFileDir = File.expand_path(File.join(File.dirname(__FILE__), '..','..','..')) + File::SEPARATOR + 'datum/infofiles/'
     
 
   #

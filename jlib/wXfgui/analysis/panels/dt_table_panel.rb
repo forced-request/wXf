@@ -8,8 +8,9 @@ module WxfGui
   
   class DtTablePanel < JPanel
     
-    def initialize(wXfgui)
+    def initialize(wXfgui, dt_analysis_panel)
       @wXfgui = wXfgui
+      @dt_analysis_panel = dt_analysis_panel
       super()
       init
     end
@@ -59,6 +60,8 @@ module WxfGui
           @wXfgui.base.db_insert_focused_dt
           update
           disable_next_button
+          @dt_analysis_panel.clear
+          @dt_analysis_panel.load_details
         else
           disable_next_button
           disable_analyze_button
@@ -68,7 +71,8 @@ module WxfGui
       end
       
       @analyze_button.add_action_listener do |e|
-        enable_next_button
+        @dt_analysis_panel.load_info
+        enable_next_button       
       end
       
       @run_mod_button.add_action_listener do |e|
@@ -76,15 +80,16 @@ module WxfGui
       end
       
       p1.addComponent(@next_button)
-      p1.addComponent(@analyze_button)
       p1.addComponent(@run_mod_button)
+      p1.addComponent(@analyze_button)
       sh1.addComponent(@js1)
       sh1.addGroup(p1)
       
       sv2.addComponent(@js1)
       sv3.addComponent(@next_button)
-      sv3.addComponent(@analyze_button)
       sv3.addComponent(@run_mod_button)
+      sv3.addComponent(@analyze_button)
+    
       p2.addGroup(sv2)
       p2.addGroup(sv3)
       sv1.addGroup(p2)
