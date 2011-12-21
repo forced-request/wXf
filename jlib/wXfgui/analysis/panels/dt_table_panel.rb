@@ -48,7 +48,9 @@ module WxfGui
       @js1 = JScrollPane.new(@dat_jtable)
       
       @next_button  = JButton.new("next")
+      @next_button.enabled = false
       @analyze_button  = JButton.new("analyze")
+      @run_mod_button  = JButton.new("run module")
       
       @next_button.add_action_listener do |e|
         n_item = @wXfgui.base.next_item
@@ -69,20 +71,26 @@ module WxfGui
         enable_next_button
       end
       
+      @run_mod_button.add_action_listener do |e|
+        
+      end
+      
       p1.addComponent(@next_button)
       p1.addComponent(@analyze_button)
+      p1.addComponent(@run_mod_button)
       sh1.addComponent(@js1)
       sh1.addGroup(p1)
       
       sv2.addComponent(@js1)
       sv3.addComponent(@next_button)
       sv3.addComponent(@analyze_button)
+      sv3.addComponent(@run_mod_button)
       p2.addGroup(sv2)
       p2.addGroup(sv3)
       sv1.addGroup(p2)
       
       layout.linkSize SwingConstants::HORIZONTAL, 
-          @next_button, @analyze_button
+          @next_button, @analyze_button, @run_mod_button
       
     end
     
@@ -108,6 +116,14 @@ module WxfGui
     
     def enable_analyze_button
       @analyze_button.enabled = true
+    end
+    
+     def disable_run_mod_button
+      @run_mod_button.enabled = false
+    end
+    
+    def enable_run_mod_button
+      @run_mod_button.enabled = true
     end
     
   end
