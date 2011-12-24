@@ -19,9 +19,9 @@ module WxfGui
 class WorkspaceCreator < JFrame
   
     def initialize(wXfgui)
+        @wXfgui = wXfgui
         super "Enter Workspace Name"        
         self.initUI
-        @wXfgui = wXfgui
     end
       
     def initUI
@@ -80,7 +80,9 @@ class WorkspaceCreator < JFrame
         self.setSize 400, 100
         self.setLocationRelativeTo nil
         self.setVisible true
-        self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        if not (@wXfgui.base.initialized)
+             self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        end 
     end
      
 end

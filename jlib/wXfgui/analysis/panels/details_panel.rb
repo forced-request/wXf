@@ -63,7 +63,6 @@ module WxfGui
       str << "Requires Burp: #{mod.is_buby}\n"              
       str << "Required Modules: #{mod.required_modules}\n"
       str << "Optional Modules: #{mod.optional_modules}\n"
-      str << "Information File: #{mod.info_file}\n"
       return str
     end
 

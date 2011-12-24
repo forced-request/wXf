@@ -237,7 +237,7 @@ class Wxfgui < JFrame
   
     
   def initUI
-    
+      self.base.initialized = true
       self.add self.wXf_gui_tabbed_pane
       
       #
