@@ -22,9 +22,10 @@ module WxfGui
 class WorkspaceChooser < JFrame
   
     def initialize(wXfgui)
+        @wXfgui = wXfgui
         super("Choose your workspace")        
         self.initUI
-        @wXfgui = wXfgui
+       
     end
       
     def initUI
@@ -114,7 +115,10 @@ class WorkspaceChooser < JFrame
         self.setSize 400, 200
         self.setLocationRelativeTo nil
         self.setVisible true
-        self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        
+        if not (@wXfgui.base.initialized)
+             self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        end 
     end
     
     def disabler(name)
