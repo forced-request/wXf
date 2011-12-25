@@ -34,7 +34,18 @@ class Base
     ri = nrow.rindex(in_focus.last.name)
     val = hash_value_at(ri + 1, sdi)
     return val    
-  end
+ end
+ 
+ def item_after_next
+   nrow = []
+    sdi = selected_dt_items
+    sdi.each do |k, row|
+      row.each {|x| nrow<<(x.name)}
+    end
+    ri = nrow.rindex(in_focus.last.name)
+    val = hash_value_at(ri + 2, sdi)
+    return val 
+ end
  
 end
 
