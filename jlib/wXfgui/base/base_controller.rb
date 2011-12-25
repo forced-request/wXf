@@ -14,7 +14,7 @@ module BaseController
     self.module_stack = []
     self.selected_dt_items = {}
     self.in_focus = []
-    self.initialized = nil
+    self.initialized = false
   end
   
   def add_module_activity(activity)
