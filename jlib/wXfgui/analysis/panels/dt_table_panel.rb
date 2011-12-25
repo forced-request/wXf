@@ -55,6 +55,7 @@ module WxfGui
       @run_mod_button  = JButton.new("run module")
       
       @next_button.add_action_listener do |e|
+        return unless @wXfgui.base.selected_dt_items.length > 0
         n_item = @wXfgui.base.next_item
         if n_item != nil 
           @wXfgui.base.add_decision_tree_activity(n_item)
@@ -71,13 +72,32 @@ module WxfGui
         @wXfgui.repaint()
       end
       
+      @skip_button.add_action_listener do |e|
+        return unless @wXfgui.base.selected_dt_items.length > 0
+        n_item = @wXfgui.base.item_after_next
+        if n_item != nil 
+          @wXfgui.base.add_decision_tree_activity(n_item)
+          @wXfgui.base.db_insert_focused_dt
+          update
+          disable_next_button
+          @dt_analysis_panel.clear
+          @dt_analysis_panel.load_details
+        else
+          disable_next_button
+          disable_analyze_button
+        end
+      
+        @wXfgui.repaint()
+      end
+      
       @analyze_button.add_action_listener do |e|
+        return unless @wXfgui.base.selected_dt_items.length > 0
         @dt_analysis_panel.load_info
         enable_next_button       
       end
       
       @run_mod_button.add_action_listener do |e|
-        
+        return unless @wXfgui.base.selected_dt_items.length > 0
       end
       
       p1.addComponent(@next_button)
