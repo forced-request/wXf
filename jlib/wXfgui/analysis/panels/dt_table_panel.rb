@@ -74,7 +74,7 @@ module WxfGui
       
       @skip_button.add_action_listener do |e|
         return unless @wXfgui.base.selected_dt_items.length > 0
-        n_item = @wXfgui.base.item_after_next
+        n_item = @wXfgui.base.next_item
         if n_item != nil 
           @wXfgui.base.add_decision_tree_activity(n_item)
           @wXfgui.base.db_insert_focused_dt
@@ -136,6 +136,14 @@ module WxfGui
     
     def enable_next_button
       @next_button.enabled = true
+    end
+    
+    def disable_skip_button
+      @skip_button.enabled = false
+    end
+    
+    def enable_skip_button
+      @skip_button.enabled = true
     end
     
     def disable_analyze_button
