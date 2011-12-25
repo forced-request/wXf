@@ -50,6 +50,7 @@ module WxfGui
       
       @next_button  = JButton.new("next")
       @next_button.enabled = false
+      @skip_button = JButton.new("skip")
       @analyze_button  = JButton.new("analyze")
       @run_mod_button  = JButton.new("run module")
       
@@ -80,6 +81,7 @@ module WxfGui
       end
       
       p1.addComponent(@next_button)
+      p1.addComponent(@skip_button)
       p1.addComponent(@run_mod_button)
       p1.addComponent(@analyze_button)
       sh1.addComponent(@js1)
@@ -87,6 +89,7 @@ module WxfGui
       
       sv2.addComponent(@js1)
       sv3.addComponent(@next_button)
+      sv3.addComponent(@skip_button)
       sv3.addComponent(@run_mod_button)
       sv3.addComponent(@analyze_button)
     
@@ -95,7 +98,7 @@ module WxfGui
       sv1.addGroup(p2)
       
       layout.linkSize SwingConstants::HORIZONTAL, 
-          @next_button, @analyze_button, @run_mod_button
+          @next_button, @skip_button, @run_mod_button, @analyze_button
       
     end
     
