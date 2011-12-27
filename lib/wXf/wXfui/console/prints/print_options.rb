@@ -186,7 +186,7 @@ module PrintOptions
            }
            tbl.prnt        
         
-     elsif activity.type == "webserver"
+     elsif activity.type.match(/(webserver|xmlrpc)/)
       activity.usage    
      end
      
