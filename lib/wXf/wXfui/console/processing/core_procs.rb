@@ -385,6 +385,21 @@ class CoreProcs
   
   
   #
+  # XMLRPC Server added to provide the ability to interact with the framework
+  #
+  def arg_xmlrpc
+    if in_focus()
+      arg_back()
+    end 
+    
+    operator = XmlRpcProcs
+    control.add_activity(operator)
+    self.in_focus = framework.modules.load("xmlrpc",control)
+    control.mod_prm("#{in_focus.type}" + control.red("(config)"))
+    control.prnt_gen("XMLRPC Server")
+  end   
+  
+  #
   # *WILL* be used for importing information in xml format
   # 
   def arg_import(*cmd)
@@ -746,7 +761,7 @@ def arg_show(*cmd)
         "update"   => "Upates the framework",
         "use"      => "Selects an exploit by name",
         "version"  => "Show the framework and console library version numbers",
-           
+        "xmlrpc"   => "XML-RPC server service"   
         }
   end
   
