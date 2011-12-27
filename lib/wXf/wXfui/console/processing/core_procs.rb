@@ -160,6 +160,8 @@ class CoreProcs
         
         if (in_focus.type == WEBSERVER) and (in_focus.options.has_key?(name_of_opt))
           opt = 'webserver_options'
+        elsif (in_focus.type == XMLRPC) and (in_focus.options.has_key?(name_of_opt))
+          opt = 'xmlrpc_options'  
         elsif (in_focus.respond_to?('payload')) and 
           (in_focus.payload.respond_to?('options')) and 
           (in_focus.payload.options.has_key?(name_of_opt))
@@ -200,6 +202,8 @@ class CoreProcs
         when 'PAYLOAD'
           option_payload(cmd[1].to_s)
         when 'webserver_options'
+          in_focus.options[arg_opt] =  process_set_cmd(cmd)
+        when 'xmlrpc_options'
           in_focus.options[arg_opt] =  process_set_cmd(cmd)
         else
           # Need to get the command processed and in a nice format
@@ -396,7 +400,6 @@ class CoreProcs
     control.add_activity(operator)
     self.in_focus = framework.modules.load("xmlrpc",control)
     control.mod_prm("#{in_focus.type}" + control.red("(config)"))
-    control.prnt_gen("XMLRPC Server")
   end   
   
   #
