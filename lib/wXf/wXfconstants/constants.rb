@@ -30,6 +30,7 @@ module WXf
   PAY = 'payload'
   WEBSERVER = 'webserver'
   AUXILIARY = 'auxiliary'
+  XMLRPC    = 'xmlrpc'
   
   FUNCTION_TYPES = 
   [ 
@@ -37,8 +38,9 @@ module WXf
     EXP,
     PAY,
     WEBSERVER,
-    AUXILIARY
-    ]
+    AUXILIARY,
+    XMLRPC   
+  ]
  
   WXF_LICENSE = 'Web Exploitation Framework License GPL'
   

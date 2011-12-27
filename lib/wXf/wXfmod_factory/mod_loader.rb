@@ -22,7 +22,8 @@ class ModulePair < Hash
           begin
               if name.match(/webserver/)
                 instance = WXf::WXfconductors::Webserver_Conductor.new(control)
-                control.red("We've chosen webserver")
+              elsif name.match(/xmlrpc/)
+                instance = WXf::WXfconductors::XmlRpc_Conductor.new(control)
               end
             end
       return instance
@@ -304,8 +305,7 @@ end
       end
 
       
-      
-     
+          
        #
        # Creates an instance of a module and then returns it. 
        #    
@@ -317,7 +317,6 @@ end
          end
 
       end
-
       
 
       attr_accessor :wxflist_call
