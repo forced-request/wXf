@@ -64,6 +64,7 @@ module Operations
        # System call
        #
        def system_call(line)
+         return unless WXf::WXfui::Console::Shell_Func::FileUtility.platform_detection != "WIN"
          exec = ::IO.popen(line, "r")
          exec.each {|data|
           print(data)           
