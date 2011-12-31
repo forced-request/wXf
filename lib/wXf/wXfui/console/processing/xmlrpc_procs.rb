@@ -1,61 +1,7 @@
-require 'xmlrpc/server'
-require "webrick"
-require 'base64'
-
 module WXf
 module WXfui
 module Console
-module Processing
-  
-  class XmlRpcHandler
-  
-  end
-  
-  class XmlRpcServlet < XMLRPC::WEBrickServlet
-    
-    def initialize(user, pass)
-      @user = user
-      @pass = pass
-      super()
-    end
-  
-    def service(*args)
-      req, resp = args
-      auth_header = req.header['authorization']
-      
-      if auth_header !=nil && auth_header.length > 0
-        # Pass in a string
-        val = auth_check("#{auth_header}")
-      end 
-      
-      if val
-        super(*args)
-      else
-        raise WEBrick::HTTPStatus::Unauthorized
-      end 
-    end
-  
-    def auth_check(creds)
-      if @user.length > 0 && @pass.length > 0
-        real_creds = creds.to_s.split
-    
-        # Get the creds
-        if real_creds[0] == "Basic"
-          u, p = Base64.decode64("#{real_creds[1]}").split(':')[0..1]
-        end
-    
-        # Run a check of the creds
-        if u == @user && @pass = p
-          return true
-        else
-          return false
-        end 
-      else
-        raise WEBrick::HTTPStatus::Unauthorized
-      end
-    end
- 
-  end
+module Processing 
   
   class XmlRpcProcs
     include WXf::WXfui::Console::Operations::ModuleCommandOperator
@@ -74,16 +20,24 @@ module Processing
       def arg_start(*cmd)
         if (in_focus.type == XMLRPC)
           opts = in_focus.options
-          user = opts['user']
-          pass = opts['pass']
-          port = opts['port']
+          user = opts['USER']
+          pass = opts['PASS']
+          port = opts['PORT']
           # Error checking
-          control.prnt_err("Enter a username and password") and return unless user.length > 0 && pass.length > 0
-          
+          if user.length > 0 && pass.length > 0            
+            @servlet = WXf::WXfXmlRpc::XmlRpcServlet.new(user, pass)
+            @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new)
+            @server = WXf::WXfXmlRpc::XmlRpcServer.new(control, port)
+            @server.mount("/", @servlet)
+            @server.start_server
+          else
+            control.prnt_err("Enter a username and password")
+          end 
         end 
       end
       
       def arg_stop(*cmd)
+        @server.stop_server
       end 
   
   end 

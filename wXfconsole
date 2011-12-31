@@ -93,6 +93,7 @@ require 'wXf/wXflog'
 require 'wXf/wXfmod_factory'
 require 'wXf/wXfui'
 require 'wXf/wXfwebserver'
+require 'wXf/wXfxmlrpc'
 
 
 begin
