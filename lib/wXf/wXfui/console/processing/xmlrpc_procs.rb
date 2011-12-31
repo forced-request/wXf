@@ -25,11 +25,16 @@ module Processing
           port = opts['PORT']
           # Error checking
           if user.length > 0 && pass.length > 0            
-            @servlet = WXf::WXfXmlRpc::XmlRpcServlet.new(user, pass)
-            @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new)
-            @server = WXf::WXfXmlRpc::XmlRpcServer.new(control, port)
-            @server.mount("/", @servlet)
-            @server.start_server
+            if control.xmlrpc_servers.length == 0
+              @servlet = WXf::WXfXmlRpc::XmlRpcServlet.new(user, pass)
+              @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new)
+              @server = WXf::WXfXmlRpc::XmlRpcServer.new(control, port)
+              @server.mount("/", @servlet)
+              @server.start_server
+              control.xmlrpc_servers.push(@server)
+            else
+              control.prnt_err("Please stop the already running server, type: stop")
+            end
           else
             control.prnt_err("Enter a username and password")
           end 
@@ -37,7 +42,14 @@ module Processing
       end
       
       def arg_stop(*cmd)
+       
+       if @server == nil
+          control.prnt_dbg("There is no running xmlrpc server to stop")
+          return
+       end
         @server.stop_server
+        control.xmlrpc_servers.pop
+        @server = nil
       end 
   
   end 

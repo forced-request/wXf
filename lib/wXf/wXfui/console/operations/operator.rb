@@ -14,7 +14,7 @@ module Operations
      include WXf::WXfui::Console::Prints::PrintSymbols
      include WXf::WXfui::Console::Prints::PrintOptions
      
-     attr_accessor :activities, :webstack, :tab_words
+     attr_accessor :activities, :webstack, :tab_words, :xmlrpc_servers
      
      def initialize(prm, pchar)
        super
@@ -110,6 +110,7 @@ module Operations
       self.activities = []
       self.webstack = []
       self.tab_words = []
+      self.xmlrpc_servers = []
     end
     
  #    
