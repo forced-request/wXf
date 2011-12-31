@@ -13,15 +13,15 @@ module WXfconductors
     def init_opts
       # xmlrpc options that the user will set
       self.options = {
-          "user" => "",
-          "pass" => "",
-          "port" => 9000,
+          "USER" => "",
+          "PASS" => "",
+          "PORT" => 9000,
       }
       # description of each option, shown to user
       self.desc = {
-          "user" => "set the username",
-          "pass" => "set the password",
-          "port" => "Port to listen on",
+          "USER" => "set the username",
+          "PASS" => "set the password",
+          "PORT" => "Port to listen on",
       }
     end
     
