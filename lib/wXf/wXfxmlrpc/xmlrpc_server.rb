@@ -18,10 +18,11 @@ module WXf
     end
     
     def stop_server
+      return unless self.pid != nil
       Process.kill("KILL", self.pid)
+      @control.prnt_gen("Stopping xmlrpc server with process id: #{self.pid}")
       self.pid = nil
       self.shutdown
-      @control.prnt_gen("Stopping xmlrpc server with process id: #{self.pid}")
     end
     
     def mount(path, handler)

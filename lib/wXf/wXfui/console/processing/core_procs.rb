@@ -483,6 +483,14 @@ def arg_show(*cmd)
     end 
    
     
+    #
+    # Shutdown the webserver instances
+    #
+    def xmlrpc_shut
+      return unless control.xmlrpc_servers.length > 0
+      control.xmlrpc_servers.each {|server| server.stop_server} 
+    end  
+    
     
     #
     # Shutdown the webserver instances
@@ -501,6 +509,8 @@ def arg_show(*cmd)
     # self-explanatory, just exits the framework
     #
     def arg_exit(*cmd)
+      #kill any xmlrpc servers that are running
+      xmlrpc_shut
       #kill webserver processes
       web_shut
       #obvious
