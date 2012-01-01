@@ -57,6 +57,7 @@ class CoreProcs
     # When the user types "use" 
     #
     def arg_use(*cmd)
+      puts cmd
       # This is a module name placeholder so we can reload easily
       self.mpholder = ''
       
@@ -107,7 +108,7 @@ class CoreProcs
        self.mpholder = arg_name
        control.mod_prm("#{activity.type}" + control.red("(#{arg_name.split('/').last})", true))
      end
-             
+     
     end
     
     def in_focus?
@@ -527,16 +528,18 @@ def arg_show(*cmd)
     #
     def arg_back(*cmd)
                       
-          if control.activities.length > 1 and control.infocus_activity.name != 'Core'
-            
-          if (in_focus)
+          if control.activities.length > 1 and control.infocus_activity.name != 'Core' and control.infocus_activity.name != 'xmlrpc'
+          
+            if (in_focus)
               self.in_focus = nil
-          end  
-          if (active_assist_module)
+            end  
+            
+            if (active_assist_module)
               self.active_assist_module = nil
-          end      
-              control.remove_activity
-              control.mod_prm('')
+            end      
+            
+            control.remove_activity
+            control.mod_prm('')
           end
           
     end   
