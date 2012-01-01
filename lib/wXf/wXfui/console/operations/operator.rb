@@ -201,7 +201,6 @@ module Operations
     # ...method 
     #               
     def runcmd(line)
-      
       if line.kind_of?(String)
         args = line.split
       else

@@ -27,7 +27,7 @@ module Processing
           if user.length > 0 && pass.length > 0            
             if control.xmlrpc_servers.length == 0
               @servlet = WXf::WXfXmlRpc::XmlRpcServlet.new(user, pass)
-              @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new)
+              @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new(control))
               @server = WXf::WXfXmlRpc::XmlRpcServer.new(control, port)
               @server.mount("/", @servlet)
               @server.start_server
