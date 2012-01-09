@@ -7,7 +7,7 @@ class Mod_Factory
 
    
   attr_accessor :options, :name, :version, :license, :framework
-  attr_accessor :description, :references, :author, :datahash
+  attr_accessor :description, :references, :author, :datahash, :payload
        
   class << self
    include Framework::Transient
@@ -35,6 +35,7 @@ class Mod_Factory
    self.references = hash_info['References'] 
    self.author = hash_info['Author'] 
    self.license = hash_info['License']
+   self.payload = hash_info['Payload'] || false  
   end
    
   

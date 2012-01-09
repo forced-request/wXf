@@ -1,3 +1,5 @@
+require 'openssl'
+
 module WXf
   module WXfXmlRpc
   
@@ -8,7 +10,9 @@ module WXf
     def initialize(control, port=nil)
       @control = control
       port = 9000 if port == nil
-      super(:Port => port)
+     # Test this code when we are ready to implement SSL. 
+     # super(:Port => port, :SSLEnable => true, :SSLVerifyClient => ::OpenSSL::SSL::VERIFY_NONE, :SSLCertName => [ [ "CN", WEBrick::Utils::getservername ] ])
+     super(:Port => port)
     end
     
     def start_server
@@ -18,7 +22,6 @@ module WXf
     end
     
     def stop_server
-      return unless self.pid != nil
       Process.kill("KILL", self.pid)
       @control.prnt_gen("Stopping xmlrpc server with process id: #{self.pid}")
       self.pid = nil
