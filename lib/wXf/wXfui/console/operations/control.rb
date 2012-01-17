@@ -6,13 +6,15 @@ module Operations
   
   class Control
     
-    attr_accessor :in_focus
+    attr_accessor :in_focus, :options
     
     include Operator
     
       def initialize(*all)
         require 'rbreadline_compat'
-        super
+        prm, prm_char, options = all       
+        super(prm, prm_char)
+        self.options = options || {}
         stack_n_play
       end
    
