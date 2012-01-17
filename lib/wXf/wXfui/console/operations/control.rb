@@ -15,6 +15,7 @@ module Operations
         prm, prm_char, options = all       
         super(prm, prm_char)
         self.options = options || {}
+        # This is where we check for alternative I/O
         stack_n_play
       end
    

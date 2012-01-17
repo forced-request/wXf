@@ -12,10 +12,6 @@ module Shell_Func
   
 module Shell
 
-
-
-  
- 
     def initialize(prm, pchar)
      opts(prm, pchar)
     end
