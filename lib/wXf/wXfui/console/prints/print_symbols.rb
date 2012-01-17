@@ -10,7 +10,7 @@ module Prints
           
           def print(str="")
             $stdout.print("#{str}")
-            #$stdout.flush
+            $stdout.flush
           end
           
           def prnt_gen(strn = ''); final_print(blue("-{*}-"), "#{strn}"); end
