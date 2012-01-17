@@ -1,27 +1,86 @@
 module WXf
   module WXfXmlRpc
 
- module XmlRpcShell
+ module ExtendedShell
+    attr_accessor :io_pipe
     
-    attr_accessor :pipe
-    
-    def initialize
-     self.pipe = ''
+    def init_io
+      self.io_pipe = []
     end
     
     def read
-       self.pipe = self.control.start
+      test = []
+      test.concat(io_pipe)
+      io_pipe.clear
+      return test
     end
-  end
+    
+  end 
+
+
+  
+ module XmlRpcShell
+  
+    include ExtendedShell
+    
+    def puts(str = '')
+       io_pipe.push(str)
+    end
+    
+    def print(str='')
+      io_pipe.push(str)
+    end
+    
+    def prnt_gen(str = '')
+       io_pipe.push(str)
+    end
+    
+    def prnt_err(str = '')
+       io_pipe.push(str)
+    end
+          
+    def prnt_plus(str = '')
+       io_pipe.push(str)
+    end
+          
+    def prnt_dbg(str = '')
+       io_pipe.push(str)
+    end
+    
+    def print_status(str = '')
+      io_pipe.push(str)
+    end
+    
+    def print_error(str = '')
+      io_pipe.push(str)
+    end
+    
+    def print_good(str = '')
+      io_pipe.push(str)
+    end
+    
+    def print_debug(str = '')
+      io_pipe.push(str)
+    end
+      
+    def final_print(color_symbol, strn = ''); 
+      print("#{color_symbol} #{strn}\n")
+    end
+    
+ end
+ 
+
+ 
 
   class XmlRpcApi
     
-    include WXf::WXfXmlRpc::XmlRpcShell
-    attr_accessor :control
+    attr_accessor :console
   
     
     def initialize(control)
-      self.control = WXf::WXfui::Console::Operations::Control.new("wXf", "//>" )
+      self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>")
+      self.console.extend(XmlRpcShell)
+      self.console.init_io
       super()
     end
     
@@ -30,29 +89,30 @@ module WXf
     end
     
     def ls
-      control.runcmd("ls")
-      return self.read.to_s
+      console.runcmd("ls")
+      return self.console.read
     end
     
     def arg_use(mod)
-      control.activities[0].arg_use("#{mod}")
+      console.activities[0].arg_use("#{mod}")
+      return self.console.read
     end
 
     def arg_set(options)
-      output = ""
       if options.kind_of?(String)
         opts = options.split(',')
-        control.activities[0].arg_set(*opts)
+        console.activities[0].arg_set(*opts)
       end
-      return output
+      return self.console.read
     end
     
     def arg_show
-      return control.infocus_activity.to_s
+      return console.infocus_activity.to_s
     end
     
     def arg_run
-      cmd = control.runcmd("run")
+      console.runcmd("run")
+      return self.console.read
     end
         
   end
