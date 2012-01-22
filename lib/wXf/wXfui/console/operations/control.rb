@@ -6,15 +6,17 @@ module Operations
   
   class Control
     
-    attr_accessor :in_focus, :options
-    
+  
     include Operator
     
-      def initialize(*all)
-        require 'rbreadline_compat'
-        prm, prm_char, options = all       
+    attr_accessor :in_focus, :options
+  
+    
+      def initialize(prm, prm_char, options={})
+        self.class.const_set(:PRINT_SYMBOLS, options['PRINT_SYM']) if options['PRINT_SYM']
+        self.class.send(:include, PRINT_SYMBOLS)
+        require 'rbreadline_compat'      
         super(prm, prm_char)
-        self.options = options || {}
         # This is where we check for alternative I/O
         stack_n_play
       end
@@ -30,7 +32,7 @@ module Operations
         
       #Do NOT remove this!!!
       def framework  
-         WXf::WXfmod_Factory::Framework.new
+         WXf::WXfmod_Factory::Framework.new(PRINT_SYMBOLS)
       end
   
                 

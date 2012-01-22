@@ -11,7 +11,7 @@ module Operations
      # Begins Operator module content
      #
      include WXf::WXfui::Console::Shell_Func::Shell
-     include WXf::WXfui::Console::Prints::PrintSymbols
+     PRINT_SYMBOLS = WXf::WXfui::Console::Prints::PrintSymbols
      include WXf::WXfui::Console::Prints::PrintOptions
      
      attr_accessor :activities, :webstack, :tab_words, :xmlrpc_servers

@@ -122,7 +122,8 @@ def run
             print_status("RESPONSE CODE  : #{res.code}")
             print_status("CONTENT-LENGTH : #{res.response['content-length']}")
             print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-            print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
+            print_status("HEADERS \n") 
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
             if contentlength.empty? then
               contentlength << res.response['content-length']
             elsif res.response['content-length'] == contentlength.last then
@@ -141,7 +142,8 @@ def run
             print_status("RESPONSE CODE  : #{res.code}")
             print_status("CONTENT-LENGTH : #{res.response['content-length']}")
             print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-            print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}  
+            print_status("HEADERS \n")
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}  
             if contentlength.empty? then
               contentlength << res.response['content-length']
             elsif res.response['content-length'] == contentlength.last then
@@ -159,7 +161,8 @@ def run
             print_status("RESPONSE CODE  : #{res.code}")
             print_status("CONTENT-LENGTH : #{res.response['content-length']}")
             print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-            print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}          
+            print_status("HEADERS \n")
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}          
             if contentlength.empty? then
               contentlength << res.response['content-length']
             elsif res.response['content-length'] == contentlength.last then
