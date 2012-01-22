@@ -2,16 +2,15 @@ module WXf
   module WXfXmlRpc
 
  module ExtendedShell
-    attr_accessor :io_pipe
     
     def init_io
-      self.io_pipe = []
+      @@io_pipe = []
     end
     
     def read
       test = []
-      test.concat(io_pipe)
-      io_pipe.clear
+      test.concat(@@io_pipe)
+      @@io_pipe.clear
       return test
     end
     
@@ -24,43 +23,43 @@ module WXf
     include ExtendedShell
     
     def puts(str = '')
-       io_pipe.push(str)
+       @@io_pipe.push(str)
     end
     
     def print(str='')
-      io_pipe.push(str)
+      @@io_pipe.push("#{str}")
     end
     
     def prnt_gen(str = '')
-       io_pipe.push(str)
+       @@io_pipe.push(str)
     end
     
     def prnt_err(str = '')
-       io_pipe.push(str)
+       @@io_pipe.push(str)
     end
           
     def prnt_plus(str = '')
-       io_pipe.push(str)
+       @@io_pipe.push(str)
     end
           
     def prnt_dbg(str = '')
-       io_pipe.push(str)
+       @@io_pipe.push(str)
     end
     
     def print_status(str = '')
-      io_pipe.push(str)
+      @@io_pipe.push(str)
     end
     
     def print_error(str = '')
-      io_pipe.push(str)
+      @@io_pipe.push(str)
     end
     
     def print_good(str = '')
-      io_pipe.push(str)
+      @@io_pipe.push(str)
     end
     
     def print_debug(str = '')
-      io_pipe.push(str)
+      @@io_pipe.push(str)
     end
       
     def final_print(color_symbol, strn = ''); 
@@ -78,8 +77,9 @@ module WXf
   
     
     def initialize(control)
-      self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>")
-      self.console.extend(XmlRpcShell)
+      
+      self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>", {'PRINT_SYM' => XmlRpcShell})
+      puts self.console.respond_to?('init_io')
       self.console.init_io
       super()
     end

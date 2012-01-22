@@ -5,23 +5,11 @@ module WXfmod_Factory
  
 class Mod_Factory
 
-   
+  include WXf::WXflog::ModuleLogger
+  
   attr_accessor :options, :name, :version, :license, :framework
   attr_accessor :description, :references, :author, :datahash, :pay # Do not change pay to payload BUG
        
-  class << self
-   include Framework::Transient
-  end
-  
-  def framework
-    self.class.framework
-  end
-  
-  include WXf::WXfui::Console::Prints::PrintSymbols
-  include WXf::WXflog::ModuleLogger
- 
-  
-  
   def initialize(hash_info = {})
     store_vals(hash_info)
   end
@@ -75,6 +63,15 @@ class Mod_Factory
       prnt_err("Error during convert_params conversion, check input")   
     end
     return parry
+  end
+  
+  #
+  # This is a work-around to extend the print methods
+  #
+  def method_missing(method, test)
+   if framework.respond_to?("#{method}")
+     framework.send(method, test)
+   end
   end
   
 end

@@ -57,7 +57,7 @@ class CoreProcs
     # When the user types "use" 
     #
     def arg_use(*cmd)
-      puts cmd
+  
       # This is a module name placeholder so we can reload easily
       self.mpholder = ''
       
