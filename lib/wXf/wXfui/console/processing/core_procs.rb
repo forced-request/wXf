@@ -528,7 +528,7 @@ def arg_show(*cmd)
     #
     def arg_back(*cmd)
                       
-          if control.activities.length > 1 and control.infocus_activity.name != 'Core' and control.infocus_activity.name != 'xmlrpc'
+          if control.activities.length > 1 and control.infocus_activity.name != 'Core' #and control.infocus_activity.name != 'xmlrpc'
           
             if (in_focus)
               self.in_focus = nil
@@ -780,7 +780,20 @@ def arg_show(*cmd)
         "xmlrpc"   => "XML-RPC server service"   
         }
   end
+=begin  
+ # def print(str='')
+    
+ # end
   
+  def puts(str='')
+    if control.respond_to?('init_io') and not defined? @@io_pipe
+      control.init_io
+      control.puts(str)
+    else
+      control.puts(str)
+    end 
+  end
+=end  
   
 end
 

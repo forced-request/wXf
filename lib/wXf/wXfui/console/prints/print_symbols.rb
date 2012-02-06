@@ -9,7 +9,7 @@ module Prints
     include PrintColor
           
           def print(str="")
-            $stdout.print("#{str}")
+            $stdout.print(str)
           end
           
           def puts(str="")

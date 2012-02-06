@@ -6,6 +6,7 @@ module WXfmod_Factory
 class Mod_Factory
 
   include WXf::WXflog::ModuleLogger
+  include WXf::WXfui::Console::ShellIO::Medium
   
   attr_accessor :options, :name, :version, :license, :framework
   attr_accessor :description, :references, :author, :datahash, :pay # Do not change pay to payload BUG
@@ -63,15 +64,6 @@ class Mod_Factory
       prnt_err("Error during convert_params conversion, check input")   
     end
     return parry
-  end
-  
-  #
-  # This is a work-around to extend the print methods
-  #
-  def method_missing(method, test)
-   if framework.respond_to?("#{method}")
-     framework.send(method, test)
-   end
   end
   
 end

@@ -13,11 +13,8 @@ module Operations
   
     
       def initialize(prm, prm_char, options={})
-        self.class.const_set(:PRINT_SYMBOLS, options['PRINT_SYM']) if options['PRINT_SYM']
-        self.class.send(:include, PRINT_SYMBOLS)
         require 'rbreadline_compat'      
         super(prm, prm_char)
-        # This is where we check for alternative I/O
         stack_n_play
       end
    
@@ -32,7 +29,7 @@ module Operations
         
       #Do NOT remove this!!!
       def framework  
-         WXf::WXfmod_Factory::Framework.new(PRINT_SYMBOLS)
+         WXf::WXfmod_Factory::Framework.new
       end
   
                 
