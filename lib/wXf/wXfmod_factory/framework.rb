@@ -9,18 +9,8 @@ module WXfmod_Factory
   class Framework
     attr_accessor :modules
     
-    module Transient
-      attr_accessor :framework
-      
-      def initialize
-       
-      end
-    end
-    
-    def initialize(print_symbols)
-      self.class.send(:include, print_symbols)
+    def initialize
       types = FUNCTION_TYPES
-      sub = FwShim.new(self)
       self.modules = WXf::WXfmod_Factory::Mod_Loader.new(self,types)
       self.datahash = WXf::WXfmod_Factory::DataHash.new
     end      
@@ -28,15 +18,6 @@ module WXfmod_Factory
     attr_accessor :datahash
     
   end
-   
-     class FwShim
-       include Framework::Transient
-       def initialize(fw)
-       self.framework = fw 
-       super()        
-       end
-       
-     end
      
     
 end end

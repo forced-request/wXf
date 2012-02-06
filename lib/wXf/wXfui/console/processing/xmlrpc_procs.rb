@@ -27,7 +27,7 @@ module Processing
           if user.length > 0 && pass.length > 0            
             if control.xmlrpc_servers.length == 0
               @servlet = WXf::WXfXmlRpc::XmlRpcServlet.new(user, pass)
-              @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new(control))
+              @servlet.add_handler("wxfapi", WXf::WXfXmlRpc::XmlRpcApi.new)
               @server = WXf::WXfXmlRpc::XmlRpcServer.new(control, port)
               @server.mount("/", @servlet)
               @server.start_server
@@ -42,7 +42,6 @@ module Processing
       end
       
       def arg_stop(*cmd)
-       
        if @server == nil
           control.prnt_dbg("There is no running xmlrpc server to stop")
           return
