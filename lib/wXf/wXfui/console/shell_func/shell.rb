@@ -16,6 +16,7 @@ module Shell
     include WXf::WXfui::Console::Prints::PrintColor
   
     def initialize(prm, pchar)
+      #self.output = WXf::WXfui::Console::ShellIO::Output
       self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
       self.iprm = underline(prm, true)
       self.pchar = clear(pchar, true)
@@ -50,10 +51,9 @@ module Shell
         WXf::WXfassists::General::MechReq.count(0) 
         retry
       end
-    end
+    end  
     
     
-     
     def print(str="")
         output.print
     end
@@ -87,7 +87,7 @@ module Shell
         print("#{color_symbol} #{str}\n")
     end
    
-  
+
   attr_accessor :input, :prm, :iprm, :output
   attr_accessor :pchar
     
