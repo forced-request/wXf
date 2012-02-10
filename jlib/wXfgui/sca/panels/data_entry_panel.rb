@@ -44,6 +44,7 @@ module WxfGui
           dir = JFileChooser.new
           dir.setCurrentDirectory(java.io.File.new(Dir.pwd))
           dir.setFileSelectionMode(JFileChooser::DIRECTORIES_ONLY)
+          dir.setFileHidingEnabled(false)
           ret = dir.showDialog @panel, "Choose Directory"
           if  ret  == JFileChooser::APPROVE_OPTION
               destDir = dir.getCurrentDirectory()
