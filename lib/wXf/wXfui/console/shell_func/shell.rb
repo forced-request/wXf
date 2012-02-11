@@ -54,7 +54,7 @@ module Shell
     
     
     def print(str="")
-        output.print
+        output.print(str)
     end
       
     def puts(str="")
@@ -81,19 +81,35 @@ module Shell
     alias print_error prnt_err
     alias print_good prnt_plus
     alias print_debug prnt_dbg
-    alias p print
+    alias p puts
     
     def final_print(color_symbol, str = ''); 
         print("#{color_symbol} #{str}\n")
     end
     
+    module OutputShim
+        
+        attr_accessor :output
+        
+        def io_feed(input, output)
+            if output.nil?
+                self.output = WXf::WXfui::Console::ShellIO::Output.new
+            else
+                self.output = output
+            end
+        end
+        
+    end
+    
+    
+    include OutputShim
+    
     def io_feed(input=nil, output=nil)
-        #self.input = input if input
-        self.output = output
-        self.extend(WXf::WXfui::Console::ShellIO::Output) if output.nil?
+       self.extend(OutputShim)
+       super
     end
 
-  attr_accessor :input, :output, :prm, :iprm
+  attr_accessor :input, :prm, :iprm
   attr_accessor :pchar
     
 end

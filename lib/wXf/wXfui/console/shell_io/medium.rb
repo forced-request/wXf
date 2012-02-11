@@ -37,7 +37,7 @@ module Medium
     alias print_error prnt_err
     alias print_good prnt_plus
     alias print_debug prnt_dbg
-    alias p print
+    alias p puts
     
     def final_print(color_symbol, str = ''); 
        output_medium.final_print(str) if output_medium
