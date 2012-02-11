@@ -3,8 +3,14 @@ module WXfui
 module Console
 module ShellIO
   
-  module Output
-   
+  class Output
+    
+    include WXf::WXfui::Console::Prints::PrintColor
+    
+    def initialize
+      super()
+    end
+    
     def print(str="")
         $stdout.print(str)
         $stdout.flush()
@@ -12,7 +18,7 @@ module ShellIO
     end
       
     def puts(str="")
-        print(str)
+        print("#{str}\n")
     end
       
     def prnt_gen(str = '')
@@ -35,7 +41,7 @@ module ShellIO
     alias print_error prnt_err
     alias print_good prnt_plus
     alias print_debug prnt_dbg
-    alias p print
+    alias p puts
     
     def final_print(color_symbol, str = ''); 
         print("#{color_symbol} #{str}\n")
