@@ -16,10 +16,9 @@ module Shell
     include WXf::WXfui::Console::Prints::PrintColor
   
     def initialize(prm, pchar)
-      self.extend(WXf::WXfui::Console::ShellIO::Output)
-      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
       self.iprm = underline(prm, true)
       self.pchar = clear(pchar, true)
+      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
       self.input.prm = "#{underline(prm,true)} #{clear(pchar,true) } "
     end
     
@@ -82,13 +81,19 @@ module Shell
     alias print_error prnt_err
     alias print_good prnt_plus
     alias print_debug prnt_dbg
+    alias p print
     
     def final_print(color_symbol, str = ''); 
         print("#{color_symbol} #{str}\n")
     end
-   
+    
+    def io_feed(input=nil, output=nil)
+        #self.input = input if input
+        self.output = output
+        self.extend(WXf::WXfui::Console::ShellIO::Output) if output.nil?
+    end
 
-  attr_accessor :input, :prm, :iprm, :output
+  attr_accessor :input, :output, :prm, :iprm
   attr_accessor :pchar
     
 end
