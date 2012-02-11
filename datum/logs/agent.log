@@ -1,0 +1,77 @@
+# Logfile created on Sat Jan 21 17:24:59 -0500 2012 by logger.rb/1.2.6
+I, [2012-01-21T17:25:00.391094 #44090]  INFO -- : Net::HTTP::Get: /
+D, [2012-01-21T17:25:00.391322 #44090] DEBUG -- : request-header: accept-language => en-us,en;q=0.5
+D, [2012-01-21T17:25:00.391424 #44090] DEBUG -- : request-header: accept => */*
+D, [2012-01-21T17:25:00.391497 #44090] DEBUG -- : request-header: user-agent => Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
+D, [2012-01-21T17:25:00.391564 #44090] DEBUG -- : request-header: connection => keep-alive
+D, [2012-01-21T17:25:00.391629 #44090] DEBUG -- : request-header: accept-encoding => gzip,identity
+D, [2012-01-21T17:25:00.391693 #44090] DEBUG -- : request-header: host => www.yahoo.com
+D, [2012-01-21T17:25:00.391756 #44090] DEBUG -- : request-header: accept-charset => ISO-8859-1,utf-8;q=0.7,*;q=0.7
+D, [2012-01-21T17:25:00.391865 #44090] DEBUG -- : request-header: keep-alive => 300
+D, [2012-01-21T17:25:00.992722 #44090] DEBUG -- : Read 527 bytes
+D, [2012-01-21T17:25:01.038151 #44090] DEBUG -- : Read 1975 bytes
+D, [2012-01-21T17:25:01.038427 #44090] DEBUG -- : Read 2306 bytes
+D, [2012-01-21T17:25:01.038543 #44090] DEBUG -- : Read 3412 bytes
+D, [2012-01-21T17:25:01.038777 #44090] DEBUG -- : Read 4860 bytes
+D, [2012-01-21T17:25:01.085729 #44090] DEBUG -- : Read 6308 bytes
+D, [2012-01-21T17:25:01.087089 #44090] DEBUG -- : Read 7756 bytes
+D, [2012-01-21T17:25:01.087783 #44090] DEBUG -- : Read 9204 bytes
+D, [2012-01-21T17:25:01.133233 #44090] DEBUG -- : Read 10652 bytes
+D, [2012-01-21T17:25:01.134278 #44090] DEBUG -- : Read 12100 bytes
+D, [2012-01-21T17:25:01.135002 #44090] DEBUG -- : Read 13548 bytes
+D, [2012-01-21T17:25:01.136542 #44090] DEBUG -- : Read 14996 bytes
+D, [2012-01-21T17:25:01.137872 #44090] DEBUG -- : Read 16444 bytes
+D, [2012-01-21T17:25:01.181612 #44090] DEBUG -- : Read 17892 bytes
+D, [2012-01-21T17:25:01.183548 #44090] DEBUG -- : Read 19340 bytes
+D, [2012-01-21T17:25:01.184426 #44090] DEBUG -- : Read 20788 bytes
+D, [2012-01-21T17:25:01.185702 #44090] DEBUG -- : Read 22236 bytes
+D, [2012-01-21T17:25:01.186894 #44090] DEBUG -- : Read 23684 bytes
+D, [2012-01-21T17:25:01.188177 #44090] DEBUG -- : Read 25132 bytes
+D, [2012-01-21T17:25:01.267606 #44090] DEBUG -- : Read 26580 bytes
+D, [2012-01-21T17:25:01.268415 #44090] DEBUG -- : Read 28028 bytes
+D, [2012-01-21T17:25:01.270143 #44090] DEBUG -- : Read 29476 bytes
+D, [2012-01-21T17:25:01.271252 #44090] DEBUG -- : Read 30924 bytes
+D, [2012-01-21T17:25:01.271992 #44090] DEBUG -- : Read 32372 bytes
+D, [2012-01-21T17:25:01.273021 #44090] DEBUG -- : Read 33820 bytes
+D, [2012-01-21T17:25:01.274257 #44090] DEBUG -- : Read 35268 bytes
+D, [2012-01-21T17:25:01.315748 #44090] DEBUG -- : Read 36716 bytes
+D, [2012-01-21T17:25:01.316121 #44090] DEBUG -- : Read 38164 bytes
+D, [2012-01-21T17:25:01.317296 #44090] DEBUG -- : Read 41060 bytes
+D, [2012-01-21T17:25:01.317627 #44090] DEBUG -- : Read 42508 bytes
+D, [2012-01-21T17:25:01.317911 #44090] DEBUG -- : Read 43956 bytes
+D, [2012-01-21T17:25:01.321165 #44090] DEBUG -- : Read 45404 bytes
+D, [2012-01-21T17:25:01.321805 #44090] DEBUG -- : Read 46852 bytes
+D, [2012-01-21T17:25:01.322183 #44090] DEBUG -- : Read 48300 bytes
+D, [2012-01-21T17:25:01.366563 #44090] DEBUG -- : Read 49748 bytes
+D, [2012-01-21T17:25:01.367203 #44090] DEBUG -- : Read 51196 bytes
+D, [2012-01-21T17:25:01.367493 #44090] DEBUG -- : Read 52644 bytes
+D, [2012-01-21T17:25:01.368433 #44090] DEBUG -- : Read 54092 bytes
+D, [2012-01-21T17:25:01.369447 #44090] DEBUG -- : Read 55540 bytes
+D, [2012-01-21T17:25:01.370385 #44090] DEBUG -- : Read 56988 bytes
+D, [2012-01-21T17:25:01.370912 #44090] DEBUG -- : Read 58106 bytes
+D, [2012-01-21T17:25:01.371064 #44090] DEBUG -- : Read 58138 bytes
+D, [2012-01-21T17:25:01.371185 #44090] DEBUG -- : Read 58414 bytes
+D, [2012-01-21T17:25:01.371490 #44090] DEBUG -- : Read 59594 bytes
+D, [2012-01-21T17:25:01.371660 #44090] DEBUG -- : response-header: x-frame-options => SAMEORIGIN
+D, [2012-01-21T17:25:01.371734 #44090] DEBUG -- : response-header: p3p => policyref="http://info.yahoo.com/w3c/p3p.xml", CP="CAO DSP COR CUR ADM DEV TAI PSA PSD IVAi IVDi CONi TELo OTPi OUR DELi SAMi OTRi UNRi PUBi IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA PRE LOC GOV"
+D, [2012-01-21T17:25:01.371828 #44090] DEBUG -- : response-header: connection => keep-alive
+D, [2012-01-21T17:25:01.371888 #44090] DEBUG -- : response-header: content-type => text/html;charset=utf-8
+D, [2012-01-21T17:25:01.371946 #44090] DEBUG -- : response-header: server => YTS/1.20.0
+D, [2012-01-21T17:25:01.371999 #44090] DEBUG -- : response-header: date => Sat, 21 Jan 2012 22:25:00 GMT
+D, [2012-01-21T17:25:01.372051 #44090] DEBUG -- : response-header: content-encoding => gzip
+D, [2012-01-21T17:25:01.372107 #44090] DEBUG -- : response-header: set-cookie => B=4a1rk417hmeps&b=3&s=5h; expires=Tue, 21-Jan-2014 20:00:00 GMT; path=/; domain=.yahoo.com, IU=deleted; expires=Fri, 21-Jan-2011 22:24:59 GMT; path=/; domain=.yahoo.com, PH=deleted; expires=Fri, 21-Jan-2011 22:24:59 GMT; path=/; domain=.yahoo.com, fpc=d=hAc.KVlGFAyoE_li3cVBupWT3rMwdinJxbcvp87JNcpgz9M5Xh8mth41JL199sprYLAmDE7j9s_0iT0t4rydB.eeq04wpU7IFu8FUJcVApWQlFvN..nR8kWHBQvqXNZWwAzSba8i6LJzk6dCjw9CwWoWt8GmuaJqcCi5j9ga11AXA0nWhZ708u_lLTYUf3qZ81II3rk-&v=2; expires=Sun, 20-Jan-2013 22:25:00 GMT; path=/; domain=www.yahoo.com, CH=deleted; expires=Fri, 21-Jan-2011 22:24:59 GMT; path=/; domain=www.yahoo.com, CH=AgBPGzsQAA9AEAAA3RAAKY0QAAMPEAAYcxAAKN0QAD5XEAA5YBAAIjwQADvY; expires=Mon, 20-Feb-2012 22:25:00 GMT; path=/; domain=.yahoo.com, fpt=d=XHy8QqPXedoO6jri40mzJ4tNN.WiH.iHU.xj1Yqx9C4oRveuQQtMz2ss4ybvcgVSwo5GEbuHUvxq3JJm0iq8JAwEORMcxjTZ7IAan9KfvR4e_PANGVK3HWx_iL0x11J6ZJ7qQjSTYOdPMzMmE6bK7DXUL2YSbHnpmec2OkZp9FMBbxFdS0kK9sLlQshwO7nkwFJHqOvnXu4VRIgErt90u70RxyYSGrUYgw.kmCaIDUDiElwysGDHmo1lajOwbkbKPX_CyiJPQABdJUZHrFir5qnXmh.a5mvR1CaG32p6KOIDf2qEroeSAizUA59p4pOnFMh5lJWAXocH7X6AIRrNhjVasQT82jPhu1mAW5QiaKyCAmCEck1idEN1tfr6TgQJrkytdi6.UTqgGSmm4AIsGWZtWErx7YdTZLhuWIpj0mda5pfnWJfIliAkng.kZ0oQLx5QN.z6h6.4mqUYShRxF6djp340y8sAPOQeiYco9ucwinRgavjVz4vx1MdAWDYWVFRGC9rLlyvp&v=1; path=/; domain=www.yahoo.com, fpps=deleted; expires=Fri, 21-Jan-2011 22:24:59 GMT; path=/; domain=www.yahoo.com, fpc_s=d=VU0PbepGFAwmU.0ZBagqtuudY83xnptG9BQTNoeblcY6WwlF9C.5dSXhVV0EgNThq587aG5OVS9DsUYrvdDIrRqFuMhNqd0hvqLWLLLQUC5DxN70dHiGC4gJSceaH2q5IUVMA8nCdLSzPmJSkblVDK2P9Z2.H.HuKDuhNmzQVQhEF9AyjgGcURpPxn_WLK3l_JL0lNOr_ev4P48xie7jHkVCZdsrgIC8HB_H2u3kgTzORifD8DuvGv0K24.yeVrPm2BbBBWHaFOQ4_F2iLhdMV862gRorKl.IsIHhyRMtTHPg9245pUxkyan4Lk-&v=2; path=/; domain=www.yahoo.com
+D, [2012-01-21T17:25:01.372161 #44090] DEBUG -- : response-header: age => 0
+D, [2012-01-21T17:25:01.372212 #44090] DEBUG -- : response-header: cache-control => private
+D, [2012-01-21T17:25:01.372264 #44090] DEBUG -- : response-header: vary => User-Agent,Accept-Encoding
+D, [2012-01-21T17:25:01.372315 #44090] DEBUG -- : response-header: transfer-encoding => chunked
+D, [2012-01-21T17:25:01.372387 #44090] DEBUG -- : gunzip body
+D, [2012-01-21T17:25:01.397103 #44090] DEBUG -- : saved cookie: B=4a1rk417hmeps&b=3&s=5h
+D, [2012-01-21T17:25:01.397949 #44090] DEBUG -- : saved cookie: IU=deleted
+D, [2012-01-21T17:25:01.398964 #44090] DEBUG -- : saved cookie: PH=deleted
+D, [2012-01-21T17:25:01.399948 #44090] DEBUG -- : saved cookie: fpc=d=hAc.KVlGFAyoE_li3cVBupWT3rMwdinJxbcvp87JNcpgz9M5Xh8mth41JL199sprYLAmDE7j9s_0iT0t4rydB.eeq04wpU7IFu8FUJcVApWQlFvN..nR8kWHBQvqXNZWwAzSba8i6LJzk6dCjw9CwWoWt8GmuaJqcCi5j9ga11AXA0nWhZ708u_lLTYUf3qZ81II3rk-&v=2
+D, [2012-01-21T17:25:01.400923 #44090] DEBUG -- : saved cookie: CH=deleted
+D, [2012-01-21T17:25:01.402185 #44090] DEBUG -- : saved cookie: CH=AgBPGzsQAA9AEAAA3RAAKY0QAAMPEAAYcxAAKN0QAD5XEAA5YBAAIjwQADvY
+D, [2012-01-21T17:25:01.403132 #44090] DEBUG -- : saved cookie: fpt=d=XHy8QqPXedoO6jri40mzJ4tNN.WiH.iHU.xj1Yqx9C4oRveuQQtMz2ss4ybvcgVSwo5GEbuHUvxq3JJm0iq8JAwEORMcxjTZ7IAan9KfvR4e_PANGVK3HWx_iL0x11J6ZJ7qQjSTYOdPMzMmE6bK7DXUL2YSbHnpmec2OkZp9FMBbxFdS0kK9sLlQshwO7nkwFJHqOvnXu4VRIgErt90u70RxyYSGrUYgw.kmCaIDUDiElwysGDHmo1lajOwbkbKPX_CyiJPQABdJUZHrFir5qnXmh.a5mvR1CaG32p6KOIDf2qEroeSAizUA59p4pOnFMh5lJWAXocH7X6AIRrNhjVasQT82jPhu1mAW5QiaKyCAmCEck1idEN1tfr6TgQJrkytdi6.UTqgGSmm4AIsGWZtWErx7YdTZLhuWIpj0mda5pfnWJfIliAkng.kZ0oQLx5QN.z6h6.4mqUYShRxF6djp340y8sAPOQeiYco9ucwinRgavjVz4vx1MdAWDYWVFRGC9rLlyvp&v=1
+D, [2012-01-21T17:25:01.404241 #44090] DEBUG -- : saved cookie: fpps=deleted
+D, [2012-01-21T17:25:01.405361 #44090] DEBUG -- : saved cookie: fpc_s=d=VU0PbepGFAwmU.0ZBagqtuudY83xnptG9BQTNoeblcY6WwlF9C.5dSXhVV0EgNThq587aG5OVS9DsUYrvdDIrRqFuMhNqd0hvqLWLLLQUC5DxN70dHiGC4gJSceaH2q5IUVMA8nCdLSzPmJSkblVDK2P9Z2.H.HuKDuhNmzQVQhEF9AyjgGcURpPxn_WLK3l_JL0lNOr_ev4P48xie7jHkVCZdsrgIC8HB_H2u3kgTzORifD8DuvGv0K24.yeVrPm2BbBBWHaFOQ4_F2iLhdMV862gRorKl.IsIHhyRMtTHPg9245pUxkyan4Lk-&v=2
+I, [2012-01-21T17:25:01.406145 #44090]  INFO -- : status: 200

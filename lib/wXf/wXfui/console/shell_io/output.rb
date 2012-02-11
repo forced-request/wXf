@@ -40,9 +40,6 @@ module ShellIO
         print("#{color_symbol} #{str}\n")
     end
     
-    def final_print(color_symbol, strn = ''); 
-     
-    end
   end
   
 end end end end
