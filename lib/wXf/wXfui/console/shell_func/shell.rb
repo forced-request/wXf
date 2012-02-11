@@ -16,7 +16,7 @@ module Shell
     include WXf::WXfui::Console::Prints::PrintColor
   
     def initialize(prm, pchar)
-      #self.output = WXf::WXfui::Console::ShellIO::Output
+      self.extend(WXf::WXfui::Console::ShellIO::Output)
       self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
       self.iprm = underline(prm, true)
       self.pchar = clear(pchar, true)

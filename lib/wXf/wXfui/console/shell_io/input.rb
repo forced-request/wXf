@@ -3,7 +3,7 @@ module WXfui
 module Console
 module ShellIO
   
-  module Input
+  class Input
   end
   
 end end end end
