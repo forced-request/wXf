@@ -13,6 +13,10 @@ module Operations
   
     
       def initialize(prm, prm_char, options={})
+        
+        in_medium = options['Input'] || nil
+        out_medium = options['Output'] || nil
+        self.io_feed(in_medium, out_medium)        
         require 'rbreadline_compat'      
         super(prm, prm_char)
         stack_n_play

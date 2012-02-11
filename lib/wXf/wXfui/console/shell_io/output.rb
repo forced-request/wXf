@@ -4,7 +4,7 @@ module Console
 module ShellIO
   
   module Output
-    
+   
     def print(str="")
         $stdout.print(str)
         $stdout.flush()
@@ -35,6 +35,7 @@ module ShellIO
     alias print_error prnt_err
     alias print_good prnt_plus
     alias print_debug prnt_dbg
+    alias p print
     
     def final_print(color_symbol, str = ''); 
         print("#{color_symbol} #{str}\n")

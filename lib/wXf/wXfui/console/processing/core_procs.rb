@@ -98,6 +98,10 @@ class CoreProcs
         control.add_activity(operator)
       end
       
+      if activity.respond_to?('io_feed') && control.respond_to?('input') && control.respond_to?('output')
+          activity.io_feed(control.input, control.output)
+      end  
+      
      self.in_focus = activity  
      
      if auxiliary? or exploit?
