@@ -3,34 +3,21 @@
 # ...greater flexibility.
 
 
-  module WXf
-  module WXfmod_Factory
+module WXf
+module WXfmod_Factory
+  
+  class Framework
+    attr_accessor :modules
     
-    class Framework
-      attr_accessor :modules
-      
-      module Transient
-        attr_accessor :framework
-      end
-      
-      def initialize
-        types = FUNCTION_TYPES
-        sub = FwShim.new(self)
-        self.modules = WXf::WXfmod_Factory::Mod_Loader.new(self,types)
-        self.datahash = WXf::WXfmod_Factory::DataHash.new
-      end      
+    def initialize
+      types = FUNCTION_TYPES
+      self.modules = WXf::WXfmod_Factory::Mod_Loader.new(self,types)
+      self.datahash = WXf::WXfmod_Factory::DataHash.new
+    end      
+  
+    attr_accessor :datahash
     
-      attr_accessor :datahash
-      
-    end
+  end
      
-       class FwShim
-         include Framework::Transient
-         def initialize(fw)
-         self.framework = fw         
-         end
-         
-       end
-       
-      
- end end
+    
+end end

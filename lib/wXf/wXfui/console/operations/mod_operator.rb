@@ -1,8 +1,4 @@
-#
 # Provides a means of maintaining hierarchy when exploits and payloads are stacked 
-#
-
-
 module WXf
   module WXfui
    module Console
@@ -11,10 +7,9 @@ module WXf
      module ModOperator
        
        attr_accessor :control
-             
-       
+         
        def initialize(control)
-         self.control = control        
+         self.control = control
        end
        
        
@@ -45,6 +40,42 @@ module WXf
        def exec(str, stra)
         self.send("arg_#{stra[0]}_comp", str, stra)
        end
+        
+             
+       def print(str="")
+        control.print(str)
+       end
+      
+       def puts(str="")
+        control.puts(str)
+       end
+          
+      
+       def prnt_gen(str = '')
+        control.prnt_gen(str)
+       end
+      
+       def prnt_err(str = '')
+        control.prnt_err(str)
+       end 
+      
+       def prnt_plus(str = '')
+        control.prnt_plus(str)
+       end
+    
+       def prnt_dbg(str = '')
+        control.prnt_dbg(str)
+       end
+    
+       alias print_status prnt_gen
+       alias print_error prnt_err
+       alias print_good prnt_plus
+       alias print_debug prnt_dbg
+    
+       def final_print(color_symbol, str = ''); 
+        control.final_print("#{color_symbol} #{str}\n")
+       end
+          
        
        #
        # Hierarchy

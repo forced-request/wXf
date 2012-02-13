@@ -57,6 +57,7 @@ class CoreProcs
     # When the user types "use" 
     #
     def arg_use(*cmd)
+  
       # This is a module name placeholder so we can reload easily
       self.mpholder = ''
       
@@ -97,6 +98,10 @@ class CoreProcs
         control.add_activity(operator)
       end
       
+      if activity.respond_to?('io_feed') && control.respond_to?('input') && control.respond_to?('output')
+          activity.io_feed(control.input, control.output)
+      end  
+      
      self.in_focus = activity  
      
      if auxiliary? or exploit?
@@ -107,7 +112,7 @@ class CoreProcs
        self.mpholder = arg_name
        control.mod_prm("#{activity.type}" + control.red("(#{arg_name.split('/').last})", true))
      end
-             
+     
     end
     
     def in_focus?
@@ -160,6 +165,8 @@ class CoreProcs
         
         if (in_focus.type == WEBSERVER) and (in_focus.options.has_key?(name_of_opt))
           opt = 'webserver_options'
+        elsif (in_focus.type == XMLRPC) and (in_focus.options.has_key?(name_of_opt))
+          opt = 'xmlrpc_options'  
         elsif (in_focus.respond_to?('payload')) and 
           (in_focus.payload.respond_to?('options')) and 
           (in_focus.payload.options.has_key?(name_of_opt))
@@ -200,6 +207,8 @@ class CoreProcs
         when 'PAYLOAD'
           option_payload(cmd[1].to_s)
         when 'webserver_options'
+          in_focus.options[arg_opt] =  process_set_cmd(cmd)
+        when 'xmlrpc_options'
           in_focus.options[arg_opt] =  process_set_cmd(cmd)
         else
           # Need to get the command processed and in a nice format
@@ -385,6 +394,20 @@ class CoreProcs
   
   
   #
+  # XMLRPC Server added to provide the ability to interact with the framework
+  #
+  def arg_xmlrpc
+    if in_focus()
+      arg_back()
+    end 
+    
+    operator = XmlRpcProcs
+    control.add_activity(operator)
+    self.in_focus = framework.modules.load("xmlrpc",control)
+    control.mod_prm("#{in_focus.type}" + control.red("(config)"))
+  end   
+  
+  #
   # *WILL* be used for importing information in xml format
   # 
   def arg_import(*cmd)
@@ -465,6 +488,14 @@ def arg_show(*cmd)
     end 
    
     
+    #
+    # Shutdown the webserver instances
+    #
+    def xmlrpc_shut
+      return unless control.xmlrpc_servers.length > 0
+      control.xmlrpc_servers.each {|server| server.stop_server} 
+    end  
+    
     
     #
     # Shutdown the webserver instances
@@ -483,6 +514,8 @@ def arg_show(*cmd)
     # self-explanatory, just exits the framework
     #
     def arg_exit(*cmd)
+      #kill any xmlrpc servers that are running
+      xmlrpc_shut
       #kill webserver processes
       web_shut
       #obvious
@@ -499,16 +532,18 @@ def arg_show(*cmd)
     #
     def arg_back(*cmd)
                       
-          if control.activities.length > 1 and control.infocus_activity.name != 'Core'
-            
-          if (in_focus)
+          if control.activities.length > 1 and control.infocus_activity.name != 'Core' #and control.infocus_activity.name != 'xmlrpc'
+          
+            if (in_focus)
               self.in_focus = nil
-          end  
-          if (active_assist_module)
+            end  
+            
+            if (active_assist_module)
               self.active_assist_module = nil
-          end      
-              control.remove_activity
-              control.mod_prm('')
+            end      
+            
+            control.remove_activity
+            control.mod_prm('')
           end
           
     end   
@@ -746,10 +781,10 @@ def arg_show(*cmd)
         "update"   => "Upates the framework",
         "use"      => "Selects an exploit by name",
         "version"  => "Show the framework and console library version numbers",
-           
+        "xmlrpc"   => "XML-RPC server service"   
         }
   end
-  
+ 
   
 end
 

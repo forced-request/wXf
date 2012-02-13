@@ -7,7 +7,15 @@ module Prints
   module PrintSymbols
   
     include PrintColor
-
+          
+          def print(str="")
+            $stdout.print(str)
+          end
+          
+          def puts(str="")
+            print(str)
+          end
+          
           def prnt_gen(strn = ''); final_print(blue("-{*}-"), "#{strn}"); end
           def prnt_err(strn = ''); final_print(red("-{-}-"), "#{strn}"); end
           def prnt_plus(strn = '');final_print(green("-{+}-"), "#{strn}"); end
@@ -17,10 +25,9 @@ module Prints
           alias print_good prnt_plus
           alias print_debug prnt_dbg
           def final_print(color_symbol, strn = ''); 
-            eval('print("#{color_symbol} #{strn}\n")')
+           print("#{color_symbol} #{strn}\n")
           end
     
-      
   end
   
   
