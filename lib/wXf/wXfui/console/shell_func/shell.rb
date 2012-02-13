@@ -12,12 +12,14 @@ module Shell_Func
   
 module Shell
 
-
-
+    include WXf::WXfui::Console::Prints::PrintOptions
+    include WXf::WXfui::Console::Prints::PrintColor
   
- 
     def initialize(prm, pchar)
-     opts(prm, pchar)
+      self.iprm = underline(prm, true)
+      self.pchar = clear(pchar, true)
+      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
+      self.input.prm = "#{underline(prm,true)} #{clear(pchar,true) } "
     end
     
     #
@@ -48,19 +50,65 @@ module Shell
         WXf::WXfassists::General::MechReq.count(0) 
         retry
       end
+    end  
+    
+    
+    def print(str="")
+        output.print(str)
+    end
+      
+    def puts(str="")
+        output.print(str)
+    end
+      
+    def prnt_gen(str = '')
+        output.prnt_gen(str)
+    end
+      
+    def prnt_err(str = '')
+        output.prnt_err(str)
+    end 
+      
+    def prnt_plus(str = '')
+        output.prnt_plus(str)
+    end
+    
+    def prnt_dbg(str = '')
+        output.prnt_dbg(str)
+    end
+    
+    alias print_status prnt_gen
+    alias print_error prnt_err
+    alias print_good prnt_plus
+    alias print_debug prnt_dbg
+    alias p puts
+    
+    def final_print(color_symbol, str = ''); 
+        print("#{color_symbol} #{str}\n")
+    end
+    
+    module OutputShim
+        
+        attr_accessor :output
+        
+        def io_feed(input, output)
+            if output.nil?
+                self.output = WXf::WXfui::Console::ShellIO::Output.new
+            else
+                self.output = output
+            end
+        end
+        
     end
     
     
-    #
-    #
-    #
-    def opts(prm, pchar)
-      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
-      self.iprm = underline(prm, true)
-      self.pchar = clear(pchar, true)
-      self.input.prm = "#{underline(prm,true)} #{clear(pchar,true) } "
+    include OutputShim
+    
+    def io_feed(input=nil, output=nil)
+       self.extend(OutputShim)
+       super
     end
-  
+
   attr_accessor :input, :prm, :iprm
   attr_accessor :pchar
     

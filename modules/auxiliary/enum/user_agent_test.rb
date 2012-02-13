@@ -23,10 +23,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
              ],
             'Author'      => [ 'CG', 'mubix', 'ChrisJohnRiley' ],
             'License'     => WXF_LICENSE
-
-        
-     
-    
     
     )
     
@@ -102,20 +98,15 @@ def run
       baselineheaders = []
       contentsame = true
       ua  = "Mozilla/5.0" #our baseline UA
-
-
+      
       #send three requests and see if we get the same answers (which we should)
       (0..2).each do | baseline |
         res = mech_req({
           'method' => 'GET', 
           'UA'      => ua,
           'RURL'  => rurl,
-          'REDIRECT' => 'false',
-          
-          
-          
-        }
-          )
+          'REDIRECT' => 'false', 
+        })
 
       if (res) and (res.header['content-length'].nil?)
         res.header['content-length'] = "#{res.body.bytesize}"
@@ -126,93 +117,89 @@ def run
         print_error("No response for #{rurl}")
       elsif (res)
           if (res and res.code == 200)
-          print_status("USER AGENT     : #{ua}")
-          print_status("URL (ENTERED)  : #{rurl}")
-          print_status("RESPONSE CODE  : #{res.code}")
-          print_status("CONTENT-LENGTH : #{res.response['content-length']}")
-          print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-          print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
-          if contentlength.empty? then
-            contentlength << res.response['content-length']
-          elsif res.response['content-length'] == contentlength.last then
-            ''
-          else res.response['content-length'] != contentlength.last
-            print_error("Received a different content length for same request\n")
-            if datahash['BASELINE'] == true
-              contentsame = false
-              return
+            print_status("USER AGENT     : #{ua}")
+            print_status("URL (ENTERED)  : #{rurl}")
+            print_status("RESPONSE CODE  : #{res.code}")
+            print_status("CONTENT-LENGTH : #{res.response['content-length']}")
+            print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
+            print_status("HEADERS \n") 
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
+            if contentlength.empty? then
+              contentlength << res.response['content-length']
+            elsif res.response['content-length'] == contentlength.last then
+              ''
+            else res.response['content-length'] != contentlength.last
+              print_error("Received a different content length for same request\n")
+              if datahash['BASELINE'] == true
+                contentsame = false
+                return
+              end
+            end
+          elsif (res and res.code == 302 or res.code == 301)
+            print_status("USER AGENT     : #{ua}")
+            print_status("URL (ENTERED)  : #{rurl}")
+            print_status("URL (RETURNED) : #{res.response['location']}")
+            print_status("RESPONSE CODE  : #{res.code}")
+            print_status("CONTENT-LENGTH : #{res.response['content-length']}")
+            print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
+            print_status("HEADERS \n")
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}  
+            if contentlength.empty? then
+              contentlength << res.response['content-length']
+            elsif res.response['content-length'] == contentlength.last then
+              ''
+            else res.response['content-length'] != contentlength.last
+              print_error("Received a different content length for same request\n")
+              if datahash['BASELINE'] == true
+                contentsame = false
+                return
+              end
+            end
+          else  (res)
+            print_status("USER AGENT     : #{ua}")
+            print_status("URL (ENTERED)  : #{rurl}")
+            print_status("RESPONSE CODE  : #{res.code}")
+            print_status("CONTENT-LENGTH : #{res.response['content-length']}")
+            print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
+            print_status("HEADERS \n")
+            res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}          
+            if contentlength.empty? then
+              contentlength << res.response['content-length']
+            elsif res.response['content-length'] == contentlength.last then
+              ''
+            else res.response['content-length'] != contentlength.last
+              print_error("Received a different content length for same request\n")
+              if datahash['BASELINE'] == true
+                contentsame = false
+                return
+              end
             end
           end
-        elsif (res and res.code == 302 or res.code == 301)
-	  print_status("USER AGENT     : #{ua}")
-          print_status("URL (ENTERED)  : #{rurl}")
-          print_status("URL (RETURNED) : #{res.response['location']}")
-          print_status("RESPONSE CODE  : #{res.code}")
-          print_status("CONTENT-LENGTH : #{res.response['content-length']}")
-          print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-          print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
-           
-          if contentlength.empty? then
-            contentlength << res.response['content-length']
-          elsif res.response['content-length'] == contentlength.last then
-            ''
-          else res.response['content-length'] != contentlength.last
-            print_error("Received a different content length for same request\n")
-            if datahash['BASELINE'] == true
-              contentsame = false
-              return
-            end
-          end         
-        else  (res)
-	  print_status("USER AGENT     : #{ua}")
-          print_status("URL (ENTERED)  : #{rurl}")
-          print_status("RESPONSE CODE  : #{res.code}")
-          print_status("CONTENT-LENGTH : #{res.response['content-length']}")
-          print_status("CONTENT-LENGTH CALCULATED : #{res.body.size}")
-          print_status("HEADERS \n") & res.response.each_pair {|k,v| p "#{k}".upcase + ': ' + v}
-          
-          if contentlength.empty? then
-            contentlength << res.response['content-length']
-          elsif res.response['content-length'] == contentlength.last then
-            ''
-          else res.response['content-length'] != contentlength.last
-            print_error("Received a different content length for same request\n")
-	    if datahash['BASELINE'] == true
-              contentsame = false
-              return
-            end
-          end
-        end 
       else
-        #print_status("You Shouldnt see me but I received a #{res.code}")
         ''
       end
 
       baselineheaders = res.response
-      
       if baselineheaders['location'] then
         forwards << baselineheaders['location']
       end
-      end
+    end #Closes begin statement at the top
 
-      if contentsame == false
-        print_error("Did not receive the same content-length for same request...exiting")
-        return
-      elsif
-        uastrings.each do | check |
-
+    if contentsame == false
+      print_error("Did not receive the same content-length for same request...exiting")
+      return
+    elsif
+      uastrings.each do | check |
           print_status("Testing User-Agent: #{check}")
           res = mech_req({
             'method' => 'GET',
             'UA' => check,
             'RURL'=> rurl,
             'REDIRECT' => 'false',
-           }                                                                 
-         )
+           })
             
           if (res.nil?)
-            print_error("No response for #{rurl}")
-           
+            print_error("No response for #{rurl}") 
           elsif (res)
             checkheader = []
             checkheader = res.response
@@ -220,34 +207,32 @@ def run
               if baselineheaders[basekey] != nil then
               	if basekey =~ /^Set-Cookie$/i 	
               		if baselineheaders[basekey] =~ /httponly/i
-              			if basevalue =~ /httponly/i
-              				# httponly remains set
+              		  if basevalue =~ /httponly/i
               			else
               				print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
-					print_good("CHANGED:  #{basekey} => [#{basevalue}]")
-				end
-			elsif baselineheaders[basekey] =~ /secure/i
-              			if basevalue =~ /secure/i
-              				# secure remains set
+              			  print_good("CHANGED:  #{basekey} => [#{basevalue}]")
+              			end
+              	   elsif baselineheaders[basekey] =~ /secure/i
+              		  if basevalue =~ /secure/i
               			else
-              				print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
-					print_good("CHANGED:  #{basekey} => [#{basevalue}]")
-				end
-			end
-              	end
-              	if basekey =~ /expires|vtag|date|time|x-transaction|Set-Cookie|X-Cache|cache-control|Age/i
-              		#Ignore frequently changing headers
-		elsif basevalue != baselineheaders[basekey] then
+              			 print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
+              		   print_good("CHANGED:  #{basekey} => [#{basevalue}]")
+              		  end
+                   end
+              	 end
+              	 if basekey =~ /expires|vtag|date|time|x-transaction|Set-Cookie|X-Cache|cache-control|Age/i
+              	   #Ignore frequently changing headers
+              	 elsif basevalue != baselineheaders[basekey] then
                   print_error("ORIGINAL: #{basekey} => [#{baselineheaders[basekey]}]")
                   print_good("CHANGED:  #{basekey} => [#{basevalue}]")
+                  end
+                else
+                  print_good("NEW: #{basekey} => [#{basevalue}]")
                 end
-              else
-                print_good("NEW: #{basekey} => [#{basevalue}]")
+                if basekey == "Location" then
+                  forwards << basevalue
+                end
               end
-              if basekey == "Location" then
-                forwards << basevalue
-              end
-            end
 
             baselineheaders.each do | basekey,basevalue|
               if checkheader[basekey] == nil then
@@ -281,15 +266,4 @@ def run
 
 end
 end
-  
-  
-  
-  
-
-  
-  
-  
-  
-  
-  
 end

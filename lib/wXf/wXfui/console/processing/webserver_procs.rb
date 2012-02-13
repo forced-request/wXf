@@ -22,7 +22,7 @@ module Processing
      end
      
      
-     # Ken says - Seth, I've added the control as a parameter when initializing the webserver.
+     # Added the control as a parameter when initializing the webserver.
      # We need to be able to invoke framework.modules.lfile_list_load for automagic fun
      # regarding LFILE.
      def arg_start(*cmd)  
