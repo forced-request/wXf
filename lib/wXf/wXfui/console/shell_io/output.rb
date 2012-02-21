@@ -10,6 +10,7 @@ module ShellIO
     def initialize
       super()
     end
+
     
     def print(str="")
         $stdout.print(str)

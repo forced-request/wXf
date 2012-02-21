@@ -12,11 +12,10 @@ module Operations
     attr_accessor :in_focus, :options
   
     
-      def initialize(prm, prm_char, options={})        
+      def initialize(prm, prm_char, options={})
         in_medium = options['Input'] || nil
         out_medium = options['Output'] || nil
-        self.io_feed(in_medium, out_medium)
-        require 'rbreadline_compat'      
+        self.io_feed(in_medium, out_medium)   
         super(prm, prm_char)
         stack_n_play
       end

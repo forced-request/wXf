@@ -1,10 +1,21 @@
 module WXf
   module WXfXmlRpc
- 
-  class XmlOutput
+    
+  class XmlPipe
     
     def initialize
       @pipe = []
+      @sockets = Socket.pair(Socket::AF_UNIX, Socket::SOCK_STREAM, 0)
+      self.output = self
+      self.input = self
+    end
+    
+    def clear
+      @pipe.clear
+    end
+    
+    def pipe
+      return @pipe
     end
     
     def read
@@ -14,10 +25,15 @@ module WXf
       return npipe
     end
     
-    def print(str="")
-       @pipe.push(str)
+    def push_line(line)
+      @pipe.push(line)
     end
-      
+    
+    def print(str="")
+      $stdout.puts Thread.current
+      @pipe.push(str)
+    end
+
     def puts(str="")
        @pipe.push(str)
     end
@@ -47,16 +63,37 @@ module WXf
     def final_print(color_symbol, str = ''); 
         @pipe.push("#{str}")
     end
+
     
+    attr_accessor :prm, :pchar, :output, :input
+
     
+    def close
+      @sockets[1].close_read
+    end
+    
+    def t(val)
+       @sockets[0].puts(val)
+    end
+    
+    def grab
+      line = @sockets[1].gets
+      print("#{prm}#{line}\n")
+      return line
+    end
+  
   end
   
-  
   class XmlRpcApi
-  
+   
+    attr_accessor :console, :pipe, :thread
+   
     def initialize
-      @output = XmlOutput.new
-      @console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>", {'Output' => @output})
+      mutex = Mutex.new
+      self.pipe = XmlPipe.new
+      self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>", {'Output' => self.pipe, 'Input' => self.pipe})
+      self.thread = Thread.new {self.console.start}
+      self.pipe.clear
     end
     
     def test_connection
@@ -64,10 +101,14 @@ module WXf
     end
     
     def cmd(args)
-      @console.runcmd("#{args}")
-      return @output.read
+      self.pipe.t(args.to_s)
+      return []
     end
     
+    def read_output
+      return self.console.output.read.to_s
+    end
+=begin    
     def arg_use(mod)
       @console.activities[0].arg_use("#{mod}")
       return @output.read
@@ -89,7 +130,7 @@ module WXf
       @console.runcmd("run")
       return @output.read
     end
-        
+=end        
   end
  
 
