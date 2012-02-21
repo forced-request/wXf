@@ -16,14 +16,14 @@ module WXf
     end
     
     def start_server
-       self.pid = fork do
+       self.pid = Thread.new do
         self.start
       end
     end
     
     def stop_server
-      Process.kill("KILL", self.pid)
-      @control.prnt_gen("Stopping xmlrpc server with process id: #{self.pid}")
+      pid.kill
+      @control.prnt_gen("Stopping xmlrpc server...")
       self.pid = nil
       self.shutdown
     end

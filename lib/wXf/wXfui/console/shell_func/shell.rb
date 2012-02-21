@@ -18,7 +18,6 @@ module Shell
     def initialize(prm, pchar)
       self.iprm = underline(prm, true)
       self.pchar = clear(pchar, true)
-      self.input = Reader.new(lambda {|cmd| tabbed_comp(cmd)})
       self.input.prm = "#{underline(prm,true)} #{clear(pchar,true) } "
     end
     
@@ -26,12 +25,13 @@ module Shell
     # modifies console prompt with whatever we input.
     #
     def mod_prm(prm=nil)
-      dup_prm = "#{self.input.prm.dup}"  
+          dup_prm = "#{self.input.prm.dup}"  
       if (prm)
           new_prm = "#{self.prm} #{prm}#{pchar} "
           test =  dup_prm.gsub!("#{self.input.prm}", "#{new_prm}")
-        self.input.prm = "#{test}"
+          self.input.prm = "#{test}"
       end
+      input.input_line = "#{test}" if input.respond_to?('input_line')
     end
   
   
@@ -88,28 +88,19 @@ module Shell
     end
     
     module OutputShim
+        attr_accessor :output, :prm, :pchar, :iprm
         
-        attr_accessor :output
-        
-        def io_feed(input, output)
-            if output.nil?
-                self.output = WXf::WXfui::Console::ShellIO::Output.new
-            else
-                self.output = output
-            end
-        end
-        
-    end
-    
-    
-    include OutputShim
-    
-    def io_feed(input=nil, output=nil)
-       self.extend(OutputShim)
-       super
     end
 
-  attr_accessor :input, :prm, :iprm
+    
+    def io_feed(input=nil, output=nil)
+       self.input = input || Reader.new(lambda {|cmd| tabbed_comp(cmd)})
+       self.input.extend(OutputShim)
+       self.input.output = output.nil? ? WXf::WXfui::Console::ShellIO::Output.new : output
+       self.output = self.input.output
+     end
+
+  attr_accessor :input, :output, :prm, :iprm
   attr_accessor :pchar
     
 end
