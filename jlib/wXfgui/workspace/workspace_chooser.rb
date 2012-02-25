@@ -37,7 +37,6 @@ class WorkspaceChooser < JFrame
         layout.setAutoCreateGaps true
         layout.setAutoCreateContainerGaps true
 
-
         sh1 = layout.createSequentialGroup
         sv1 = layout.createSequentialGroup
         p1 = layout.createParallelGroup

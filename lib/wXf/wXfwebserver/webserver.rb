@@ -67,9 +67,11 @@ class WebServer
     # Created a self.pid instance so that the shudown method can invoke a kill on the pid
     #
     def start
-      self.pid = fork do
+     # self.pid = fork do
+     self.pid = Thread.new do
           server.start
-      end
+      end 
+     # end
     end
   
   
@@ -96,7 +98,6 @@ class WebServer
     # Means of killing the process ID associated with our server instance and then shutting down the server
     #   
     def shutdown
-      Process.kill("KILL", self.pid)
       server.shutdown
     end
     
