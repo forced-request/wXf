@@ -28,6 +28,7 @@ module WXfconductors
     def usage
       # Display the commands
       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Output' => @control.output,
       'Title' => 'XML-RPC Server Options',
       'Justify'  => 4,             
       'Columns' => 

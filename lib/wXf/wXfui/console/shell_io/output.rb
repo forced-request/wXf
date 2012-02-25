@@ -19,7 +19,7 @@ module ShellIO
     end
       
     def puts(str="")
-        print("#{str}\n")
+        $stdout.puts(str)
     end
       
     def prnt_gen(str = '')

@@ -424,44 +424,44 @@ def arg_show(*cmd)
   cmd << "all" if (cmd.length == 0)
      case "#{cmd}"
      when 'all'  
-      control.show_payloads
-      control.show_auxiliary
-      control.show_exploits
+      control.print_opts.show_payloads
+      control.print_opts.show_auxiliary
+      control.print_opts.show_exploits
               
      when 'exploits'
-      control.show_exploits
+      control.print_opts.show_exploits
     
      when 'payloads'
-      control.show_payloads
+      control.print_opts.show_payloads
    
      when 'content'
-       control.show_content
+       control.print_opts.show_content
        
      when 'rurls'
-       control.show_rurls  
+       control.print_opts.show_rurls  
        
      when 'ua'   
-       control.show_ua
+       control.print_opts.show_ua
        
      when 'lfiles'
-       control.show_lfiles      
+       control.print_opts.show_lfiles      
       
      when 'auxiliary'
-      control.show_auxiliary
+      control.print_opts.show_auxiliary
       
      when 'rfi'
-       control.show_rfi
+       control.print_opts.show_rfi
       
      when 'advanced'
-       control.show_content
-       control.show_lfiles
-       control.show_rurls
-       control.show_ua 
-       control.show_rfi
+       control.print_opts.show_content
+       control.print_opts.show_lfiles
+       control.print_opts.show_rurls
+       control.print_opts.show_ua 
+       control.print_opts.show_rfi
       
      when 'options'           
       if (activity) 
-          control.show_options(activity)
+          control.print_opts.show_options(activity)
       end
       
      else
@@ -586,6 +586,7 @@ def arg_show(*cmd)
              
                   # Display the commands
                   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+                    'Output' => self.control.output,
                     'Title'  => "#{operator.name} Commands",
                     'Justify'  => 4,             
                     'Columns' => 
