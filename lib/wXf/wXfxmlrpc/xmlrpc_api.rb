@@ -35,23 +35,28 @@ module WXf
     end
 
     def puts(str="")
-       @pipe.push(str)
+       @pipe.push("#{str}\n")
     end
       
     def prnt_gen(str = '')
-      @pipe.push("-{*}- #{str}")
+      final_print("-{*}-", "#{str}")
     end
       
     def prnt_err(str = '')
-       @pipe.push("-{-}- #{str}")
+       final_print("-{-}-", "#{str}")
     end 
       
     def prnt_plus(str = '')
-       @pipe.push("-{+}- #{str}")
+       final_print("-{+}-", "#{str}")
     end
     
     def prnt_dbg(str = '')
-       @pipe.push("-{!}- #{str}")
+       final_print("-{!}-", "#{str}")
+    end
+    
+    
+    def final_print(color_symbol, str = ''); 
+        @pipe.push("#{color_symbol}#{str}\n")
     end
     
     alias print_status prnt_gen
@@ -59,10 +64,6 @@ module WXf
     alias print_good prnt_plus
     alias print_debug prnt_dbg
     alias p puts
-    
-    def final_print(color_symbol, str = ''); 
-        @pipe.push("#{str}")
-    end
     
     attr_accessor :prm, :pchar, :output, :input
     
