@@ -1,0 +1,1 @@
+require 'wXfgui/xmlrpc/client/xmlrpc_client'

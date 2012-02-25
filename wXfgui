@@ -39,6 +39,7 @@ require 'wXfgui/decision_tree'
 require 'wXfgui/main'
 require 'wXfgui/modules_factory'
 require 'wXfgui/workspace'
+require 'wXfgui/xmlrpc'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
