@@ -1,3 +1,4 @@
+require 'webrick/https'
 require 'openssl'
 
 module WXf
@@ -9,10 +10,16 @@ module WXf
 
     def initialize(control, port=nil)
       @control = control
-      port = 9000 if port == nil
-     # Test this code when we are ready to implement SSL. 
-     # super(:Port => port, :SSLEnable => true, :SSLVerifyClient => ::OpenSSL::SSL::VERIFY_NONE, :SSLCertName => [ [ "CN", WEBrick::Utils::getservername ] ])
-     super(:Port => port)
+      port = 9000 if port == nil      
+      super(
+            :Port => port,
+            :AccessLog => [],
+            :Logger => WEBrick::Log::new("/dev/null", 7),
+            :SSLEnable => true,
+          
+            :SSLVerifyClient => ::OpenSSL::SSL::VERIFY_NONE,
+            :SSLCertName => [ [ "CN", WEBrick::Utils::getservername ] ]
+            )
     end
     
     def start_server

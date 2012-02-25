@@ -21,6 +21,7 @@ module WXf
     def read
       npipe = []
       npipe.concat(@pipe)
+      npipe.push(prm)
       @pipe.clear
       return npipe
     end
@@ -30,7 +31,6 @@ module WXf
     end
     
     def print(str="")
-      $stdout.puts Thread.current
       @pipe.push(str)
     end
 
@@ -63,16 +63,10 @@ module WXf
     def final_print(color_symbol, str = ''); 
         @pipe.push("#{str}")
     end
-
     
     attr_accessor :prm, :pchar, :output, :input
-
     
-    def close
-      @sockets[1].close_read
-    end
-    
-    def t(val)
+    def command(val)
        @sockets[0].puts(val)
     end
     
@@ -101,36 +95,14 @@ module WXf
     end
     
     def cmd(args)
-      self.pipe.t(args.to_s)
+      self.pipe.command(args.to_s)
       return []
     end
     
     def read_output
       return self.console.output.read.to_s
     end
-=begin    
-    def arg_use(mod)
-      @console.activities[0].arg_use("#{mod}")
-      return @output.read
-    end
-
-    def arg_set(options)
-      if options.kind_of?(String)
-        opts = options.split(',')
-        @console.activities[0].arg_set(*opts)
-      end
-      return @output.read
-    end
     
-    def arg_show
-      return @console.infocus_activity.to_s
-    end
-    
-    def arg_run
-      @console.runcmd("run")
-      return @output.read
-    end
-=end        
   end
  
 

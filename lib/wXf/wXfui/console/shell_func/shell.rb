@@ -12,7 +12,6 @@ module Shell_Func
   
 module Shell
 
-    include WXf::WXfui::Console::Prints::PrintOptions
     include WXf::WXfui::Console::Prints::PrintColor
   
     def initialize(prm, pchar)
@@ -58,7 +57,7 @@ module Shell
     end
       
     def puts(str="")
-        output.print(str)
+        output.puts(str)
     end
       
     def prnt_gen(str = '')
@@ -88,7 +87,7 @@ module Shell
     end
     
     module OutputShim
-        attr_accessor :output, :prm, :pchar, :iprm
+        attr_accessor :output, :prm, :pchar, :iprm, :print_opts
         
     end
 
@@ -98,10 +97,11 @@ module Shell
        self.input.extend(OutputShim)
        self.input.output = output.nil? ? WXf::WXfui::Console::ShellIO::Output.new : output
        self.output = self.input.output
+       self.print_opts = WXf::WXfui::Console::Prints::PrintOptions.new(self.output, framework)
      end
 
   attr_accessor :input, :output, :prm, :iprm
-  attr_accessor :pchar
+  attr_accessor :pchar, :print_opts
     
 end
 

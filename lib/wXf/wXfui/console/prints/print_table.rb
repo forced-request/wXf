@@ -14,6 +14,7 @@ module Prints
   class PrintTable
     
     def initialize(opts={})
+      self.output = opts['Output']
       self.title = opts['Title'] || ''
       self.justify = opts['Justify'] || 4
       self.columns = opts['Columns'] || []
@@ -26,7 +27,6 @@ module Prints
       col_hash[cnt] = {}
       col_hash[cnt]['Length'] = item.to_s.length
         }
-      
     end
     
   
@@ -155,11 +155,11 @@ module Prints
       end
       
       
-     print("\n" + strn + "\n")
+     self.output.print("\n" + strn + "\n")
     
     end
     
-    attr_accessor :title, :justify, :columns, :col_hash, :ritems_collect, :rows
+    attr_accessor :title, :justify, :columns, :col_hash, :ritems_collect, :rows, :output
     
   
 end
