@@ -46,7 +46,12 @@ class WebServer
              else
                self.lfile = opts["LFILE"]
              end
-            self.server = HTTPServer.new(:Address => self.lhost, :Port => self.lport)
+            self.server = HTTPServer.new(
+                                      :Address => self.lhost,
+                                      :Port => self.lport,
+                                      :AccessLog => [],
+                                      :Logger => HTTPServer::Log::new("/dev/null", 7)
+                                      )
     end
     
     
@@ -74,7 +79,7 @@ class WebServer
     def add_servlet (path,servlet, opts)
       self.lpath = path
       self.lhtml = opts['LHTML']
-      server.mount(path,servlet, opts)
+      server.mount(lpath,servlet, opts)
     end
     
     
@@ -83,7 +88,7 @@ class WebServer
     #
     def add_file(opts)
         self.lpath = opts['LPATH'] 
-        server.mount(self.lpath,HTTPServlet::FileHandler,self.lfile)
+        server.mount(self.lpath, HTTPServlet::FileHandler, self.lfile)
     end
     
     
