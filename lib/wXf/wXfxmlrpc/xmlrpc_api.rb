@@ -10,7 +10,7 @@ module WXf
       self.input = self
     end
     
-    def clear
+    def clear_pipe
       @pipe.clear
     end
     
@@ -54,7 +54,6 @@ module WXf
        final_print("-{!}-", "#{str}")
     end
     
-    
     def final_print(color_symbol, str = ''); 
         @pipe.push("#{color_symbol}#{str}\n")
     end
@@ -64,6 +63,46 @@ module WXf
     alias print_good prnt_plus
     alias print_debug prnt_dbg
     alias p puts
+    
+    def red(str, pr_based=nil) 
+      return str
+    end  
+          
+    def blink(str, pr_based=nil)
+      return str
+    end
+          
+    def green(str, pr_based=nil)
+      return str
+    end
+          
+    def clear(str, pr_based=nil)
+      return str
+    end
+          
+    def dark_green(str, pr_based=nil)
+      return str
+    end
+            
+    def yellow(str, pr_based=nil)
+      return str
+    end
+            
+    def underline(str, pr_based=nil)
+      return str
+    end
+            
+    def blue(str, pr_based=nil)
+      return str
+    end
+          
+    def dark_blue(str, pr_based=nil)
+      return str
+    end
+          
+    def purple(str, pr_based=nil)
+      return str
+    end    
     
     attr_accessor :prm, :pchar, :output, :input
     
@@ -88,7 +127,7 @@ module WXf
       self.pipe = XmlPipe.new
       self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>", {'Output' => self.pipe, 'Input' => self.pipe})
       self.thread = Thread.new {self.console.start}
-      self.pipe.clear
+      self.pipe.clear_pipe
     end
     
     def test_connection

@@ -11,8 +11,6 @@ module Shell_Func
 
   
 module Shell
-
-    include WXf::WXfui::Console::Prints::PrintColor
   
     def initialize(prm, pchar)
       self.iprm = underline(prm, true)
@@ -85,6 +83,47 @@ module Shell
     def final_print(color_symbol, str = ''); 
         print("#{color_symbol} #{str}\n")
     end
+    
+    def red(str, pr_based=nil) 
+            output.red(str, pr_based)        
+          end  
+         
+          
+          def blink(str, pr_based=nil)
+            output.blink(str, pr_based)
+          end
+          
+          def green(str, pr_based=nil)
+            output.green(str, pr_based)
+          end
+          
+          def clear(str, pr_based=nil)
+            output.clear(str, pr_based)
+          end
+          
+          def dark_green(str, pr_based=nil)
+            output.dark_green(str, pr_based)
+          end
+            
+          def yellow(str, pr_based=nil)
+            output.yellow(str, pr_based)
+          end
+            
+          def underline(str, pr_based=nil)
+             output.underline(str, pr_based)
+          end
+            
+          def blue(str, pr_based=nil)
+            output.blue(str, pr_based) 
+          end
+          
+          def dark_blue(str, pr_based=nil)
+            output.dark_blue(str, pr_based)
+          end
+          
+          def purple(str, pr_based=nil)
+            output.purple(str, pr_based) 
+          end
     
     module OutputShim
         attr_accessor :output, :prm, :pchar, :iprm, :print_opts

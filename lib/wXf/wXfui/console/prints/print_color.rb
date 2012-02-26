@@ -55,7 +55,7 @@ module Prints
       colorize(str, "\e[1m\e[35m", pr_based) 
     end
     
-    def colorize(text, color_code, pr_based=nil)  
+    def colorize(text, color_code, pr_based=nil) 
          text_line = "#{text.dup}"
          safe_text = ''
          if (pr_based == true)
@@ -69,7 +69,7 @@ module Prints
            safe_text = pre + "#{color_code}#{text_line}\e[0m" + post
          end   
         
-         safe_text 
+        return safe_text 
      rescue
       end
   
