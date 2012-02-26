@@ -4,7 +4,7 @@ module WXf
   class XmlPipe
     
     def initialize
-      @pipe = []
+      @pipe = Socket.pair(Socket::AF_UNIX, Socket::SOCK_STREAM, 0)
       @sockets = Socket.pair(Socket::AF_UNIX, Socket::SOCK_STREAM, 0)
       self.output = self
       self.input = self
@@ -13,29 +13,27 @@ module WXf
     def clear_pipe
       @pipe.clear
     end
-    
+   
     def pipe
       return @pipe
     end
-    
+   
     def read
-      npipe = []
-      npipe.concat(@pipe)
-      npipe.push(prm)
-      @pipe.clear
-      return npipe
+      line = @pipe[1].gets
+      return line
+
     end
     
     def push_line(line)
-      @pipe.push(line)
+      @pipe[0].puts(line)
     end
     
     def print(str="")
-      @pipe.push(str)
+      @pipe[0].puts(str)
     end
 
     def puts(str="")
-       @pipe.push("#{str}\n")
+       @pipe[0].puts("#{str}\n")
     end
       
     def prnt_gen(str = '')
@@ -55,7 +53,7 @@ module WXf
     end
     
     def final_print(color_symbol, str = ''); 
-        @pipe.push("#{color_symbol}#{str}\n")
+        @pipe[0].puts("#{color_symbol}#{str}\n")
     end
     
     alias print_status prnt_gen
@@ -121,13 +119,13 @@ module WXf
   class XmlRpcApi
    
     attr_accessor :console, :pipe, :thread
-   
+    
+    EOF = "\xFF"
+    
     def initialize
-      mutex = Mutex.new
       self.pipe = XmlPipe.new
       self.console = WXf::WXfui::Console::Operations::Control.new("wXf", "//>", {'Output' => self.pipe, 'Input' => self.pipe})
       self.thread = Thread.new {self.console.start}
-      self.pipe.clear_pipe
     end
     
     def test_connection
@@ -136,12 +134,16 @@ module WXf
     
     def cmd(args)
       self.pipe.command(args.to_s)
-      return []
+      return EOF
     end
     
-    def read_output
-      return self.console.output.read.to_s
+    
+    def read
+      pipe = self.console.output.read
+      return pipe
     end
+    
+   
     
   end
  

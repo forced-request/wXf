@@ -8,12 +8,12 @@ module Operations
   module Operator
     
     
-       #
-       # Begins Operator module content
-       #
-       include WXf::WXfui::Console::Shell_Func::Shell
+     #
+     # Begins Operator module content
+     #
+     include WXf::WXfui::Console::Shell_Func::Shell
        
-       attr_accessor :activities, :webstack, :tab_words, :xmlrpc_servers
+     attr_accessor :activities, :webstack, :tab_words, :xmlrpc_servers
      
      def initialize(prm, pchar)
        super
