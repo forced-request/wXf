@@ -247,11 +247,13 @@ class Wxfgui < JFrame
       
       @jmenubar  = JMenuBar.new
       @wxfmenu   = WxfMenu.new(self)
+      @xmlrpc_menu = XmlRpcMenu.new(self)
       @bubymenu  = BubyMenu.new
       @aboutmenu = AboutMenu.new
       
       menuBar  =  @jmenubar
       menuBar.add @wxfmenu
+      menuBar.add @xmlrpc_menu
       menuBar.add @bubymenu
       menuBar.add @aboutmenu
             
