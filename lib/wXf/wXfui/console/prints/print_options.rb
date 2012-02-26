@@ -133,7 +133,7 @@ class PrintOptions
   #
   #
   def show_rurls
-    list = c.modules.rurls_load_list.sort
+    list = @framework.modules.rurls_load_list.sort
          # Display the commands
          tbl = WXf::WXfui::Console::Prints::PrintTable.new(
            'Output' => @output,
