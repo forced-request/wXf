@@ -98,8 +98,8 @@ class CoreProcs
         control.add_activity(operator)
       end
       
-      if activity.respond_to?('io_feed') && control.respond_to?('input') && control.respond_to?('output')
-          activity.io_feed(control.input, control.output)
+      if activity.respond_to?('io_feed') && control.respond_to?('input') && control.respond_to?('output')  
+        activity.io_feed(control.input, control.output)
       end  
       
      self.in_focus = activity  
@@ -306,6 +306,7 @@ class CoreProcs
                       
       if (active_assist_module) and not (in_focus.type.match(/(auxiliary|webserver)/))
         self.in_focus.payload = self.active_assist_module
+        self.in_focus.payload.io_feed(control.input, control.output) if self.in_focus.payload.respond_to?('io_feed')
         self.in_focus.payload.control = control
         control.prnt_plus(" PAYLOAD => #{cmd}")
       else

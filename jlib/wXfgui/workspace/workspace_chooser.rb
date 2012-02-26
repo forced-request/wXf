@@ -2,8 +2,6 @@
 
 require 'java'
 require 'find'
-#require 'wXfgui/workspace_chooser_model'
-#require 'database_manager'
 
 
 import java.awt.Dimension
