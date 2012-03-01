@@ -26,6 +26,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
     list_items = list
        # Display the commands
          tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+           'Output' => self,
            'Justify'  => 4,             
            'Columns' => 
            [
