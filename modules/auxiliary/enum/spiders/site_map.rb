@@ -6,17 +6,17 @@
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
  include WXf::WXfassists::General::MechReq
-  
+ # Hash to store array of page contents
+ $page_contents = Hash.new
   def initialize
       super(
         'Name'        => 'Site Map Enumerator',
-        'Version'     => '1.0',
+        'Version'     => '1.1',
         'Description' => %q{
           Recursively enumerate a site map for any given domain },
         'Author'      => ['John Poulin' ],
         'License'     => WXF_LICENSE
-
-      )
+        )
    
       init_opts([
 		OptString.new('RURL', [true, " ", "http://example.com"]),
@@ -38,14 +38,14 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 		return 1
 	end
 	
-
 	verbose = datahash['VERBOSE']
 
 	# Hash to store tested results
 	# Hash: [pagename => status]
 	@pageList = Hash[(datahash['RURL'] + "/" +  datahash['STARTPAGE']) => ""]
 	
-
+	# Search for links in robots.txt file
+	parseRobots(datahash['RURL'])
 
 	# Visit start page
 	visitPage(datahash['RURL'] + "/" +  datahash['STARTPAGE'], 0)
@@ -56,7 +56,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 	}
 
 	puts "Total Results: #{@pageList.length}"
-
   end
 
 
@@ -107,6 +106,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
 		# If request is valid, scan page
 		if res and res.respond_to?('code') and res.code == "200"
+			$page_contents[page]=res.body
 			@pageList[page] = "200"
 			scanFile(res.body, currDepth, currDir)
 		else
@@ -142,6 +142,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 			end
 
 			# Ignore mailto elements
+			# Todo: Capture Mailto elements
 			if	item.to_s.match(/mailto/m)
 				next	
 			end
@@ -271,8 +272,35 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
 	# Parse robots file
 	# Add file / directory entries to @pageList for iteration
-	def parseRobots(content)
+	def parseRobots(url)
+		prnt_gen("Parsing robots.txt file")
 		
+		# Create request for page
+		res = mech_req({
+			'method' => "GET",
+			'UA' => datahash['UA'],
+			'RURL' => url + "/robots.txt"
+		})
+		
+		# Response Fouund
+		if res and res.respond_to?('code') and res.code == "200"
+			# Iterate over each line
+			lines = res.body.split(/\r?\n/)
+			lines.each { |line|
+				parts = line.match(/(Disallow|Allow)\: (.*)/)
+				if parts != nil
+					if parts[2][0].chr == "/"
+						tmp_val = url + parts[2]
+					else
+						tmp_val = url + "/" + parts[2]
+					end
+					@pageList[tmp_val] = ""
+				end
+			}
+		else
+			prnt_err("robots.txt file not found")
+			return false
+		end
 	end
   
 end
