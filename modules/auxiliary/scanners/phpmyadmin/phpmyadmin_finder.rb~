@@ -156,7 +156,6 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 	]
 
 dirs.each { |dirname|
-		
 		url = rurl + dirname
 
 		res = mech_req({

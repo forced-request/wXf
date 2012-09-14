@@ -28,6 +28,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
+	trap("SIGINT") { throw :ctrl_c }
 
 	username = datahash['USERNAME']
 
@@ -35,6 +36,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 	fname = datahash['PASSLIST']
 	file = File.new(fname, "r")
 
+	catch :ctrl_c do
+	begin
 	# Iterate over file contents
 	while (password = file.gets)
 		params = "pma_username=#{username}&pma_password=#{password}&server=1"
@@ -61,7 +64,10 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 		end	
 
 	end
-
+	rescue Exception
+		puts "Program Halted!"
+	end
+end
 
   end
   
