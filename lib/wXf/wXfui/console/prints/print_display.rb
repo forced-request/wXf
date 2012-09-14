@@ -7,8 +7,7 @@ module Prints
 module PrintDisplay 
 
 def self.ascii_image 
-[                    
-'
+%{                    
  #     #                                                                         
  #  #  # ###### #       ####   ####  #    # ######    
  #  #  # #      #      #    # #    # ##  ## #          
@@ -16,12 +15,12 @@ def self.ascii_image
  #  #  # #      #      #      #    # #    # #      
  #  #  # #      #      #    # #    # #    # #         
   ## ##  ###### ######  ####   ####  #    # ######     
-'                                          
-]
+                                          
+}
 end
        
  def self.sample
-  ascii_image.to_s
+  "#{ascii_image}"
  end
   
   

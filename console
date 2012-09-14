@@ -25,7 +25,9 @@
 # wXfdev[at]gmail.com
 #
 #################################################################################
-
+oldverb = $VERBOSE; $VERBOSE = nil
+require 'iconv'
+$VERBOSE = oldverb
 
 class OptsParse
 
