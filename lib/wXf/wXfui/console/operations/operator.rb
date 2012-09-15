@@ -34,7 +34,7 @@ module Operations
         args.pop
         
         #Check if there are any items left 
-        if args.nitems >= 1
+        if args.select{ |a| a }.count >= 1
           
         #There are items left, let's handoff for processing
         tabbed_comp_handoff(str)
