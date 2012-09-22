@@ -118,6 +118,7 @@ end
 
    require 'rubygems'
    require 'optparse'
+   #require 'celluloid'
    
    options = OptsParse.parse(ARGV)
    

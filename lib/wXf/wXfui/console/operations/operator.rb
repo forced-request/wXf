@@ -218,7 +218,6 @@ module Operations
         activities.each {|operator|
               begin
                 if operator.avail_args.has_key?(command)
-             
                   run_command(operator, command, args)
                   found = true
                 end

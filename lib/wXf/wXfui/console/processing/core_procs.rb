@@ -423,7 +423,7 @@ class CoreProcs
 def arg_show(*cmd)
   activity = self.in_focus
   cmd << "all" if (cmd.length == 0)
-     case "#{cmd}"
+     case cmd.join
      when 'all'  
       control.print_opts.show_payloads
       control.print_opts.show_auxiliary
@@ -481,9 +481,9 @@ def arg_show(*cmd)
      activity = self.in_focus
      list = []
      if (activity) 
-       list = ["exploits","payloads","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "rfi"]
+       list = ["exploits","payloads","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "rfi", "all"]
      else
-       list = ["exploits","payloads","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "rfi"]
+       list = ["exploits","payloads","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "rfi", "all"]
      end
     return list 
     end 

@@ -175,7 +175,7 @@ class PrintOptions
     # 
     # When an in_focus exists this method becomes the de-facto to module specific options
     #
-    def show_options(activity)      
+    def show_options(activity)
      if activity.type.match(/(exploit|auxiliary)/)      
        # Display the commands
            tbl = WXf::WXfui::Console::Prints::PrintTable.new(
