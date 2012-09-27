@@ -8,12 +8,13 @@ module BaseController
  
   include WxfGui::DecisionTreeDatabaseManager
   
-  attr_accessor :module_stack, :selected_dt_items, :in_focus
+  attr_accessor :module_stack, :selected_dt_items, :in_focus, :initialized
   
   def initialize
     self.module_stack = []
     self.selected_dt_items = {}
     self.in_focus = []
+    self.initialized = false
   end
   
   def add_module_activity(activity)

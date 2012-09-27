@@ -7,7 +7,7 @@ class Dti < WxfGui::DecisionTreeItem
                 'Name' => "Nikto Analysis",
                 'Package' => "Default Content",
                 'Author'  => "cktricky",
-                'Description' => %q{Imports and analyzes the results from a dirbuster scan},
+                'Description' => %q{Imports and analyzes the results from a Nikto scan},
                 'Buby' => false,
                 'Required Modules' => "",
                 'Optional Modules' => "",

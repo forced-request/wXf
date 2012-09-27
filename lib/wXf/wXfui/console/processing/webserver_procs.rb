@@ -22,7 +22,7 @@ module Processing
      end
      
      
-     # Ken says - Seth, I've added the control as a parameter when initializing the webserver.
+     # Added the control as a parameter when initializing the webserver.
      # We need to be able to invoke framework.modules.lfile_list_load for automagic fun
      # regarding LFILE.
      def arg_start(*cmd)  
@@ -31,7 +31,7 @@ module Processing
          control.prnt_plus(" Starting webserver at #{opts["LHOST"]}:#{opts["LPORT"]}")
          
          if (!opts["LFILE"] and !opts["LHTML"])
-           puts " => LFILE or LHTML must be set before starting the webserver"
+           control.puts " => LFILE or LHTML must be set before starting the webserver"
          elsif (opts['LHTML'])
            begin
              svr = WXf::WXfwebserver::WebServer.new(opts, control)
@@ -48,7 +48,7 @@ module Processing
                  
              svr.start
            rescue
-             print "[wXf] Error when starting the webserver: #{$!}\n"
+             control.prnt_err("[wXf] Error when starting the webserver: #{$!}\n")
            end
          elsif(opts['LFILE'])
            begin
@@ -57,7 +57,7 @@ module Processing
              svr.add_file(opts)
              svr.start
            rescue
-             print "[wXf] Error when starting the webserver: #{$!}\n"
+            control.prnt_err("[wXf] Error when starting the webserver: #{$!}\n")
            end
          end
        end
@@ -86,19 +86,19 @@ module Processing
        
        
          if (svr)
-           puts "Stopping the webserver (#{svr_id}) at #{svr.lhost}:#{svr.lport}"
+           control.prnt_plus("Stopping the webserver (#{svr_id}) at #{svr.lhost}:#{svr.lport}")
       
            svr.shutdown
            control.remove_web_activity(svr_id)
          else
-           puts "No server with id #{svr_id}"
+           control.prnt_err("No server with id #{svr_id}")
          end
          
        else
-         puts "[wXf] Stopping all webservers"
+         control.prnt_plus("[wXf] Stopping all webservers")
          svr_id = 0
          control.webstack.each { |svr|
-           print "[wXf] Shutting down #{svr.lhost}:#{svr.lport} (#{svr_id})\n"
+           control.prnt_plus("[wXf] Shutting down #{svr.lhost}:#{svr.lport} (#{svr_id})\n")
            svr_id = svr_id + 1
            svr.shutdown
            control.remove_web_activity(0)
@@ -137,7 +137,7 @@ module Processing
           tbl.prnt
          
        else
-         puts "No server with id #{svr_id}"
+         control.prnt_err("No server with id #{svr_id}")
        end
      end
      
@@ -146,11 +146,11 @@ module Processing
      # Lists the webservers running on the stack
      #
      def arg_list(*cmd)
-       puts "Running webservers"
-       puts "------------------"
+       control.puts("Running webservers")
+       control.puts "------------------"
        id = 0
        control.webstack.each { | svr |
-         puts "(#{id}) #{svr.lhost}:#{svr.lport} #{svr.lcontenttype} #{svr.lfile}"
+         control.puts "(#{id}) #{svr.lhost}:#{svr.lport} #{svr.lcontenttype} #{svr.lfile}"
          id = id + 1
        }
      end
@@ -160,7 +160,7 @@ module Processing
      # Selects an activity/instance to interact with
      #
      def arg_select(*cmd)
-       puts "Managing instance #{cmd[0]}"
+       control.prnt_gen("Managing instance #{cmd[0]}")
      end
      
 

@@ -18,7 +18,7 @@ module Payload
            svr.add_servlet(opts['LPATH'], servlet,opts)
            svr.start
            rescue
-            print "[wXf] Error when starting the webserver: #{$!}\n"
+            print("[wXf] Error when starting the webserver: #{$!}\n")
          end      
        end
        
@@ -46,7 +46,6 @@ module Payload
        def webserver_init_lhtml(input, lurl)  
         if control.webstack.empty?   
          prnt_gen("Would you like us to start a listener? (y/n)\n")
-         STDOUT.flush
          answer = gets.chomp.downcase
         
          if answer == 'y'          
@@ -152,8 +151,6 @@ module Payload
          # Return this hash when the default_opts method is called    
          return opts
        end 
-  
-  
   
   
   end

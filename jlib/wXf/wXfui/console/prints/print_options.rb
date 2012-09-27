@@ -217,7 +217,7 @@ module PrintOptions
      end
      
       if activity.respond_to?('payload') and ! activity.payload.nil?
-       if activity.payload.type.match(/payload/)      
+       if activity.payload.type == 'payload' and activity.payload.type.match(/payload/)   
        # Display the commands
            tbl = WXf::WXfui::Console::Prints::PrintTable.new(
            'Title' => "Payload Options:",

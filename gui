@@ -39,6 +39,7 @@ require 'wXfgui/decision_tree'
 require 'wXfgui/main'
 require 'wXfgui/modules_factory'
 require 'wXfgui/workspace'
+require 'wXfgui/xmlrpc'
 
 # Time to require native wXf stuff
 require 'wXf/wXfassists'
@@ -237,7 +238,7 @@ class Wxfgui < JFrame
   
     
   def initUI
-    
+      self.base.initialized = true
       self.add self.wXf_gui_tabbed_pane
       
       #
@@ -246,11 +247,13 @@ class Wxfgui < JFrame
       
       @jmenubar  = JMenuBar.new
       @wxfmenu   = WxfMenu.new(self)
+      @xmlrpc_menu = XmlRpcMenu.new(self)
       @bubymenu  = BubyMenu.new
       @aboutmenu = AboutMenu.new
       
       menuBar  =  @jmenubar
       menuBar.add @wxfmenu
+      menuBar.add @xmlrpc_menu
       menuBar.add @bubymenu
       menuBar.add @aboutmenu
             

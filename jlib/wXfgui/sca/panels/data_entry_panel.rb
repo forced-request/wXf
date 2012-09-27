@@ -44,6 +44,7 @@ module WxfGui
           dir = JFileChooser.new
           dir.setCurrentDirectory(java.io.File.new(Dir.pwd))
           dir.setFileSelectionMode(JFileChooser::DIRECTORIES_ONLY)
+          dir.setFileHidingEnabled(false)
           ret = dir.showDialog @panel, "Choose Directory"
           if  ret  == JFileChooser::APPROVE_OPTION
               destDir = dir.getCurrentDirectory()
@@ -177,6 +178,7 @@ module WxfGui
          
         
          # Second loop, to read
+         begin
          @file_array.each do |file|
             f = File.open(file, "r")
             f.each_with_index do |line, idx|
@@ -184,10 +186,14 @@ module WxfGui
                if line.include?("#{@tf2.text}") || line.include?("#{@tf2.text.downcase}") || line.include?("#{@tf2.text.capitalize}")
                   result_arry <<(["#{file}", "#{idx}", "#{@tf2.text}", "#{extension}"])
                end
-           end 
+            end
+            f.close()
          end 
          @sca.results_table.insert_results(result_arry)
          #Put a finished message here or maybe add a progress
+         rescue Errno::EACCES
+           
+         end 
       end
   end
   

@@ -6,13 +6,17 @@ module Operations
   
   class Control
     
-    attr_accessor :in_focus
-    
+  
     include Operator
     
-      def initialize(*all)
-        require 'rbreadline_compat'
-        super
+    attr_accessor :in_focus, :options
+  
+    
+      def initialize(prm, prm_char, options={})
+        in_medium = options['Input'] || nil
+        out_medium = options['Output'] || nil
+        self.io_feed(in_medium, out_medium)   
+        super(prm, prm_char)
         stack_n_play
       end
    
@@ -64,6 +68,7 @@ module Operations
        # System call
        #
        def system_call(line)
+         return unless WXf::WXfui::Console::Shell_Func::FileUtility.platform_detection != "WIN"
          exec = ::IO.popen(line, "r")
          exec.each {|data|
           print(data)           

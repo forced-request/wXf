@@ -11,9 +11,10 @@ module WXfconductors
     attr_accessor :options, :desc, :exp, :pay, :webstack
     
     def initialize(control)
+      @control = control
       self.exp = nil
       self.pay = nil
-      self.webstack = control.webstack
+      self.webstack = @control.webstack
       
       self.options = {
           "LHOST" => "127.0.0.1",
@@ -42,6 +43,7 @@ module WXfconductors
   def dis_required_opts
     # Display the commands
     tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+    'Output' => @control.output,
     'Justify'  => 4,             
     'Columns' => 
     [
@@ -70,14 +72,6 @@ module WXfconductors
     #
     def type
       WEBSERVER
-    end
-    
-    
-    #
-    # Gives an instance from which to interace with the core class
-    #
-    def wxf
-    WXf::WXfdb::Core.new(WXFDIR,1)
     end
     
   end

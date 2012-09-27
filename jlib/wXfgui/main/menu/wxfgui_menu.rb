@@ -15,8 +15,8 @@ class WxfMenu < JMenu
   
   def initialize(wXfgui)
     super("wXf")
-    self.initUI
     @wXfgui = wXfgui
+    self.initUI
   end
 
   def initUI
@@ -89,6 +89,34 @@ class WxfMenu < JMenu
   end
   
 
+end
+
+class XmlRpcMenu < JMenu
+  
+  def initialize(wXfgui)
+    super "xmlrpc"
+    @wXfgui = wXfgui
+    self.initUI
+  end
+
+  def initUI
+
+    @xmlrpc_connect = JMenuItem.new "connect xmlrpc"      
+    @xmlrpc_connect.setMnemonic KeyEvent::VK_C
+    @xmlrpc_connect.addActionListener do |e|
+      #stub
+    end
+    
+    @xmlrpc_disconnect = JMenuItem.new "disconnect xmlrpc"      
+    @xmlrpc_disconnect.setMnemonic KeyEvent::VK_C
+    @xmlrpc_disconnect.addActionListener do |e|
+      #stub
+    end
+    
+    self.add(@xmlrpc_connect)
+    self.add(@xmlrpc_disconnect)
+  end  
+  
 end
 
 class BubyMenu < JMenu

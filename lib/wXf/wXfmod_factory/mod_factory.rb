@@ -5,23 +5,12 @@ module WXfmod_Factory
  
 class Mod_Factory
 
-   
-  attr_accessor :options, :name, :version, :license, :framework
-  attr_accessor :description, :references, :author, :datahash
-       
-  class << self
-   include Framework::Transient
-  end
-  
-  def framework
-    self.class.framework
-  end
-  
-  include WXf::WXfui::Console::Prints::PrintSymbols
   include WXf::WXflog::ModuleLogger
- 
+  include WXf::WXfui::Console::ShellIO::Medium
   
-  
+  attr_accessor :options, :name, :version, :license, :framework
+  attr_accessor :description, :references, :author, :datahash, :pay # Do not change pay to payload BUG
+       
   def initialize(hash_info = {})
     store_vals(hash_info)
   end
@@ -35,6 +24,7 @@ class Mod_Factory
    self.references = hash_info['References'] 
    self.author = hash_info['Author'] 
    self.license = hash_info['License']
+   self.pay = hash_info['Payload'] || false  
   end
    
   

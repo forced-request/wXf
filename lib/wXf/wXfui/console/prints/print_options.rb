@@ -4,16 +4,21 @@ module Console
 module Prints
 
 
-module PrintOptions
+class PrintOptions
   
+  def initialize(output, framework)
+    @output = output
+    @framework = framework
+  end
 
   #
   # Shows available exploits in the database
   #
   def show_exploits
-    exploits = framework.modules.mod_pair['exploit'].sort
+    exploits = @framework.modules.mod_pair['exploit'].sort
     # Display the commands
       tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+        'Output' => @output,
         'Title'  => "Exploits",
         'Justify'  => 4,             
         'Columns' => 
@@ -35,9 +40,10 @@ module PrintOptions
   # Show payload mods
   #    
   def show_payloads
-   list = framework.modules.mod_pair['payload'].sort
+   list = @framework.modules.mod_pair['payload'].sort
    # Display the commands
    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+     'Output' => @output,
      'Title'  => "Payloads",
      'Justify'  => 4,
      'Columns' =>
@@ -59,9 +65,10 @@ module PrintOptions
   # Show auxiliary mods
   #    
   def show_auxiliary
-   list = framework.modules.mod_pair['auxiliary'].sort
+   list = @framework.modules.mod_pair['auxiliary'].sort
    # Display the commands
    tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+     'Output' => @output,
      'Title'  => "Auxiliary",
      'Justify'  => 4,
      'Columns' =>
@@ -85,6 +92,7 @@ module PrintOptions
   def show_content
     list = WXf::CONTENT_TYPES.sort_by {|k,v| k.to_i}
     tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Output' => @output,
       'Title'  => "Content-Types",
       'Justify'  => 4,            
       'Columns' => 
@@ -104,9 +112,10 @@ module PrintOptions
   # Show lfiles
   #
   def show_lfiles
-       list = framework.modules.lfile_load_list.sort
+       list = @framework.modules.lfile_load_list.sort
        # Display the commands
        tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+         'Output' => @output,
          'Title'  => "Local Files",
          'Justify'  => 4,             
          'Columns' => 
@@ -124,9 +133,10 @@ module PrintOptions
   #
   #
   def show_rurls
-    list = framework.modules.rurls_load_list.sort
+    list = @framework.modules.rurls_load_list.sort
          # Display the commands
          tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+           'Output' => @output,
            'Title'  => "Rurl(s) Files",
            'Justify'  => 4,             
            'Columns' => 
@@ -147,6 +157,7 @@ module PrintOptions
   list = WXf::UA_MAP.sort_by {|k,v| k.to_i}
   # Display the commands
     tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+      'Output' => @output,
       'Title'  => "User-Agents",
       'Justify'  => 4,             
       'Columns' => 
@@ -164,10 +175,11 @@ module PrintOptions
     # 
     # When an in_focus exists this method becomes the de-facto to module specific options
     #
-    def show_options(activity)      
+    def show_options(activity)
      if activity.type.match(/(exploit|auxiliary)/)      
        # Display the commands
            tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+           'Output' => @output,
            'Title' => "Module Options:",
            'Justify'  => 4,
            'Columns' =>
@@ -186,7 +198,7 @@ module PrintOptions
            }
            tbl.prnt        
         
-     elsif activity.type == "webserver"
+     elsif activity.type.match(/(webserver|xmlrpc)/)
       activity.usage    
      end
      
@@ -194,6 +206,7 @@ module PrintOptions
        if activity.payload.type.match(/payload/)      
        # Display the commands
            tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+           'Output' => @output,
            'Title' => "Payload Options:",
            'Justify'  => 4,
            'Columns' =>
@@ -224,6 +237,7 @@ module PrintOptions
      list = WXFDB.get_rfi_list.sort
       # Display the commands
         tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+          'Output' => @output,
           'Title'  => "RFI List",
           'Justify'  => 4,             
           'Columns' => 

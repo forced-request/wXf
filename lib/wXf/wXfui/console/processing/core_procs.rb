@@ -57,6 +57,7 @@ class CoreProcs
     # When the user types "use" 
     #
     def arg_use(*cmd)
+  
       # This is a module name placeholder so we can reload easily
       self.mpholder = ''
       
@@ -97,6 +98,10 @@ class CoreProcs
         control.add_activity(operator)
       end
       
+      if activity.respond_to?('io_feed') && control.respond_to?('input') && control.respond_to?('output')  
+        activity.io_feed(control.input, control.output)
+      end  
+      
      self.in_focus = activity  
      
      if auxiliary? or exploit?
@@ -107,7 +112,7 @@ class CoreProcs
        self.mpholder = arg_name
        control.mod_prm("#{activity.type}" + control.red("(#{arg_name.split('/').last})", true))
      end
-             
+     
     end
     
     def in_focus?
@@ -160,6 +165,8 @@ class CoreProcs
         
         if (in_focus.type == WEBSERVER) and (in_focus.options.has_key?(name_of_opt))
           opt = 'webserver_options'
+        elsif (in_focus.type == XMLRPC) and (in_focus.options.has_key?(name_of_opt))
+          opt = 'xmlrpc_options'  
         elsif (in_focus.respond_to?('payload')) and 
           (in_focus.payload.respond_to?('options')) and 
           (in_focus.payload.options.has_key?(name_of_opt))
@@ -200,6 +207,8 @@ class CoreProcs
         when 'PAYLOAD'
           option_payload(cmd[1].to_s)
         when 'webserver_options'
+          in_focus.options[arg_opt] =  process_set_cmd(cmd)
+        when 'xmlrpc_options'
           in_focus.options[arg_opt] =  process_set_cmd(cmd)
         else
           # Need to get the command processed and in a nice format
@@ -297,6 +306,7 @@ class CoreProcs
                       
       if (active_assist_module) and not (in_focus.type.match(/(auxiliary|webserver)/))
         self.in_focus.payload = self.active_assist_module
+        self.in_focus.payload.io_feed(control.input, control.output) if self.in_focus.payload.respond_to?('io_feed')
         self.in_focus.payload.control = control
         control.prnt_plus(" PAYLOAD => #{cmd}")
       else
@@ -385,6 +395,20 @@ class CoreProcs
   
   
   #
+  # XMLRPC Server added to provide the ability to interact with the framework
+  #
+  def arg_xmlrpc
+    if in_focus()
+      arg_back()
+    end 
+    
+    operator = XmlRpcProcs
+    control.add_activity(operator)
+    self.in_focus = framework.modules.load("xmlrpc",control)
+    control.mod_prm("#{in_focus.type}" + control.red("(config)"))
+  end   
+  
+  #
   # *WILL* be used for importing information in xml format
   # 
   def arg_import(*cmd)
@@ -399,46 +423,46 @@ class CoreProcs
 def arg_show(*cmd)
   activity = self.in_focus
   cmd << "all" if (cmd.length == 0)
-     case "#{cmd}"
+     case cmd.join
      when 'all'  
-      control.show_payloads
-      control.show_auxiliary
-      control.show_exploits
+      control.print_opts.show_payloads
+      control.print_opts.show_auxiliary
+      control.print_opts.show_exploits
               
      when 'exploits'
-      control.show_exploits
+      control.print_opts.show_exploits
     
      when 'payloads'
-      control.show_payloads
+      control.print_opts.show_payloads
    
      when 'content'
-       control.show_content
+       control.print_opts.show_content
        
      when 'rurls'
-       control.show_rurls  
+       control.print_opts.show_rurls  
        
      when 'ua'   
-       control.show_ua
+       control.print_opts.show_ua
        
      when 'lfiles'
-       control.show_lfiles      
+       control.print_opts.show_lfiles      
       
      when 'auxiliary'
-      control.show_auxiliary
+      control.print_opts.show_auxiliary
       
      when 'rfi'
-       control.show_rfi
+       control.print_opts.show_rfi
       
      when 'advanced'
-       control.show_content
-       control.show_lfiles
-       control.show_rurls
-       control.show_ua 
-       control.show_rfi
+       control.print_opts.show_content
+       control.print_opts.show_lfiles
+       control.print_opts.show_rurls
+       control.print_opts.show_ua 
+       control.print_opts.show_rfi
       
      when 'options'           
       if (activity) 
-          control.show_options(activity)
+          control.print_opts.show_options(activity)
       end
       
      else
@@ -457,13 +481,21 @@ def arg_show(*cmd)
      activity = self.in_focus
      list = []
      if (activity) 
-       list = ["exploits","payloads","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "rfi"]
+       list = ["exploits","payloads","auxiliary", "options", "lfiles", "ua", "content", "rurls", "advanced", "rfi", "all"]
      else
-       list = ["exploits","payloads","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "rfi"]
+       list = ["exploits","payloads","auxiliary", "lfiles", "ua", "content", "rurls", "advanced", "rfi", "all"]
      end
     return list 
     end 
    
+    
+    #
+    # Shutdown the webserver instances
+    #
+    def xmlrpc_shut
+      return unless control.xmlrpc_servers.length > 0
+      control.xmlrpc_servers.each {|server| server.stop_server} 
+    end  
     
     
     #
@@ -483,6 +515,8 @@ def arg_show(*cmd)
     # self-explanatory, just exits the framework
     #
     def arg_exit(*cmd)
+      #kill any xmlrpc servers that are running
+      xmlrpc_shut
       #kill webserver processes
       web_shut
       #obvious
@@ -499,16 +533,18 @@ def arg_show(*cmd)
     #
     def arg_back(*cmd)
                       
-          if control.activities.length > 1 and control.infocus_activity.name != 'Core'
-            
-          if (in_focus)
+          if control.activities.length > 1 and control.infocus_activity.name != 'Core' #and control.infocus_activity.name != 'xmlrpc'
+          
+            if (in_focus)
               self.in_focus = nil
-          end  
-          if (active_assist_module)
+            end  
+            
+            if (active_assist_module)
               self.active_assist_module = nil
-          end      
-              control.remove_activity
-              control.mod_prm('')
+            end      
+            
+            control.remove_activity
+            control.mod_prm('')
           end
           
     end   
@@ -551,6 +587,7 @@ def arg_show(*cmd)
              
                   # Display the commands
                   tbl = WXf::WXfui::Console::Prints::PrintTable.new(
+                    'Output' => self.control.output,
                     'Title'  => "#{operator.name} Commands",
                     'Justify'  => 4,             
                     'Columns' => 
@@ -746,10 +783,10 @@ def arg_show(*cmd)
         "update"   => "Upates the framework",
         "use"      => "Selects an exploit by name",
         "version"  => "Show the framework and console library version numbers",
-           
+        "xmlrpc"   => "XML-RPC server service"   
         }
   end
-  
+ 
   
 end
 

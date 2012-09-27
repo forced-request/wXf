@@ -8,9 +8,7 @@ require 'find'
     
 class ModulePair < Hash
   
-  include Framework::Transient
-  
-  attr_accessor :mods_fn_list
+  attr_accessor :mods_fn_list, :framework
   
   def initialize(type=nil)
     
@@ -22,7 +20,8 @@ class ModulePair < Hash
           begin
               if name.match(/webserver/)
                 instance = WXf::WXfconductors::Webserver_Conductor.new(control)
-                control.red("We've chosen webserver")
+              elsif name.match(/xmlrpc/)
+                instance = WXf::WXfconductors::XmlRpc_Conductor.new(control)
               end
             end
       return instance
@@ -56,8 +55,6 @@ end
       # Class used to create, sort, count modules (mods)
       #
       class Mod_Loader < ModulePair
-        
-        include Framework::Transient
         
        def initialize(framework, types=FUNCTION_TYPES)
          
@@ -228,6 +225,8 @@ end
            
             if (inst and path)
               inst_obj = inst.new
+              inst_obj.framework = self.framework if inst_obj.respond_to?('framework')
+    
               # Module types need to have        
                 if (inst_obj.respond_to?('type')) and (valid_file_mods.include?("#{inst_obj.type}"))
                   type = inst_obj.type
@@ -304,8 +303,7 @@ end
       end
 
       
-      
-     
+          
        #
        # Creates an instance of a module and then returns it. 
        #    
@@ -317,7 +315,6 @@ end
          end
 
       end
-
       
 
       attr_accessor :wxflist_call

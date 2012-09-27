@@ -2,8 +2,6 @@
 
 require 'java'
 require 'find'
-#require 'wXfgui/workspace_chooser_model'
-#require 'database_manager'
 
 
 import java.awt.Dimension
@@ -22,9 +20,10 @@ module WxfGui
 class WorkspaceChooser < JFrame
   
     def initialize(wXfgui)
+        @wXfgui = wXfgui
         super("Choose your workspace")        
         self.initUI
-        @wXfgui = wXfgui
+       
     end
       
     def initUI
@@ -35,7 +34,6 @@ class WorkspaceChooser < JFrame
         # Create sensible gaps in components (like buttons)
         layout.setAutoCreateGaps true
         layout.setAutoCreateContainerGaps true
-
 
         sh1 = layout.createSequentialGroup
         sv1 = layout.createSequentialGroup
@@ -114,7 +112,10 @@ class WorkspaceChooser < JFrame
         self.setSize 400, 200
         self.setLocationRelativeTo nil
         self.setVisible true
-        self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        
+        if not (@wXfgui.base.initialized)
+             self.setDefaultCloseOperation JFrame::EXIT_ON_CLOSE
+        end 
     end
     
     def disabler(name)

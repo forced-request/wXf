@@ -7,20 +7,19 @@ module Operations
   
   module Operator
     
+    
      #
      # Begins Operator module content
      #
      include WXf::WXfui::Console::Shell_Func::Shell
-     include WXf::WXfui::Console::Prints::PrintSymbols
-     include WXf::WXfui::Console::Prints::PrintOptions
-     
-     attr_accessor :activities, :webstack, :tab_words
+       
+     attr_accessor :activities, :webstack, :tab_words, :xmlrpc_servers
      
      def initialize(prm, pchar)
        super
         init_arrys
      end
-  
+
      
     #
     # This is how we go about dispatching the tabbed word completion stuff.
@@ -35,7 +34,7 @@ module Operations
         args.pop
         
         #Check if there are any items left 
-        if args.nitems >= 1
+        if args.select{ |a| a }.count >= 1
           
         #There are items left, let's handoff for processing
         tabbed_comp_handoff(str)
@@ -110,6 +109,7 @@ module Operations
       self.activities = []
       self.webstack = []
       self.tab_words = []
+      self.xmlrpc_servers = []
     end
     
  #    
@@ -200,7 +200,6 @@ module Operations
     # ...method 
     #               
     def runcmd(line)
-      
       if line.kind_of?(String)
         args = line.split
       else
@@ -219,7 +218,6 @@ module Operations
         activities.each {|operator|
               begin
                 if operator.avail_args.has_key?(command)
-             
                   run_command(operator, command, args)
                   found = true
                 end
@@ -247,9 +245,10 @@ module Operations
     # If an operator is found to have the arg_"userInput" 
     # ...method, we call the method on the appropriate operator stack instance
     # 
-    def run_command(operator, command, args) 
+    def run_command(operator, command, args)
      operator.send('arg_' + command, *args)
-    end  
+    end
+ 
     
   end
  

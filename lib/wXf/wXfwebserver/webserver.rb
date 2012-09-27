@@ -46,7 +46,12 @@ class WebServer
              else
                self.lfile = opts["LFILE"]
              end
-            self.server = HTTPServer.new(:Address => self.lhost, :Port => self.lport)
+            self.server = HTTPServer.new(
+                                      :Address => self.lhost,
+                                      :Port => self.lport,
+                                      :AccessLog => [],
+                                      :Logger => HTTPServer::Log::new("/dev/null", 7)
+                                      )
     end
     
     
@@ -62,9 +67,11 @@ class WebServer
     # Created a self.pid instance so that the shudown method can invoke a kill on the pid
     #
     def start
-      self.pid = fork do
+     # self.pid = fork do
+     self.pid = Thread.new do
           server.start
-      end
+      end 
+     # end
     end
   
   
@@ -74,7 +81,7 @@ class WebServer
     def add_servlet (path,servlet, opts)
       self.lpath = path
       self.lhtml = opts['LHTML']
-      server.mount(path,servlet, opts)
+      server.mount(lpath,servlet, opts)
     end
     
     
@@ -83,7 +90,7 @@ class WebServer
     #
     def add_file(opts)
         self.lpath = opts['LPATH'] 
-        server.mount(self.lpath,HTTPServlet::FileHandler,self.lfile)
+        server.mount(self.lpath, HTTPServlet::FileHandler, self.lfile)
     end
     
     
@@ -91,7 +98,6 @@ class WebServer
     # Means of killing the process ID associated with our server instance and then shutting down the server
     #   
     def shutdown
-      Process.kill("KILL", self.pid)
       server.shutdown
     end
     

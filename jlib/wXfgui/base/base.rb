@@ -34,7 +34,7 @@ class Base
     ri = nrow.rindex(in_focus.last.name)
     val = hash_value_at(ri + 1, sdi)
     return val    
-  end
+ end
  
 end
 
