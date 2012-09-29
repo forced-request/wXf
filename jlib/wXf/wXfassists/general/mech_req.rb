@@ -1,7 +1,9 @@
 require 'wXf/wXfui'
 
 begin
+  require 'celluloid'
   require 'rubygems'
+  require 'mechanize'
 rescue LoadError
 end
 
@@ -9,6 +11,8 @@ module WXf
 module WXfassists
 module General
 module MechReq
+
+	#include Celluloid
      
       attr_accessor :rce, :rce_code
       
@@ -123,17 +127,17 @@ module MechReq
           case debug
           # This represents output to the console  
           when 'console'
-            agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(STDERR)}
+            agent = Mechanize.new {|a|  a.log = Logger.new(STDERR)}
           # This represents writing to agent.log in the logs directory
           when 'log'
           file = "#{LogsDir}agent.log"
           if File.exist?(file)
             File.delete(file)
           end
-            agent = WAx::WAxHTTPLibs::Mechanize.new {|a|  a.log = Logger.new(file)}    
+            agent = Mechanize.new {|a|  a.log = Logger.new(file)}    
               
           else
-            agent = WAx::WAxHTTPLibs::Mechanize.new {|a| a.log = Logger.new(false)}
+            agent = Mechanize.new {|a| a.log = Logger.new(false)}
           end 
         end     
        
@@ -239,7 +243,7 @@ module MechReq
           
           rescue Timeout::Error
             prnt_err("We've received a timeout to: #{rurl}")
-          rescue WAx::WAxHTTPLibs::Mechanize::ResponseCodeError => self.rce
+          rescue Mechanize::ResponseCodeError => self.rce
             temp_rce_code = "#{self.rce}".match(/\d{3}/)
             self.rce_code = temp_rce_code[0].to_i   
           rescue => $!            
