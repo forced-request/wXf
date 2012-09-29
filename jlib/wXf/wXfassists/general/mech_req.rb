@@ -182,7 +182,7 @@ module MechReq
                        
           # User Agent Information
           ua = opts['UA']
-          agent.user_agent = ua || 'Mechanize'  
+          agent.user_agent_alias = ua || 'Mechanize'  
           
          #Begin setting a proxy if need be  
           if (proxyp != '') and (proxya != '') and (proxyp != nil) and (proxya !=nil)
@@ -237,8 +237,13 @@ module MechReq
             
           # Makes a decision based on the supplied HTTP Method.
           abbr = 'agent_'+ "#{req_type}"
+			puts "abbr: #{abbr}"
           if self.respond_to?(abbr)
-            self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
+            #self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
+			agent.get(url) do |page|
+				puts page.body
+			end
+
           end
           
           rescue Timeout::Error
