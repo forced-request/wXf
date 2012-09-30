@@ -237,13 +237,21 @@ module MechReq
             
           # Makes a decision based on the supplied HTTP Method.
           abbr = 'agent_'+ "#{req_type}"
-			puts "abbr: #{abbr}"
+			
           if self.respond_to?(abbr)
-            #self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
-			agent.get(url) do |page|
-				puts page.body
+			puts "Responding to: #{abbr}"
+            self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
+			
+=begin
+			if req_type == "post"
+				agent.post url, rparams
+			else
+				agent.get(url) do |page|
+					puts agent.inspect
+					return page
+				end
 			end
-
+=end
           end
           
           rescue Timeout::Error
@@ -284,7 +292,8 @@ module MechReq
     # HTTP GET
     #            
     def agent_get(agent, url, rparams, headers, rfile, rfile_content)
-      agent.get({:url=>"#{url}", :headers => headers, :params => rparams})
+      # v1.0: agent.get({:url=>"#{url}", :headers => headers, :params => rparams})
+	  agent.get(url, rparams, nil, headers)
     end    
     
                 
@@ -292,7 +301,8 @@ module MechReq
     # HTTP POST
     #
     def agent_post(agent, url, rparams, headers, rfile, rfile_content)
-      agent.post("#{url}", rparams, headers)      
+      # v1.0: agent.post("#{url}", rparams, headers)      
+	  agent.post(url, rparams, headers)
     end  
      
      
