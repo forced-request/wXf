@@ -1,7 +1,6 @@
 require 'wXf/wXfui'
 
 begin
-  require 'celluloid'
   require 'rubygems'
   require 'mechanize'
 rescue LoadError
@@ -11,16 +10,15 @@ module WXf
 module WXfassists
 module General
 module MechReq
-
-	#include Celluloid
      
       attr_accessor :rce, :rce_code
-      
+
       #
       # Global Options are created
       #
       def initialize(hash_info={})
         @@count = 0 
+
         super
             init_opts([
               WXf::WXfmod_Factory::OptString.new('RURL',   [true, 'Target address', 'http://www.example.com/test.php']),
@@ -111,12 +109,14 @@ module MechReq
     
 =end        
       
-     
     
       #
       # An agent object is instantiated (Mechanize) and debugging is determined
       #
       def mech_req(opts={})
+
+		# Can we wrap this into celluloid
+
         # Add a 1, simple right?
         @@count += 1 
         
@@ -184,6 +184,14 @@ module MechReq
           ua = opts['UA']
           agent.user_agent_alias = ua || 'Mechanize'  
           
+=begin
+This section requires cleanup. 
+
+There's no need to statically set these.
+
+-- John 9/29/12
+=end
+
          #Begin setting a proxy if need be  
           if (proxyp != '') and (proxya != '') and (proxyp != nil) and (proxya !=nil)
           agent.set_proxy("#{proxya}", "#{proxyp}") 
@@ -239,19 +247,7 @@ module MechReq
           abbr = 'agent_'+ "#{req_type}"
 			
           if self.respond_to?(abbr)
-			puts "Responding to: #{abbr}"
             self.send(abbr, agent, url, rparams, headers, rfile, rfile_content)
-			
-=begin
-			if req_type == "post"
-				agent.post url, rparams
-			else
-				agent.get(url) do |page|
-					puts agent.inspect
-					return page
-				end
-			end
-=end
           end
           
           rescue Timeout::Error
@@ -303,6 +299,7 @@ module MechReq
     def agent_post(agent, url, rparams, headers, rfile, rfile_content)
       # v1.0: agent.post("#{url}", rparams, headers)      
 	  agent.post(url, rparams, headers)
+		puts "AFTER POST"
     end  
      
      

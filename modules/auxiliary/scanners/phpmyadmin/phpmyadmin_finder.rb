@@ -5,8 +5,8 @@
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
- include WXf::WXfassists::General::MechReq
-  
+include WXf::WXfassists::General::PooledReq
+
   def initialize
       super(
         'Name'        => 'phpMyAdmin Finder',
@@ -29,6 +29,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
+
+	p = Pool.pool(size: 10)
 
 	dirs = Array[
 "/phpMyAdmin/",
@@ -155,9 +157,22 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 "/mysql-admin/"
 	]
 
+
+
 dirs.each { |dirname|
-		
-		url = rurl + dirname
+	
+	url = rurl + dirname
+
+# Prepare Options
+	req_opts = {
+    	'method' => "GET",
+    	'RURL'=> url,
+    	'DEBUG' => 'log'
+    }
+p.add(req_opts)
+
+=begin
+
 
 		res = mech_req({
             'method' => "GET",
@@ -181,8 +196,9 @@ dirs.each { |dirname|
 					print_error("#{code}: " + url)
 				end
 		end
+=end
 }
-
+p.execute
   end
   
 end
