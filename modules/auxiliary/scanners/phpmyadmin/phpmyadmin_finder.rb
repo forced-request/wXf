@@ -5,7 +5,21 @@
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
-include WXf::WXfassists::General::PooledReq
+#include WXf::WXfassists::General::PooledReq
+include WXf::WXfassists::General::MechReq
+  require 'celluloid'
+class Fetcher
+	include Celluloid
+
+	def get(action, params)
+		puts "Doing Work..."
+		res = action.call(params)
+		puts res.inspect
+		return res
+		rescue Exception => e
+			return ""
+	end
+end
 
   def initialize
       super(
@@ -29,9 +43,6 @@ include WXf::WXfassists::General::PooledReq
   end
   
   def run
-
-	p = Pool.pool(size: 10)
-
 	dirs = Array[
 "/phpMyAdmin/",
 "/phpmyadmin/",
@@ -157,10 +168,21 @@ include WXf::WXfassists::General::PooledReq
 "/mysql-admin/"
 	]
 
-
+pool = Fetcher.pool(size: 100)
 
 dirs.each { |dirname|
-	
+	url = rurl + dirname
+	options = {
+		'method' 	=> "GET",
+		'UA'		=> datahash['UA'],
+		'RURL'		=> url,
+		'DEBUG'		=> 'log'
+	}
+
+	pool.future.get(Proc.new {|opts| mech_req(opts)}, options) 
+
+=begin
+
 	url = rurl + dirname
 
 # Prepare Options
@@ -170,6 +192,7 @@ dirs.each { |dirname|
     	'DEBUG' => 'log'
     }
 p.add(req_opts)
+=end
 
 =begin
 
@@ -198,7 +221,6 @@ p.add(req_opts)
 		end
 =end
 }
-p.execute
   end
   
 end
