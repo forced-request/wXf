@@ -5,21 +5,7 @@
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
-#include WXf::WXfassists::General::PooledReq
-include WXf::WXfassists::General::MechReq
-  require 'celluloid'
-class Fetcher
-	include Celluloid
-
-	def get(action, params)
-		puts "Doing Work..."
-		res = action.call(params)
-		puts res.inspect
-		return res
-		rescue Exception => e
-			return ""
-	end
-end
+include WXf::WXfassists::General::PooledReq
 
   def initialize
       super(
@@ -168,7 +154,33 @@ end
 "/mysql-admin/"
 	]
 
-pool = Fetcher.pool(size: 100)
+# Create threadpool
+pool = Pool.pool(size: 100)
+
+##
+# Wrap action in proc to send to pool object.
+#
+# This is only temp. until we find a way to
+# better abstract the threading.
+#
+response_action = Proc.new { |res, request_params|
+	if res and res.respond_to?('code')
+		code = res.code
+	else
+		code = res
+	end
+
+	# Look at code and output status
+	case code
+		when 200, 401, 403, "200", "401", "403"
+			print_good(code.to_s + ": " + request_params['RURL'])
+		else
+			if datahash['VERBOSE'] == "true"
+				print_error("#{code}: " + request_params['RURL'])
+			end
+	end
+}
+
 
 dirs.each { |dirname|
 	url = rurl + dirname
@@ -179,47 +191,7 @@ dirs.each { |dirname|
 		'DEBUG'		=> 'log'
 	}
 
-	pool.future.get(Proc.new {|opts| mech_req(opts)}, options) 
-
-=begin
-
-	url = rurl + dirname
-
-# Prepare Options
-	req_opts = {
-    	'method' => "GET",
-    	'RURL'=> url,
-    	'DEBUG' => 'log'
-    }
-p.add(req_opts)
-=end
-
-=begin
-
-
-		res = mech_req({
-            'method' => "GET",
-            'UA' => datahash['UA'],
-            'RURL'=> url,
-            'DEBUG' => 'log'
-          })
-
-		if res and res.respond_to?('code')
-			code = res.code
-		else
-			code = res
-		end
-
-		# Look at code and output status
-		case code
-			when 200, 401, 403, "200", "401", "403"
-				print_good(code.to_s + ": " + url)
-			else
-				if datahash['VERBOSE'] == "true"
-					print_error("#{code}: " + url)
-				end
-		end
-=end
+	pool.future.get(Proc.new {|opts| mech_req(opts)}, options, response_action) 
 }
   end
   
