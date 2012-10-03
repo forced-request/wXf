@@ -299,7 +299,6 @@ There's no need to statically set these.
     def agent_post(agent, url, rparams, headers, rfile, rfile_content)
       # v1.0: agent.post("#{url}", rparams, headers)      
 	  agent.post(url, rparams, headers)
-		puts "AFTER POST"
     end  
      
      
