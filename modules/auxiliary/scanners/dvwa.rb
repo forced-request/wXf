@@ -5,7 +5,7 @@ class WebXploit < WXf::WXfmod_Factory::Auxiliary
  #< WXf::WXfmod_Factory::Auxiliary. Append the 'end' tag to
  # close the class and finalize the module.
  #If the module is to perform an HTTP(s) action, then an
- #assist module must be included. 
+ #assist module must be included.  
  #To include the MechReq (HTTPs(s)) assist module:
 include WXf::WXfassists::General::MechReq
 
